@@ -1,4 +1,4 @@
-import { Box, CardContent, Link, Typography } from "@mui/material";
+import { Box, Link, Typography } from "@mui/material";
 import Image from 'next/image'
 export function SimpleNovel({
     name = "",
