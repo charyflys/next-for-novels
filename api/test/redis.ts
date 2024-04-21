@@ -1,10 +1,12 @@
 // import redis from "../../lib/redis";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req:Response) {
+export const runtime = "edge";
+export async function GET(req:NextRequest) {
 
-    return new Response(JSON.stringify({body:req.body,url:req.url}))
+    return NextResponse.json({body:req.body,url:req.url})
 }
-export async function POST(req:Response) {
+export async function POST(req:NextRequest) {
 
-    return new Response(JSON.stringify({body:req.body,url:req.url}))
+    return NextResponse.json({body:req.body,url:req.url})
 }
