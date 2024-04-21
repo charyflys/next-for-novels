@@ -16,6 +16,6 @@ export async function POST(req:Request) {
         await redis.set(qs.key,qs.value)
         return Response.json({msg: 'ok'})
     }
-    return Response.json({msg: 'failed',qs})
+    return Response.json({msg: 'failed',qs,redis})
 
 }
