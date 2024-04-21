@@ -3,8 +3,8 @@ import querystring from 'node:querystring'
 export const runtime = "edge";
 export async function GET(req:Request) {
     const qs = querystring.parse(req.url.replace(/^.+?\?/,''))
-    // const key = qs.redis.get(qs.key)
-    return Response.json(qs)
+    const key = 'key' in qs&&(false===!qs['key']) ? redis.get(qs.key.toString()) : ''
+    return Response.json(key)
 }
 export async function POST(req:Request) {
     const body = await req.text()
@@ -12,5 +12,10 @@ export async function POST(req:Request) {
     const qs = ContentType === "application/json" ?
     JSON.parse(body):
     querystring.parse(body)
-    return Response.json({qs,ContentType})
+    if ('key' in qs&&qs.key !== undefined&&'value' in qs&&qs.value !== undefined) {
+        redis.set(qs.key,qs.value)
+        return Response.json({msg: 'ok'})
+    }
+    return Response.json({msg: 'failed'})
+
 }
