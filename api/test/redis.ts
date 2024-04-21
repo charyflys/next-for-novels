@@ -14,11 +14,9 @@ export async function GET(req:Request) {
     })
 }
 export async function POST(req:Request) {
-    const req1 = new NextRequest(req)
+    const body = await req.text()
     
     return NextResponse.json({
-        body:req1.body,
-        url:req1.url,
-        ip: req1.ip
+        body:body
     })
 }
