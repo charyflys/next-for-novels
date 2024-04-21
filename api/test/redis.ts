@@ -12,5 +12,5 @@ export async function POST(req:Request) {
     const qs = ContentType === "application/json" ?
     JSON.parse(body):
     querystring.parse(body)
-    return Response.json(qs)
+    return Response.json({qs,ContentType})
 }
