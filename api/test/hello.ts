@@ -1,3 +1,3 @@
-export function Get(req:Request) {
+export function GET(req:Request) {
     return new Response("hello")
 }

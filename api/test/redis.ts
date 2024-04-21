@@ -1,5 +1,5 @@
 import redis from "../../lib/redis";
 
-export default function get(req:Request) {
+export function GET(req:Request,res: Response) {
     return new Response(JSON.stringify('query' in req&&req.query as any))
 }
