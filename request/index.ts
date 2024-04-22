@@ -2,7 +2,7 @@ import axios from "axios";
 import qs from "qs";
 const http = axios.create({
   baseURL: "/api",
-  timeout: 1000,
+  timeout: 5000,
 });
 
 enum HttpType {
