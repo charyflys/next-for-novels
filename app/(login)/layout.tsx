@@ -1,4 +1,3 @@
-import Dashboard from "./Dashboard"
 import AllLayout from "@/app/allayout"
 export default function RootLayout({
     children,
@@ -7,10 +6,8 @@ export default function RootLayout({
   }>) {
 
     return (
-      <AllLayout props={{showcopyright:false}}>
-        <Dashboard>
+      <AllLayout props={{showcopyright:true}}>
           {children}
-        </Dashboard>
       </AllLayout>
     );
   }

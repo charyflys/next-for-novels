@@ -1,8 +1,26 @@
-import { NextRequest, NextResponse } from "next/server";
+import querystring from 'node:querystring'
 
-export async function quickRequest(req: Request,querys: string[]) {
-    const req1 = new NextRequest(req)
-    let body
-    if (req1.method.toLocaleLowerCase()!=='get')
-        body = await req.text()
-}   
+export async function getBody<T> (req: Request): Promise<T> {
+    const body = await req.text()
+    return req.headers.get('Content-Type') === "application/json" ?
+    JSON.parse(body):
+    querystring.parse(body);
+}
+
+export async function getQuery(req:Request) {
+    return querystring.parse(req.url.replace(/^.+?\?/,''))
+}
+
+export function result(res:any,msg?: string,code?: string) {
+    return Response.json({
+        msg: msg||'ok',
+        code: code||'200',
+        data: res
+    })
+}
+export function resultNoData(msg?:string,code?:string) {
+    return Response.json({
+        msg: msg||'ok',
+        code: code||'200',
+    })
+}

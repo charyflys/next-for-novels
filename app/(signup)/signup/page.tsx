@@ -1,59 +1,47 @@
 'use client'
 import * as React from 'react';
-import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { SignUp as SignUpRequest } from '@/request/signup';
+import { useAlertStore } from '@/stores/Alert'
+import { AxiosError } from 'axios';
 
 // TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const setMsgAndColorAndOpen = useAlertStore(state => state.setMsgAndColorAndOpen)
+  const color = useAlertStore(state => state.severity)
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    fetch('/api/autn/requestMagicLink',{
-        method: 'POST',
-        headers: {
-            'Content-Type': 'appliction/json',
-        },
-        body: JSON.stringify({ email: data.get('email'), })
-    }).then(res => res.json()).then(res => {
-        res.ok ?
-            console.log('ok') : console.log('failed')
-        
-    }) 
+    const email = data.get('email') as string
+    const password = data.get('password') as string
+    if (!(email&&password)) {
+      // TODO
+      return
+    }
+    SignUpRequest(email, password)
+    .then(res => {
+      setMsgAndColorAndOpen('请前往邮箱确认您的注册')
+    })
+    .catch((res: AxiosError ) => {
+      console.log(color)
+      setMsgAndColorAndOpen(res.message,'error')
+      console.log(color)
+    })
+    
+    // if (!res) (setMsg(res),OpenAlert())
   };
 //   const [email,setEmail] = useState('')
   return (
-    <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -128,8 +116,6 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
-    </ThemeProvider>
   );
 }

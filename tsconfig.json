@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -17,9 +21,23 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
-    }
+      "@/*": [
+        "./*"
+      ]
+    },
+    "moduleResolution": "node"
   },
-  "include": ["next-env.d.ts","**/*.js", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "jest.config.ts", "__tests__/sqltest.test.js", "__tests__/sqltest.js"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.js",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "jest.config.ts",
+    "__tests__/sqltest.test.js",
+    "__tests__/sqltest.js"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
