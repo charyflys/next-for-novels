@@ -1,5 +1,5 @@
-import { supabase } from "@/lib/supabaseClient";
-import { getBody, getQuery, result, resultNoData } from "@/lib/quickapi";
+import { supabase } from "../../lib/supabaseClient";
+import { getBody, getQuery, result, resultNoData } from "../../lib/quickapi";
 import axios from "axios";
 /**
  * 注册功能
