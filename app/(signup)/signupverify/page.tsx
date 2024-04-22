@@ -2,6 +2,7 @@
 import { useSearchParams } from 'next/navigation'
 import { SignUpVerify } from '@/request/signup'
 import { AxiosError } from 'axios'
+import { Suspense } from 'react'
 export default function Page() {
     const param = useSearchParams()
     const signupurl = param.get('signupurl')
@@ -14,7 +15,7 @@ export default function Page() {
 
         })
     }
-    return <div>
-
-    </div>
+    return <Suspense>
+        <div></div>
+    </Suspense>
 }
