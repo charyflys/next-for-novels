@@ -62,17 +62,6 @@ export default function SignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                 autoComplete="given-name"
-                 name="nickname"
-                 required
-                 fullWidth
-                 id="nickname"
-                 label="昵称"
-                 autoFocus
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
                   required
                   fullWidth
                   id="email"

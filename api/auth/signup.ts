@@ -20,6 +20,6 @@ export async function POST(req: Request): Promise<Response> {
  */
 export async function PUT(req:Request) {
     const { signupurl } = await getBody<{signupurl:string}>(req)
-    // await axios.get(signupurl)
-    return result(signupurl)
+    const res = await axios.get(signupurl)
+    return result(res)
 }
