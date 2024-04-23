@@ -42,13 +42,13 @@ export default function Login() {
     //})
 
 
-    const { error, data } = await supabase.auth.signInWithPassword({
+    const { error, data: serverdata } = await supabase.auth.signInWithPassword({
         email,password
     })
     if (error) {
         return
     }
-    console.log(data)
+    console.log(serverdata)
 };
 
   return (
