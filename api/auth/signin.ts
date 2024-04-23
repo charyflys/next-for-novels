@@ -12,7 +12,6 @@ export async function POST(req:Request) {
     if (error) {
         return resultNoData(error.message, '500')
     }
-    const time = Date.now()
     const res = result(data.user)
     res.headers.set('Set-Cookie',`_Secure-token=${generateJWT(data.session)}; Secure; Max-Age=604800000`)
     
@@ -26,6 +25,9 @@ export async function GET(req:Request) {
         const Session = explainJWT(token.value) as Session
         const { data } = await supabase.auth.setSession(Session)
         const res = result(data.user)
+        if (data.session&&data.session.access_token===Session.access_token&&data.session.refresh_token===Session.refresh_token) {
+            return res
+        }
         res.headers.set('Set-Cookie',`_Secure-token=${generateJWT(data.session)}; Secure; Max-Age=604800000`)
         return res
     }
