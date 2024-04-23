@@ -31,7 +31,7 @@ http.interceptors.response.use(
       // nprogress.done();
       // if ('code' in response.data) {
         // const store = userStore();
-        const data = response.data;
+        const data = response;
         return Promise.resolve(data)
       // }
     //   sayError("请确认您的后端包装是否正确")

@@ -10,12 +10,9 @@ export default function RootLayout({
   }: Readonly<{
     children: React.ReactNode;
   }>) {
-    const [session, setSesion] = useState<Session|null>(null)
-    useEffect(() => {
-      supabase.auth.getSession()
-      .then(session => setSesion(session.data.session))
-      .catch(err => console.error(err))
-    })
+    supabase.auth.getSession()
+    .then(session => console.log(session.data.session))
+    .catch(err => console.error(err))
     return (
       <AllLayout props={{showcopyright:false}}>
         <Dashboard>
