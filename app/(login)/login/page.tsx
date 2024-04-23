@@ -40,7 +40,16 @@ export default function Login() {
     //  console.error(err)
     //  router.push('/login')
     //})
-  };
+
+
+    const { error, data } = await supabase.auth.signInWithPassword({
+        email,password
+    })
+    if (error) {
+        return
+    }
+    console.log(data)
+};
 
   return (
       <Container component="main" maxWidth="xs">
