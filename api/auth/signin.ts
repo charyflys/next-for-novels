@@ -23,11 +23,12 @@ export async function GET(req:Request) {
     const nextreq = new NextRequest(req)
     const token = nextreq.cookies.get('_Secure-token')
     if (token){
-        const Session = explainJWT(token.value) as Session
-        const { data } = await supabase.auth.setSession(Session)
-        const res = result(data.user)
-        res.headers.set('Set-Cookie',`_Secure-token="${generateJWT(data.session)}"; Secure; Max-Age=604800000`)
-        return res
+        return result(token.value)
+        // const Session = explainJWT(token.value) as Session
+        // const { data } = await supabase.auth.setSession(Session)
+        // const res = result(data.user)
+        // res.headers.set('Set-Cookie',`_Secure-token="${generateJWT(data.session)}"; Secure; Max-Age=604800000`)
+        // return res
     }
     return resultNoData('您未登录，请先登录','403')
 }
