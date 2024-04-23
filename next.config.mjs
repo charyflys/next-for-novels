@@ -9,6 +9,18 @@ const nextConfig = {
                 pathname: '/large/**',
             },
         ],
+    },
+    rewrites:async () => {
+        return [
+            {
+                source: '/novel/:novelId/:articleId',
+                destination: '/articleview'
+            },
+            {
+                source: '/novel/:novelId',
+                destination: '/novelView'
+            }
+        ]
     }
 };
 
