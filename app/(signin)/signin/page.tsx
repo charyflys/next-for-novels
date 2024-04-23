@@ -42,7 +42,7 @@ export default function Login() {
     })
     .catch((err:AxiosError) => {
       console.error(err)
-      router.push('/login')
+      // router.push('/signin')
     })
 };
 

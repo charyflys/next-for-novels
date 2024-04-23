@@ -22,7 +22,10 @@ export default function RootLayout({
         router.replace('/signin')
       }
     })
-    .catch(err => console.error(err))
+    .catch(err => {
+      console.error(err)
+      router.replace('/signin')
+    })
     return (
       <AllLayout props={{showcopyright:false}}>
         <Dashboard>
