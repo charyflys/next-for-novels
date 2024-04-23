@@ -17,6 +17,7 @@ import { SignIn } from '@/request/signin';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 
+import { supabase } from "@/lib/supabaseMiddle/supabaseComponent";
 // TODO remove, this demo shouldn't need to reset the theme.t
 
 export default function Login() {
@@ -30,15 +31,15 @@ export default function Login() {
       // TODO
       return
     }
-    SignIn(email,password)
-    .then((res) => {
-      console.log(res)
-      if(res.code==='200')router.push('/')
-    })
-    .catch((err:AxiosError) => {
-      console.error(err)
-      router.push('/login')
-    })
+    //SignIn(email,password)
+    //.then((res) => {
+    //  console.log(res)
+    //  if(res.code==='200')router.push('/')
+    //})
+    //.catch((err:AxiosError) => {
+    //  console.error(err)
+    //  router.push('/login')
+    //})
   };
 
   return (
