@@ -15,7 +15,7 @@ import Container from '@mui/material/Container';
 import { useRouter } from 'next/navigation';
 import { useAlertStore } from '@/stores/Alert'
 
-import { supabase } from "@/lib/supabaseMiddle/supabaseComponent";
+import { supabase } from "@/lib/supabaseComponent";
 // TODO remove, this demo shouldn't need to reset the theme.t
 
 export default function Login() {
@@ -39,7 +39,9 @@ export default function Login() {
         return
     }
     setMsgAndColorAndOpen('登陆成功，即将跳转','success')
-    router.push('/')
+    setTimeout(() => {
+      router.push('/')
+    },1000)
 };
 
   return (

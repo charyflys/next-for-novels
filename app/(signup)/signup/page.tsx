@@ -33,9 +33,7 @@ export default function SignUp() {
       setMsgAndColorAndOpen('请前往邮箱确认您的注册')
     })
     .catch((res: AxiosError ) => {
-      console.log(color)
       setMsgAndColorAndOpen(res.message,'error')
-      console.log(color)
     })
     
     // if (!res) (setMsg(res),OpenAlert())

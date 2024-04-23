@@ -28,19 +28,13 @@ http.interceptors.response.use(
 
     // HTTP响应状态码正常
     if (response.status === 200) {
-      // nprogress.done();
-      // if ('code' in response.data) {
-        // const store = userStore();
-        const data = response;
-        return Promise.resolve(data)
-      // }
-    //   sayError("请确认您的后端包装是否正确")
-      // KMessage("请确认您的后端包装是否正确",'danger')
-      // return Promise.reject(response);
+
+        const { code } = response.data;
+        if (code&&typeof code === 'string'&&/^[23]\d\d$/.test(code))
+        return Promise.resolve(response)
+        return Promise.reject(response)
     } else {
-    //   sayError("连接不到服务器")
-    //   KMessage("服务器出错或者连接不到服务器",'danger')
-    console.error("服务器出错或者连接不到服务器")
+      console.error("服务器出错或者连接不到服务器")
       return Promise.reject(response);
     }
   },
@@ -48,7 +42,7 @@ http.interceptors.response.use(
 
     if (error.code === 'ECONNABORTED' || error.code === 'ERR_NETWORK')
     // KMessage("连接不到服务器",'danger')
-console.error("连接不到服务器")
+    console.error("连接不到服务器")
 
     return Promise.reject(error);
   }

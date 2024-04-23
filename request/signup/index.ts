@@ -1,9 +1,10 @@
+import { resBody } from "@/lib/quickapi";
 import request from "..";
 
 const url = '/auth/signup'
 
 export function SignUp(email: string,password: string) {
-    return request(
+    return request<resBody>(
         'post',
         url,
         {
@@ -15,7 +16,7 @@ export function SignUp(email: string,password: string) {
 }
 
 export function SignUpVerify(signupurl: string) {
-    return request(
+    return request<resBody>(
         'put',
         url,
         {

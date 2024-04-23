@@ -9,7 +9,7 @@ export async function POST(req: Request): Promise<Response> {
     const { email, password } = await getBody<{ email: string, password: string }>(req)
     const { error, data } = await supabase.auth.signUp({ email, password })
     if (error) {
-        return resultNoData(error.message, '500')
+        return resultNoData(error.message, '403')
     }
     return result(data)
 }

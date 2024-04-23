@@ -46,12 +46,12 @@ export default function AllLayout({ children, props: { showcopyright } }: Readon
   )
 }
 
-function Copyright(props: any) {
+export function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="https://github.com/charyflys/next-for-novels/">
+        from Chary
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
