@@ -12,16 +12,16 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { useUserStore } from '@/stores/User';
-import { SignIn } from '@/request/signin';
-import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
+import { useAlertStore } from '@/stores/Alert'
 
 import { supabase } from "@/lib/supabaseMiddle/supabaseComponent";
 // TODO remove, this demo shouldn't need to reset the theme.t
 
 export default function Login() {
   const router = useRouter()
+  const setMsgAndColorAndOpen = useAlertStore(state => state.setMsgAndColorAndOpen)
+
   const handleSubmit =async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -31,24 +31,15 @@ export default function Login() {
       // TODO
       return
     }
-    //SignIn(email,password)
-    //.then((res) => {
-    //  console.log(res)
-    //  if(res.code==='200')router.push('/')
-    //})
-    //.catch((err:AxiosError) => {
-    //  console.error(err)
-    //  router.push('/login')
-    //})
-
-
     const { error, data: serverdata } = await supabase.auth.signInWithPassword({
         email,password
     })
     if (error) {
+        setMsgAndColorAndOpen(error.message,'error')
         return
     }
-    console.log(serverdata)
+    setMsgAndColorAndOpen('登陆成功，即将跳转','success')
+    router.push('/')
 };
 
   return (
