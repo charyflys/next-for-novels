@@ -17,7 +17,7 @@ import { SignIn } from '@/request/signin';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 
-// TODO remove, this demo shouldn't need to reset the theme.
+// TODO remove, this demo shouldn't need to reset the theme.t
 
 export default function Login() {
   const router = useRouter()
