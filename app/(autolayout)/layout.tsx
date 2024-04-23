@@ -11,7 +11,7 @@ export default function RootLayout({
     children: React.ReactNode;
   }>) {
     supabase.auth.getSession()
-    .then(session => console.log(session.data.session))
+    .then(session => console.log(session))
     .catch(err => console.error(err))
     return (
       <AllLayout props={{showcopyright:false}}>
