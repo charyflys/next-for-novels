@@ -22,7 +22,7 @@ import { supabase } from "@/lib/supabaseMiddle/supabaseComponent";
 
 export default function Login() {
   const router = useRouter()
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit =async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get('email') as string,
