@@ -25,11 +25,17 @@ export async function GET(req:Request) {
         const Session = explainJWT(token.value) as Session
         const { data } = await supabase.auth.setSession(Session)
         const res = result(data.user)
-        if (data.session&&data.session.access_token===Session.access_token&&data.session.refresh_token===Session.refresh_token) {
+        if (data.session) {
+            if(data.session.access_token===Session.access_token&&data.session.refresh_token===Session.refresh_token)
             return res
+            else {
+                res.headers.set('Set-Cookie',`_Secure-token=${generateJWT(data.session)}; Secure; Max-Age=604800000`)
+                return res
+            }
+        } else {
+            return resultNoData('登陆失效','403')
         }
-        res.headers.set('Set-Cookie',`_Secure-token=${generateJWT(data.session)}; Secure; Max-Age=604800000`)
-        return res
+
     }
     return resultNoData('您未登录，请先登录','403')
 }
