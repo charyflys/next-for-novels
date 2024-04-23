@@ -24,3 +24,9 @@ export function resultNoData(msg?:string,code?:string) {
         code: code||'200',
     })
 }
+
+export type resBody = {
+    code: string,
+    msg: string,
+    data?: any
+}

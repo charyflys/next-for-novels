@@ -56,7 +56,7 @@ console.error("连接不到服务器")
 
 
 
-export default function request (
+export default function request<T> (
     method: 'post'|'get'|'put'|'delete', 
     url: string, 
     submitData?: any, 
@@ -87,7 +87,7 @@ export default function request (
     default:
         contentType = "application/json";
   }
-  return new Promise((resolve, reject) => {
+  return new Promise<T>((resolve, reject) => {
     const reqParams = {
       method,
       url,
@@ -101,7 +101,7 @@ export default function request (
     };
     http(reqParams)
       .then((res) => {
-        resolve(res);
+        resolve(res.data);
       })
       .catch((err) => {
         // console.log(err);

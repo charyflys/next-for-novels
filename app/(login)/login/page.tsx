@@ -13,18 +13,32 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useUserStore } from '@/stores/User';
-
+import { SignIn } from '@/request/signin';
+import { AxiosError } from 'axios';
+import { useRouter } from 'next/navigation';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 export default function Login() {
+  const router = useRouter()
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const email = data.get('email') as string,
+      password= data.get('password') as string;
+    if (!(email&&password)){
+      // TODO
+      return
+    }
+    SignIn(email,password)
+    .then((res) => {
+      console.log(res)
+      if(res.code==='200')router.push('/')
+    })
+    .catch((err:AxiosError) => {
+      console.error(err)
+      router.push('/login')
+    })
   };
 
   return (
