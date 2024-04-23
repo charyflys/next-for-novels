@@ -1,7 +1,10 @@
-import { getBody, result, resultNoData } from "../../lib/quickapi";
+import { NextRequest } from "next/server";
+import { explainJWT, generateJWT, getBody, result, resultNoData } from "../../lib/quickapi";
 import supabase from "../../lib/supabaseClient";
+import { Session } from "@supabase/supabase-js";
 
 export async function POST(req:Request) {
+    
     const { email, password } = await getBody<{ email: string, password: string }>(req)
     const { error, data } = await supabase.auth.signInWithPassword({
         email,password
@@ -9,5 +12,20 @@ export async function POST(req:Request) {
     if (error) {
         return resultNoData(error.message, '500')
     }
-    return result(data)
+    const res = result(data.user).headers
+    .set('Set-Cookie',`_Host-token=${generateJWT(data.session)};Secure;`)
+    return res
+}
+
+export async function GET(req:Request) {
+    const nextreq = new NextRequest(req)
+    const token = nextreq.cookies.get('_Host-token')
+    if (token){
+        const Session = explainJWT(token.value) as Session
+        const { data } = await supabase.auth.setSession(Session)
+        const res = result(data.user).headers
+        .set('Set-Cookie',`_Host-token=${generateJWT(data.session)};Secure;`)
+        return res
+    }
+    return resultNoData('您未登录，请先登录','403')
 }

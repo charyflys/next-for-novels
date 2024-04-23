@@ -18,7 +18,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 
-import { Copyright } from '../allayout';
+import { Copyright } from '../../allayout';
 
 const drawerWidth: number = 240;
 

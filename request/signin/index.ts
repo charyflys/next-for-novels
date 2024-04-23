@@ -14,3 +14,10 @@ export function SignIn(email: string,password: string) {
         'form'
     )
 }
+
+export function CheckSession() {
+    return request<resBody>(
+        'get',
+        url,
+    )
+}

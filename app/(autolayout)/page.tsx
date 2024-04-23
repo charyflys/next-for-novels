@@ -1,5 +1,5 @@
 import { Grid, Card, Paper } from "@mui/material";
-import { SimpleNovel } from "./SimpleNovel";
+import { SimpleNovel } from "./_components/SimpleNovel";
 
 export default function Home() {
     return (
