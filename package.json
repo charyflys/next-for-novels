@@ -17,7 +17,6 @@
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "@mui/styled-engine-sc": "6.0.0-alpha.18",
-    "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/supabase-js": "^2.42.5",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/nodemailer": "^6.4.14",
