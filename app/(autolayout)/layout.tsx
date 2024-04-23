@@ -16,8 +16,8 @@ export default function RootLayout({
     const pushAlert = useAlertStore(state => state.setMsgAndColorAndOpen)
     // supabase.auth.getSession()
     CheckSession()
-    .then(session => {
-      if(session.data.session)
+    .then(data => {
+      if(data)
         console.log('session get')
       else {
         pushAlert('您未登录，请先登录','info')
