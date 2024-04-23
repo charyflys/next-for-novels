@@ -14,7 +14,8 @@ export async function POST(req:Request) {
     }
     const time = Date.now()
     const res = result(data.user).headers
-    .set('Set-Cookie',`_Secure-token="${generateJWT(data.session)}"; Secure; Max-Age=604800000`)
+    res.set('Set-Cookie',`_Secure-token="${generateJWT(data.session)}"; Secure; Max-Age=604800000`)
+    
     return res
 }
 
@@ -25,7 +26,7 @@ export async function GET(req:Request) {
         const Session = explainJWT(token.value) as Session
         const { data } = await supabase.auth.setSession(Session)
         const res = result(data.user).headers
-        .set('Set-Cookie',`_Secure-token="${generateJWT(data.session)}"; Secure; Max-Age=604800000`)
+        res.set('Set-Cookie',`_Secure-token="${generateJWT(data.session)}"; Secure; Max-Age=604800000`)
         return res
     }
     return resultNoData('您未登录，请先登录','403')
