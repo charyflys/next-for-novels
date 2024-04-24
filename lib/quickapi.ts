@@ -3,7 +3,7 @@ import jose from 'jose'
 // import jwt from 'jsonwebtoken'
 import { jwtSecret } from './env-values';
 // jose.s
-const JOSE_SECRET =jose.base64url.decode(jwtSecret)
+const JOSE_SECRET = new TextEncoder().encode(jwtSecret)
 
 export async function getBody<T> (req: Request): Promise<T> {
     const body = await req.text()

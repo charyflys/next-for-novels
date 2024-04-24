@@ -13,8 +13,17 @@ export async function POST(req:Request) {
     if (error) {
         return resultNoData(error.message, '500')
     }
-    const res = result(data.user)
-    res.headers.set('Set-Cookie',`${hostTokenName}=${generateJWT(data.session)}; Path: /; Max-Age=60480000`)
+    // const res = result(data.user)
+    // res.headers.set('Set-Cookie',`${hostTokenName}=${generateJWT(data.session)}; Path: /; Max-Age=60480000`)
+    const res = new Response(
+        JSON.stringify(data.user),
+        {
+            headers: {
+                'Set-Cookie': `${hostTokenName}=${generateJWT(data.session)}; Path: /; Max-Age=60480000`,
+                Location: '/'
+            },
+        }
+    )
     
     return res
 }
@@ -31,6 +40,7 @@ export async function GET(req:Request) {
             return res
             else {
                 res.headers.set('Set-Cookie',`${hostTokenName}=${generateJWT(data.session)}; Path: /; Max-Age=60480000`)
+                res.headers.set('Location','/')
                 return res
             }
         } else {
