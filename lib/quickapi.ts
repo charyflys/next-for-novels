@@ -33,7 +33,6 @@ export function resultNoData(msg?:string,code?:string) {
 export async function generateJWT(data: any) {
     // return jwt.sign(data, jwtSecret)
     const signedToken = await new SignJWT(data)
-        .setProtectedHeader({ alg: 'HS256' })
         .sign(JOSE_SECRET);
     if (!signedToken) {
         throw new Error('Failed to sign token');
