@@ -1,4 +1,4 @@
-import querystring from 'node:querystring'
+import querystring from 'querystring'
 import jwt from 'jsonwebtoken'
 import { jwtSecret } from './env-values';
 export async function getBody<T> (req: Request): Promise<T> {

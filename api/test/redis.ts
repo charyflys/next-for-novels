@@ -1,5 +1,5 @@
 import redis from "../../lib/redis";
-import querystring from 'node:querystring'
+import querystring from 'querystring'
 export const runtime = "edge";
 export async function GET(req:Request) {
     const qs = querystring.parse(req.url.replace(/^.+?\?/,''))
