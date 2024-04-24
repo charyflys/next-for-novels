@@ -19,7 +19,7 @@ export default function RootLayout({
         console.log('session get')
       else {
         pushAlert('您未登录，请先登录','info')
-        // router.replace('/signin')
+        router.replace('/signin')
       }
     })
     .catch(err => {
