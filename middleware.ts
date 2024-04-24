@@ -13,6 +13,7 @@ export default async function middleware(request: Request) {
             return NextResponse.redirect('/signin')
         }
     }
+    return NextResponse.redirect('/signin')
 }
 
 
