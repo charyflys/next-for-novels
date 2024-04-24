@@ -16,7 +16,7 @@ export async function POST(req:Request) {
     const { access_token,refresh_token } = data.session
     const session = { access_token,refresh_token } 
     const res = result(data.user)
-    res.headers.set('Set-Cookie',`${hostTokenName}=${await generateJWT(session)} ; Path: /; Max-Age=324000; Secure`)
+    res.headers.set('Set-Cookie',`${hostTokenName}=${await generateJWT(session)} ; Path: /; Max-Age=32400000; Secure`)
     
     return res
 }
@@ -35,7 +35,7 @@ export async function GET(req:Request) {
                 const { access_token,refresh_token } = data.session
                 const session = { access_token,refresh_token } 
                 const res = result(data.user)
-                res.headers.set('Set-Cookie',`${hostTokenName}=${await generateJWT(session)} ; Path: / ; Max-Age=324000 ; Secure`)
+                res.headers.set('Set-Cookie',`${hostTokenName}=${await generateJWT(session)} ; Path: / ; Max-Age=32400000 ; Secure`)
             
                 return res
             }
