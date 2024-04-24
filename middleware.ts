@@ -3,10 +3,9 @@ import { hostTokenName } from './lib/env-values'
 import { explainJWT } from './lib/quickapi';
 import supabase from './lib/supabaseClient';
 import { Session } from '@supabase/supabase-js';
-export default async function middleware(request: NextRequest) {
-  // Extract country. Default to US if not found.
-    // const req = new NextRequest(request)
-    const cookie = request.cookies.get(hostTokenName)
+export default async function middleware(request: Request) {
+    const req = new NextRequest(request)
+    const cookie = req.cookies.get(hostTokenName)
     if (cookie) {
         const session = explainJWT(cookie.value) as Session
         const { data,error } = await supabase.auth.setSession(session)
