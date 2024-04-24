@@ -6,6 +6,7 @@ export async function GET(req:Request) {
     const key = 'key' in qs&&(false===!qs['key']) ? await redis.get(qs.key.toString()) : ''
     return Response.json(key)
 }
+
 export async function POST(req:Request) {
     const body = await req.text()
     const ContentType = req.headers.get('Content-Type') 
