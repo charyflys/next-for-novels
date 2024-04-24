@@ -5,15 +5,17 @@ import supabase from './lib/supabaseClient';
 import { Session } from '@supabase/supabase-js';
 export default async function middleware(request: Request) {
     const req = new NextRequest(request)
+    const url = req.nextUrl.clone()
+    url.pathname = '/signin'
     const cookie = req.cookies.get(hostTokenName)
     if (cookie) {
         const session = explainJWT(cookie.value) as Session
         const { data,error } = await supabase.auth.setSession(session)
         if (error||(!data.session)) {
-            return NextResponse.redirect('/signin')
+            return NextResponse.redirect(url)
         }
     }
-    return NextResponse.redirect('/signin')
+    return NextResponse.redirect(url)
 }
 
 
