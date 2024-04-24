@@ -13,17 +13,10 @@ export async function POST(req:Request) {
     if (error) {
         return resultNoData(error.message, '500')
     }
-    // const res = result(data.user)
-    // res.headers.set('Set-Cookie',`${hostTokenName}=${generateJWT(data.session)}; Path: /; Max-Age=60480000`)
-    const res = new Response(
-        JSON.stringify(data.user),
-        {
-            headers: {
-                'Set-Cookie': `${hostTokenName}=${generateJWT(data.session)}; Path: /; Max-Age=60480000`,
-                Location: '/'
-            },
-        }
-    )
+    const { access_token,refresh_token } = data.session
+    const session = { access_token,refresh_token } 
+    const res = result(data.user)
+    res.headers.set('Set-Cookie',`${hostTokenName}=${await generateJWT(session)}; Path: /; Max-Age=60480000`)
     
     return res
 }
@@ -39,8 +32,11 @@ export async function GET(req:Request) {
             if(data.session.access_token===Session.access_token&&data.session.refresh_token===Session.refresh_token)
             return res
             else {
-                res.headers.set('Set-Cookie',`${hostTokenName}=${generateJWT(data.session)}; Path: /; Max-Age=60480000`)
-                res.headers.set('Location','/')
+                const { access_token,refresh_token } = data.session
+                const session = { access_token,refresh_token } 
+                const res = result(data.user)
+                res.headers.set('Set-Cookie',`${hostTokenName}=${await generateJWT(session)}; Path: /; Max-Age=60480000`)
+            
                 return res
             }
         } else {
