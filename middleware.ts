@@ -12,9 +12,11 @@ export default async function middleware(request: Request) {
         const session = await explainJWT<Session>(cookie.value)
         const { data,error } = await supabase.auth.setSession(session)
         if (error||(!data.session)) {
+            url.pathname = '/signin?nosession=true'
             return NextResponse.redirect(url)
         }
     }
+    url.pathname = '/signin?nocookie=true'
     return NextResponse.redirect(url)
 }
 
