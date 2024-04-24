@@ -1,5 +1,5 @@
 import querystring from 'querystring'
-import jose from 'jose'
+import {jwtVerify,SignJWT} from 'jose'
 // import jwt from 'jsonwebtoken'
 import { jwtSecret } from './env-values';
 // jose.s
@@ -32,7 +32,7 @@ export function resultNoData(msg?:string,code?:string) {
 
 export async function generateJWT(data: any) {
     // return jwt.sign(data, jwtSecret)
-    const signedToken = await new jose.SignJWT(data)
+    const signedToken = await new SignJWT(data)
         .setProtectedHeader({ alg: 'HS256' })
         .sign(JOSE_SECRET);
     if (!signedToken) {
@@ -49,7 +49,7 @@ export async function explainJWT<T>(token: string) {
     
     
       try {
-        const decoded = await jose.jwtVerify<T>(token, JOSE_SECRET);
+        const decoded = await jwtVerify<T>(token, JOSE_SECRET);
     
         if (!decoded.payload) {
           throw new Error('Failed to verify token');
