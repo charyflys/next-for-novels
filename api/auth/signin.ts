@@ -23,7 +23,7 @@ export async function GET(req:Request) {
     const nextreq = new NextRequest(req)
     const token = nextreq.cookies.get(hostTokenName)
     if (token){
-        const Session = explainJWT(token.value) as Session
+        const Session = (await explainJWT<Session>(token.value))
         const { data } = await supabase.auth.setSession(Session)
         const res = result(data.user)
         if (data.session) {

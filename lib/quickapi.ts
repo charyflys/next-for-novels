@@ -1,6 +1,10 @@
 import querystring from 'querystring'
-import jwt from 'jsonwebtoken'
+import jose from 'jose'
+// import jwt from 'jsonwebtoken'
 import { jwtSecret } from './env-values';
+// jose.s
+const JOSE_SECRET =jose.base64url.decode(jwtSecret)
+
 export async function getBody<T> (req: Request): Promise<T> {
     const body = await req.text()
     return req.headers.get('Content-Type') === "application/json" ?
@@ -26,13 +30,36 @@ export function resultNoData(msg?:string,code?:string) {
     })
 }
 
-export function generateJWT(data: any) {
-    return jwt.sign(data, jwtSecret)
+export async function generateJWT(data: any) {
+    // return jwt.sign(data, jwtSecret)
+    const signedToken = await new jose.SignJWT(data)
+        .setProtectedHeader({ alg: 'HS256' })
+        .sign(JOSE_SECRET);
+    if (!signedToken) {
+        throw new Error('Failed to sign token');
+    }
+    return signedToken;
 }
 
-export function explainJWT(token: string) {
-    return jwt.verify(token, jwtSecret)
-}
+export async function explainJWT<T>(token: string) {
+    // return jwt.verify(token, jwtSecret)
+    if (!token) {
+        throw new Error('Failed to verify token');
+      }
+    
+    
+      try {
+        const decoded = await jose.jwtVerify<T>(token, JOSE_SECRET);
+    
+        if (!decoded.payload) {
+          throw new Error('Failed to verify token');
+        }
+    
+        return decoded.payload;
+      } catch (error) {
+        console.log(error);
+        throw new Error(`${error}`);
+      }}
 
 export type resBody = {
     code: string,

@@ -9,7 +9,7 @@ export default async function middleware(request: Request) {
     url.pathname = '/signin'
     const cookie = req.cookies.get(hostTokenName)
     if (cookie) {
-        const session = explainJWT(cookie.value) as Session
+        const session = await explainJWT<Session>(cookie.value)
         const { data,error } = await supabase.auth.setSession(session)
         if (error||(!data.session)) {
             return NextResponse.redirect(url)
