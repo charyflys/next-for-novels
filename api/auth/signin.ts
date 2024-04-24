@@ -5,8 +5,8 @@ import { Session } from "@supabase/supabase-js";
 import { hostTokenName } from "../../lib/env-values";
 
 export async function POST(req:Request) {
-    
-    const url = req.url.match(/(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/)
+    const nextreq = new NextRequest(req)
+    const url = nextreq.nextUrl.basePath
     const { email, password } = await getBody<{ email: string, password: string }>(req)
     const { error, data } = await supabase.auth.signInWithPassword({
         email,password
@@ -17,14 +17,14 @@ export async function POST(req:Request) {
     const { access_token,refresh_token } = data.session
     const session = { access_token,refresh_token } 
     const res = result(data.user)
-    res.headers.set('Set-Cookie',`${hostTokenName}=${await generateJWT(session)} ; Path: /; Max-Age=32400000; Secure ; domain = ${url&&url[0]||''}`)
+    res.headers.set('Set-Cookie',`${hostTokenName}=${await generateJWT(session)} ; Path: /; Max-Age=32400000; Secure ; domain = ${url}`)
     
     return res
 }
 
 export async function GET(req:Request) {
-    const url = req.url.match(/(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/)
     const nextreq = new NextRequest(req)
+    const url = nextreq.nextUrl.basePath
     const token = nextreq.cookies.get(hostTokenName)
     if (token){
         const Session = (await explainJWT<Session>(token.value))
@@ -37,7 +37,7 @@ export async function GET(req:Request) {
                 const { access_token,refresh_token } = data.session
                 const session = { access_token,refresh_token } 
                 const res = result(data.user)
-                res.headers.set('Set-Cookie',`${hostTokenName}=${await generateJWT(session)} ; Path: / ; Max-Age=32400000 ; Secure; domain = ${url&&url[0]||''}`)
+                res.headers.set('Set-Cookie',`${hostTokenName}=${await generateJWT(session)} ; Path: / ; Max-Age=32400000 ; Secure; domain = ${url}`)
             
                 return res
             }
