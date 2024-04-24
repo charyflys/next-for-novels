@@ -96,7 +96,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signin" variant="body2">
                  已经有账号了？登陆
                 </Link>
               </Grid>

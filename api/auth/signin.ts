@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { explainJWT, generateJWT, getBody, result, resultNoData } from "../../lib/quickapi";
 import supabase from "../../lib/supabaseClient";
 import { Session } from "@supabase/supabase-js";
+import { hostTokenName } from "../../lib/env-values";
 
 export async function POST(req:Request) {
     
@@ -13,14 +14,14 @@ export async function POST(req:Request) {
         return resultNoData(error.message, '500')
     }
     const res = result(data.user)
-    res.headers.set('Set-Cookie',`_Secure-token=${generateJWT(data.session)}; Secure; Max-Age=604800000`)
+    res.headers.set('Set-Cookie',`${hostTokenName}=${generateJWT(data.session)}; Secure; Max-Age=604800000`)
     
     return res
 }
 
 export async function GET(req:Request) {
     const nextreq = new NextRequest(req)
-    const token = nextreq.cookies.get('_Secure-token')
+    const token = nextreq.cookies.get(hostTokenName)
     if (token){
         const Session = explainJWT(token.value) as Session
         const { data } = await supabase.auth.setSession(Session)
@@ -29,7 +30,7 @@ export async function GET(req:Request) {
             if(data.session.access_token===Session.access_token&&data.session.refresh_token===Session.refresh_token)
             return res
             else {
-                res.headers.set('Set-Cookie',`_Secure-token=${generateJWT(data.session)}; Secure; Max-Age=604800000`)
+                res.headers.set('Set-Cookie',`${hostTokenName}=${generateJWT(data.session)}; Secure; Max-Age=604800000`)
                 return res
             }
         } else {

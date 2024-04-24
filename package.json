@@ -22,6 +22,7 @@
     "@types/nodemailer": "^6.4.14",
     "@types/qs": "^6.9.15",
     "@upstash/redis": "^1.30.0",
+    "@vercel/edge": "^1.1.1",
     "axios": "^1.6.8",
     "jsonwebtoken": "^9.0.2",
     "magic-sdk": "^28.0.3",

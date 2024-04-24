@@ -103,7 +103,7 @@ export default function Login() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signup" variant="body2">
                   {"还没有账号？注册"}
                 </Link>
               </Grid>

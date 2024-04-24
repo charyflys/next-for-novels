@@ -6,6 +6,9 @@ export const jwtSecret = process.env.JWT_SECRET as string
 
 export const redisUrl = process.env.REDIS_URL as string
 export const redisToken = process.env.REDIS_TOKEN as string
+
+export const hostTokenName = process.env.HOST_TOKEN_NAME as string
+
 console.log(
     supabaseUrl,
     supabaseAnonKey,
