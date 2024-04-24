@@ -15,11 +15,13 @@ export default async function middleware(request: Request) {
             url.searchParams.append('nosession','true')
             return NextResponse.redirect(url)
         }
+    } else {
+        url.pathname = '/signin'
+        url.searchParams.append('nocookie','true')
+        url.searchParams.append('cookiename',hostTokenName)
+        url.searchParams.append('cookies',JSON.stringify(req.cookies))
+        return NextResponse.redirect(url)
     }
-    url.pathname = '/signin'
-    url.searchParams.append('nocookie','true')
-    url.searchParams.append('cookiename',hostTokenName)
-    return NextResponse.redirect(url)
 }
 
 
