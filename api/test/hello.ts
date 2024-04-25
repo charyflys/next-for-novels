@@ -1,3 +1,3 @@
 export function GET(req:Request) {
-    return new Response("hello")
+    return Response.json(req.headers)
 }
