@@ -41,6 +41,16 @@ export async function generateJWT(data: any) {
     return signedToken;
 }
 
+export function getCookie(req: Request): Map<string,string> {
+    const cookie_header = req.headers.get('Cookie')
+    if (!cookie_header) return new Map()
+    const arr = cookie_header.split(';').map(v=>{
+        const i = v.indexOf('=')
+        return [v.substring(0,i),v.substring(i+1)]
+    }) as [string,string][]
+    return new Map<string,string>(arr)
+}
+
 export async function explainJWT<T>(token: string) {
     // return jwt.verify(token, jwtSecret)
     if (!token) {
