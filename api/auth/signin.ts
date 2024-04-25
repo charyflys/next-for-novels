@@ -3,6 +3,8 @@ import { explainJWT, generateJWT, getBody, result, resultNoData } from "../../li
 import supabase from "../../lib/supabaseClient";
 import { Session } from "@supabase/supabase-js";
 import { hostTokenName } from "../../lib/env-values";
+import redis from "../../lib/redis";
+import md5 from 'md5'
 
 export async function POST(req:Request) {
     
@@ -15,8 +17,10 @@ export async function POST(req:Request) {
     }
     const { access_token,refresh_token } = data.session
     const session = { access_token,refresh_token } 
+    const jwt = await generateJWT(session)
+    await redis.set(md5(jwt),data.user,{px: 60})
     const res = result(data.user)
-    res.headers.set('Set-Cookie',`${hostTokenName}=${await generateJWT(session)} ; Path= /; Max-Age=32400000; Secure `)
+    res.headers.set('Set-Cookie',`${hostTokenName}=${jwt} ; Path= /; Max-Age=2592000; Secure `)
     
     return res
 }
@@ -34,8 +38,11 @@ export async function GET(req:Request) {
             else {
                 const { access_token,refresh_token } = data.session
                 const session = { access_token,refresh_token } 
+                const jwt = await generateJWT(session)
+                await redis.set(md5(jwt),data.user,{px: 60})
+
                 const res = result(data.user)
-                res.headers.set('Set-Cookie',`${hostTokenName}=${await generateJWT(session)} ; Path= / ; Max-Age=32400000 ; Secure`)
+                res.headers.set('Set-Cookie',`${hostTokenName}=${jwt} ; Path= / ; Max-Age=2592000 ; Secure`)
             
                 return res
             }
