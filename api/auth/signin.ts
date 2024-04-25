@@ -19,10 +19,10 @@ export async function POST(req:Request) {
     const { access_token,refresh_token } = data.session
     const session = { access_token,refresh_token,time: Date.now() } 
     const jwt = await generateJWT(session)
-    await redis.set(md5(jwt),data.user,
+    const redisresult= await redis.set(md5(jwt),data.user,
         // {px: 60}
     )
-    const res = result(data.user)
+    const res = result({user:data.user,redisresult})
     res.headers.set('Set-Cookie',`${hostTokenName}=${jwt} ; Path= /; Max-Age=2592000; Secure `)
     
     return res
