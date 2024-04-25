@@ -29,6 +29,7 @@ export default function SignUp() {
     }
     SignUpRequest(email, password)
     .then(res => {
+      console.log(res)
       pushAlert('请前往邮箱确认您的注册')
     })
     .catch((res) => {

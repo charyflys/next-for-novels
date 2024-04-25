@@ -30,9 +30,10 @@ http.interceptors.response.use(
     if (response.status === 200) {
 
         const { code } = response.data;
-        if (code&&typeof code === 'string'&&/^[23]\d\d$/.test(code))
-        return Promise.resolve(response)
-        return Promise.reject(response)
+        if (code&&typeof code === 'string'&&/^[23]\d\d$/.test(code)){
+          return Promise.resolve(response)
+        }
+        return Promise.reject(response.data)
     } else {
       console.error("服务器出错或者连接不到服务器")
       return Promise.reject(response);
@@ -98,7 +99,7 @@ export default function request<T> (
         resolve(res.data);
       })
       .catch((err) => {
-        // console.log(err);
+        console.error(err);
         reject(err);
       });
   });
