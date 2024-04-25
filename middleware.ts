@@ -47,7 +47,7 @@ if(mysscookie){
         }
 
 const res1 = NextResponse.next();
-  res1.cookies.set(mysscookie, 'bar', {maxAge: 86400 });
+  res1.cookies.set(mysessionname, 'bar', {maxAge: 86400 });
 
   // Apply those cookies to the request
   applySetCookie(req, res1);
