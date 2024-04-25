@@ -18,7 +18,6 @@ import { AxiosError } from 'axios';
 
 export default function SignUp() {
   const pushAlert = useAlertStore(state => state.setMsgAndColorAndOpen)
-  const color = useAlertStore(state => state.severity)
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -33,7 +32,11 @@ export default function SignUp() {
       pushAlert('请前往邮箱确认您的注册')
     })
     .catch((res) => {
-      if ('msg' in res)pushAlert(res.msg||res.message,'error')
+      if ('msg' in res){
+        console.log(res.msg,res.msg||res.message)
+        pushAlert(res.msg||res.message,'error')
+      }
+        
     })
     
     // if (!res) (setMsg(res),OpenAlert())
