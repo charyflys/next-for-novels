@@ -23,11 +23,7 @@ export async function POST(req: Request) {
     const redisresult = await redis.set(md5jwt, data.user,
         { ex: 3600 }
     )
-    const res = result({ 
-        user: data.user,
-        redisresult,
-        md5: md5jwt
-    })
+    const res = result(data.user)
     res.headers.set('Set-Cookie', `${hostTokenName}=${jwt} ; Path= /; Max-Age=2592000; Secure `)
 
     return res

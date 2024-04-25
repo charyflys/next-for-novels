@@ -37,7 +37,7 @@ export default async function middleware(request: Request) {
     const cookie = req.cookies.get(hostTokenName)
     if (cookie) {
         const session = await explainJWT<Session & { time: number }>(cookie.value)
-        if ((session.time===undefined)||(Date.now() - session.time > 3600000)) {
+        if ((session.time === undefined) || (Date.now() - session.time > 3600000)) {
             const res1 = NextResponse.next();
             const { data, error } = await supabase.auth.setSession(session)
             if (error || !data.session) {
@@ -45,7 +45,7 @@ export default async function middleware(request: Request) {
                 return NextResponse.redirect(url)
             }
             const { access_token, refresh_token } = data.session
-            const session_refresh = { access_token, refresh_token , time: Date.now() }
+            const session_refresh = { access_token, refresh_token, time: Date.now() }
             const jwt = await generateJWT(session_refresh)
             res1.cookies.set(hostTokenName, jwt, {
                 secure: true,
@@ -54,7 +54,7 @@ export default async function middleware(request: Request) {
             })
             applySetCookie(req, res1);
             redis.set(md5(jwt), data.user,
-            //  { px: 60 }
+                { ex: 3600 }
             )
             return res1;
         }
