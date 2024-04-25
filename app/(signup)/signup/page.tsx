@@ -17,7 +17,7 @@ import { AxiosError } from 'axios';
 // TODO remove, this demo shouldn't need to reset the theme.
 
 export default function SignUp() {
-  const setMsgAndColorAndOpen = useAlertStore(state => state.setMsgAndColorAndOpen)
+  const pushAlert = useAlertStore(state => state.setMsgAndColorAndOpen)
   const color = useAlertStore(state => state.severity)
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -30,10 +30,10 @@ export default function SignUp() {
     }
     SignUpRequest(email, password)
     .then(res => {
-      setMsgAndColorAndOpen('请前往邮箱确认您的注册')
+      pushAlert('请前往邮箱确认您的注册')
     })
-    .catch((res: AxiosError ) => {
-      setMsgAndColorAndOpen(res.message,'error')
+    .catch((res) => {
+      if ('msg' in res)pushAlert(res.msg||res.message,'error')
     })
     
     // if (!res) (setMsg(res),OpenAlert())

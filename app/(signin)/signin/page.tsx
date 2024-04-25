@@ -40,8 +40,9 @@ export default function Login() {
         pushAlert('登录成功','success')
       }
     })
-    .catch((err:AxiosError) => {
+    .catch((err) => {
       console.error(err)
+      if ('msg' in err)pushAlert(err.msg||err.message,'error')
       // router.push('/signin')
     })
 };
