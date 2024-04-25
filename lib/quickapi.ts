@@ -44,7 +44,7 @@ export async function generateJWT(data: any) {
 export function getCookie(req: Request): Map<string,string> {
     const cookie_header = req.headers.get('Cookie')
     if (!cookie_header) return new Map()
-    const arr = cookie_header.split(';').map(v=>{
+    const arr = cookie_header.split('; ').map(v=>{
         const i = v.indexOf('=')
         return [v.substring(0,i),v.substring(i+1)]
     }) as [string,string][]
