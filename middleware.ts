@@ -3,7 +3,7 @@ import { hostTokenName } from './lib/env-values'
 import { explainJWT } from './lib/quickapi';
 import supabase from './lib/supabaseClient';
 import { Session } from '@supabase/supabase-js';
-
+import { ResponseCookies, RequestCookies } from 'next/dist/server/web/spec-extension/cookies';
 const mysessionname='q6VIka04'
 
 
