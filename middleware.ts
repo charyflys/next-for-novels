@@ -47,13 +47,14 @@ export default async function middleware(request: Request) {
             const { access_token, refresh_token } = data.session
             const session_refresh = { access_token, refresh_token, time: Date.now() }
             const jwt = await generateJWT(session_refresh)
+            const md5jwt = md5(jwt)
             res1.cookies.set(hostTokenName, jwt, {
                 secure: true,
                 path: '/',
                 maxAge: 2592000
             })
             applySetCookie(req, res1);
-            redis.set(md5(jwt), data.user,
+            redis.set(md5jwt, data.user,
                 { ex: 3600 }
             )
             return res1;

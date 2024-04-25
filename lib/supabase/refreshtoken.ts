@@ -10,7 +10,8 @@ export default async function Refresh(res: Response, session: Session | null, fi
             const { access_token, refresh_token } = session
             const Session = { access_token, refresh_token, time: Date.now() }
             const jwt = await generateJWT(Session)
-            await redis.set(md5(jwt), user,
+            const md5jwt = md5(jwt)
+            await redis.set(md5jwt, user,
                 { ex: 3600 }
             )
             res.headers.set('Set-Cookie', `${hostTokenName}=${jwt} ; Path= / ; Max-Age=2592000 ; Secure`)
