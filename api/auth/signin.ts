@@ -5,7 +5,7 @@ import { Session } from "@supabase/supabase-js";
 import { hostTokenName } from "../../lib/env-values";
 import redis from "../../lib/redis";
 import md5 from 'md5'
-import Refresh from "@/lib/supabase/refreshtoken";
+import Refresh from "../../lib/supabase/refreshtoken";
 
 export async function POST(req:Request) {
     
