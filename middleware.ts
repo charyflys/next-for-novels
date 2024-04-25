@@ -53,7 +53,9 @@ export default async function middleware(request: Request) {
                 maxAge: 2592000
             })
             applySetCookie(req, res1);
-            redis.set(md5(jwt), data.user, { px: 60 })
+            redis.set(md5(jwt), data.user,
+            //  { px: 60 }
+            )
             return res1;
         }
     } else {
