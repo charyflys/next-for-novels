@@ -16,7 +16,7 @@ export async function POST(req:Request) {
         return resultNoData(error.message, '500')
     }
     const { access_token,refresh_token } = data.session
-    const session = { access_token,refresh_token } 
+    const session = { access_token,refresh_token,time: Date.now() } 
     const jwt = await generateJWT(session)
     await redis.set(md5(jwt),data.user,{px: 60})
     const res = result(data.user)
@@ -37,7 +37,7 @@ export async function GET(req:Request) {
             return res
             else {
                 const { access_token,refresh_token } = data.session
-                const session = { access_token,refresh_token } 
+                const session = { access_token,refresh_token,time: Date.now() } 
                 const jwt = await generateJWT(session)
                 await redis.set(md5(jwt),data.user,{px: 60})
 

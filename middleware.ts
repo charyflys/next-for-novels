@@ -36,40 +36,28 @@ export default async function middleware(request: Request) {
     url.pathname = '/signin'
     const cookie = req.cookies.get(hostTokenName)
     if (cookie) {
-        const jwtmd5 = md5(cookie.value)
-        if (await redis.get(jwtmd5)) {
-
-        } else {
-            const session = await explainJWT<Session>(cookie.value)
+        const session = await explainJWT<Session & { time: number }>(cookie.value)
+        if ((session.time===undefined)||(Date.now() - session.time > 3600000)) {
+            const res1 = NextResponse.next();
             const { data, error } = await supabase.auth.setSession(session)
-            if (error || (!data.session)) {
-                url.searchParams.append('nosession', 'true')
+            if (error || !data.session) {
+                url.searchParams.append('session_err', 'true')
                 return NextResponse.redirect(url)
             }
-
-            if(!(data.session.access_token===session.access_token&&data.session.refresh_token===session.refresh_token)) {
-                const res1 = NextResponse.next();
-                const { access_token,refresh_token } = data.session
-                const session = { access_token,refresh_token } 
-                const jwt = await generateJWT(session)
-                res1.cookies.set(hostTokenName,jwt,{
-                    secure: true,
-                    path: '/',
-                    maxAge: 2592000
-                })
-                applySetCookie(req, res1);
-                redis.set(md5(jwt),data.user,{px: 60})
-                return res1;
-            }
-            redis.set(md5(cookie.value),data.user,{px: 60})
-
-            // Apply those cookies to the request
+            const { access_token, refresh_token } = data.session
+            const session_refresh = { access_token, refresh_token , time: Date.now() }
+            const jwt = await generateJWT(session_refresh)
+            res1.cookies.set(hostTokenName, jwt, {
+                secure: true,
+                path: '/',
+                maxAge: 2592000
+            })
+            applySetCookie(req, res1);
+            redis.set(md5(jwt), data.user, { px: 60 })
+            return res1;
         }
     } else {
-        url.pathname = '/signin'
         url.searchParams.append('nocookie', 'true')
-        url.searchParams.append('cookiename', hostTokenName)
-        url.searchParams.append('cookies', JSON.stringify(req.cookies))
         return NextResponse.redirect(url)
     }
 }
