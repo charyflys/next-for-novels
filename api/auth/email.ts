@@ -24,9 +24,9 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
+    const { email } = await getBody<{ email: string, }>(req)
     const nextreq = new NextRequest(req)
-    // const { email } = await getBody<{ email: string, }>(req)
-    const email = nextreq.nextUrl.searchParams.get('email') as string
+
 
     const token = nextreq.cookies.get(hostTokenName)
     if (!token) return resultNoData('您未登录，请先登录', '403')
@@ -42,8 +42,9 @@ export async function POST(req: Request) {
 }
 
 export async function DELETE(req: Request) {
+    const { email } = await getBody<{ email: string, }>(req)
     const nextreq = new NextRequest(req)
-    const email = nextreq.nextUrl.searchParams.get('email') as string
+    // const email = nextreq.nextUrl.searchParams.get('email') as string
 
     const token = nextreq.cookies.get(hostTokenName)
     if (!token) return resultNoData('您未登录，请先登录', '403')
