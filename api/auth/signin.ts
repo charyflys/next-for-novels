@@ -41,7 +41,6 @@ export async function GET(req:Request) {
                 const jwt = await generateJWT(session)
                 await redis.set(md5(jwt),data.user,{px: 60})
 
-                const res = result(data.user)
                 res.headers.set('Set-Cookie',`${hostTokenName}=${jwt} ; Path= / ; Max-Age=2592000 ; Secure`)
             
                 return res
