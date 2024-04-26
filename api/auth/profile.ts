@@ -20,5 +20,5 @@ export async function GET(req: Request) {
     await redis.set(md5jwt, User,
         { ex: 3600 }
     )
-    return profile
+    return result(profile)
 }
