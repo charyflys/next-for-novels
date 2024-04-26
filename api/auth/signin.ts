@@ -1,11 +1,11 @@
-import { NextRequest } from "next/server";
-import { explainJWT, generateJWT, getBody, result, resultNoData } from "../../lib/quickapi";
+import { explainJWT, generateJWT, getBody, getCookie, result, resultNoData, resultToken } from "../../lib/quickapi";
 import supabase from "../../lib/supabaseClient";
 import { Session } from "@supabase/supabase-js";
 import { hostTokenName } from "../../lib/env-values";
 import redis from "../../lib/redis";
 import md5 from 'md5'
 import Refresh from "../../lib/supabase/refreshtoken";
+import { getProfile } from "../../lib/supabase/profile";
 
 export async function POST(req: Request) {
 
@@ -13,31 +13,31 @@ export async function POST(req: Request) {
     const { error, data } = await supabase.auth.signInWithPassword({
         email, password
     })
-    if (error) {
-        return resultNoData(error.message, '500')
+    if (error||(!data.user)) {
+        return resultNoData(error?error.message:'no user', '500')
     }
+    const profile = await getProfile(data.user.id)
     const { access_token, refresh_token } = data.session
     const session = { access_token, refresh_token, time: Date.now() }
+    const user = Object.assign(data.user,{ profile })
     const jwt = await generateJWT(session)
     const md5jwt = md5(jwt)
-    const redisresult = await redis.set(md5jwt, data.user,
+    const redisresult = await redis.set(md5jwt, user,
         { ex: 3600 }
     )
-    const res = result(data.user)
-    res.headers.set('Set-Cookie', `${hostTokenName}=${jwt} ; Path= /; Max-Age=2592000; Secure `)
-
-    return res
+    return resultToken(result(data.user), jwt)
 }
 
 export async function GET(req: Request) {
-    const nextreq = new NextRequest(req)
-    const token = nextreq.cookies.get(hostTokenName)
+    const token = getCookie(req).get(hostTokenName)
     if (token) {
-        const Session = (await explainJWT<Session>(token.value))
+        const Session = (await explainJWT<Session>(token))
         const { data } = await supabase.auth.setSession(Session)
         if (!data.user) return resultNoData('登陆失效', '403')
-        const res = result(data.user)
-        return Refresh(res, data.session, Session, data.user)
+        const profile = await getProfile(data.user.id)
+        const User = Object.assign(data.user,{profile})
+        const res = result(profile)
+        return Refresh(res, data.session, Session, User)
     }
     return resultNoData('您未登录，请先登录', '403')
 }

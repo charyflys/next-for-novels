@@ -6,6 +6,7 @@ import { Session } from '@supabase/supabase-js';
 import { ResponseCookies, RequestCookies } from 'next/dist/server/web/spec-extension/cookies';
 import md5 from 'md5';
 import redis from './lib/redis';
+import { getProfile } from './lib/supabase/profile';
 
 
 function applySetCookie(req: NextRequest, res: NextResponse) {
@@ -40,6 +41,8 @@ export default async function middleware(request: Request) {
         if ((session.time === undefined) || (Date.now() - session.time > 3600000)) {
             const res1 = NextResponse.next();
             const { data, error } = await supabase.auth.setSession(session)
+            if (!data.user) return NextResponse.redirect(url)
+            const profile = await getProfile(data.user.id)
             if (error || !data.session) {
                 url.searchParams.append('session_err', 'true')
                 return NextResponse.redirect(url)
@@ -54,7 +57,8 @@ export default async function middleware(request: Request) {
                 maxAge: 2592000
             })
             applySetCookie(req, res1);
-            redis.set(md5jwt, data.user,
+            const user = Object.assign(data.user, { profile })
+            redis.set(md5jwt, user,
                 { ex: 3600 }
             )
             return res1;

@@ -1,8 +1,8 @@
 import { Session, User } from "@supabase/supabase-js";
-import { generateJWT, resultNoData } from "../quickapi";
+import { generateJWT, resultNoData, resultToken } from "../quickapi";
 import redis from "../redis";
 import md5 from "md5";
-import { hostTokenName } from "../env-values";
+import { getProfile } from "./profile";
 
 export default async function Refresh(res: Response, session: Session | null, firstsession: Session, user: User) {
     if (session) {
@@ -14,7 +14,7 @@ export default async function Refresh(res: Response, session: Session | null, fi
             await redis.set(md5jwt, user,
                 { ex: 3600 }
             )
-            res.headers.set('Set-Cookie', `${hostTokenName}=${jwt} ; Path= / ; Max-Age=2592000 ; Secure`)
+            resultToken(res, jwt)
         }
         return res
     } else {
