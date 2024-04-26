@@ -14,10 +14,8 @@ export async function GET(req: Request) {
     if ('profile' in user&&user.profile) {
         return result(user.profile)
     }
-    const {data:profile,err} = await getProfile(user.id)
-    if(err) {
-        return resultNoData(err.message,'500')
-    }
+    const profile = await getProfile(user.id)
+
     const User = Object.assign(user,{profile})
     const md5jwt = md5(token)
     await redis.set(md5jwt, User,
