@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     const redisresult = await redis.set(md5jwt, user,
         { ex: 3600 }
     )
-    return resultToken(result(data.user), jwt)
+    return resultToken(result(profile), jwt)
 }
 
 export async function GET(req: Request) {
