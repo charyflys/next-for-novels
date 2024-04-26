@@ -1,7 +1,7 @@
 import { User } from "@supabase/supabase-js";
 import supabase from "../supabaseClient";
 
-const table_name = 'profile'
+const table_name = 'profiles'
 
 export async function getProfile(id: string) {
     const { error, data } = await supabase
