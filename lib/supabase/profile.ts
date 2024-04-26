@@ -6,7 +6,7 @@ export async function getProfile(id: string) {
     const { error, data } = await supabase
         .from(table_name)
         .select('role, nickname,status,muted,avatar')
-        .eq('id', id)
+        // .eq('id', id)
     if (error || (!data)) return { err: error, data: null }
     return { data: data.length ? data[0] as User_Profile : null }
 }
