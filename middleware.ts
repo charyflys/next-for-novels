@@ -58,7 +58,7 @@ export default async function middleware(request: Request) {
             })
             applySetCookie(req, res1);
             const user = Object.assign(data.user, { profile })
-            redis.set(md5jwt, user,
+            await redis.set(md5jwt, user,
                 { ex: 3600 }
             )
             return res1;
