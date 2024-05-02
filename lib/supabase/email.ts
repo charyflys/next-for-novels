@@ -35,6 +35,8 @@ export async function removeEmail(email: string) {
 }
 
 export type Email_Access = {
+    // email: string //不需要的属性
+    // adder: string //这个之后想办法把联表的功能替代上去，现阶段没有获取这个属性的必要
     role: 'admin' | null,
     status: boolean,
 }

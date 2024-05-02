@@ -7,6 +7,7 @@ import { addProfile } from "../../lib/supabase/profile";
 /**
  * 注册功能
  * 参数应当包括email和password
+ * 根据优先以vercel端功能执行，由vercel端构建对应的用户profile对象
  */
 export async function POST(req: Request): Promise<Response> {
     const { email, password } = await getBody<{ email: string, password: string }>(req)
