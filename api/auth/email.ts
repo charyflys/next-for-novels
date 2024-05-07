@@ -1,7 +1,7 @@
 import { addAccessEmail, getAllCol, removeEmail } from "../../lib/supabase/email";
-import { explainJWT, generateJWT, getBody, getCookie, result, resultNoData } from "../../lib/quickapi";
+import { getBody, getCookie, result, resultNoData } from "../../lib/quickapi";
 import { hostTokenName } from "../../lib/env-values";
-import { Session, User } from "@supabase/supabase-js";
+import {User } from "@supabase/supabase-js";
 import redis from "../../lib/redis";
 import md5 from "md5";
 import { User_Profile } from "@/lib/supabase/profile";
