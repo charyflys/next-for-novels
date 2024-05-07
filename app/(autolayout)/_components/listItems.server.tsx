@@ -69,7 +69,7 @@ export const getServerSideProps = (async () => {
   return { props: { data } }
 }) satisfies GetServerSideProps<{ data: resBody }>
 
-export function SecondaryListItems({
+export default function SecondaryListItems({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (data&&data.role === 'admin') {

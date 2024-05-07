@@ -8,8 +8,10 @@ import AllLayout from "@/app/allayout"
 
 export default function RootLayout({
     children,
+    pageProps
   }: Readonly<{
-    children: React.ReactNode;
+    children: React.ReactNode,
+    pageProps: any
   }>) {
     // const router = useRouter()
     // const pushAlert = useAlertStore(state => state.setMsgAndColorAndOpen)
@@ -28,7 +30,7 @@ export default function RootLayout({
     // })
     return (
       <AllLayout props={{showcopyright:false}}>
-        <Dashboard>
+        <Dashboard {...pageProps}>
           {children}
         </Dashboard>
       </AllLayout>

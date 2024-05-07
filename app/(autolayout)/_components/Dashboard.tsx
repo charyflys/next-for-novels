@@ -15,7 +15,7 @@ import Container from '@mui/material/Container';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { MainListItems, SecondaryListItems } from './listItems.server';
+import SecondaryListItems,{ MainListItems, } from './listItems.server';
 
 import { Copyright } from '../../allayout';
 
@@ -72,8 +72,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function Dashboard({children}: Readonly<{
-  children: React.ReactNode;
+export default function Dashboard({children,pageProps}: Readonly<{
+  children: React.ReactNode,
+  pageProps: any
 }>) {
   const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
@@ -135,7 +136,7 @@ export default function Dashboard({children}: Readonly<{
           <List component="nav">
             <MainListItems />
             <Divider sx={{ my: 1 }} />
-            <SecondaryListItems data={undefined} />
+            <SecondaryListItems {...pageProps} />
           </List>
         </Drawer>
         <Box
