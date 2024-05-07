@@ -12,6 +12,8 @@ import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlin
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { Box } from '@mui/material';
 import { getProfile } from '@/request/profile';
+import { bo, F } from '@upstash/redis/zmscore-4382faf4';
+import { useLocalStorage } from '@/lib/frontquick';
 
 const MainList = [
   {
@@ -66,40 +68,43 @@ export const SecondaryList = [
 export default function SecondaryListItems() {
   const [secondaryList, setsecondaryList] = React.useState(SecondaryList)
   const [showAdmin, setShowAdmin] = useLocalStorage<boolean>('showAdmin', false)
-  getProfile().then(res => {
-    if (res.data.role === 'admin' || res.data.role === 'super') {
-      setShowAdmin(true)
-      setsecondaryList([
-        {
-          href: '/',
-          icon: SettingsOutlinedIcon,
-          label: '设置',
-        },
-      ])
-    }
-    else {
-      setShowAdmin(false)
-      setsecondaryList([
-        {
-          href: '/',
-          icon: SettingsOutlinedIcon,
-          label: '设置',
-        },
-        {
-          href: '/admin',
-          icon: ManageAccountsOutlinedIcon,
-          label: '管理',
-        }
-      ])
-    }
-  })  
-  if(secondaryList.length === 1&&showAdmin){
-      setsecondaryList([...secondaryList, {
-        href: '/admin',
-        icon: ManageAccountsOutlinedIcon,
-        label: '管理',
-      }])
-  } 
+  const [render, setRender] = useLocalStorage<{ render: boolean, timestamp: number }>('render', { render: false, timestamp: 0 })
+  if (!render || render.timestamp < Date.now() - 3600000)
+    getProfile().then(res => {
+      if (res.data.role === 'admin' || res.data.role === 'super') {
+        setShowAdmin(true)
+        setsecondaryList([
+          {
+            href: '/',
+            icon: SettingsOutlinedIcon,
+            label: '设置',
+          },
+        ])
+      }
+      else {
+        setShowAdmin(false)
+        setsecondaryList([
+          {
+            href: '/',
+            icon: SettingsOutlinedIcon,
+            label: '设置',
+          },
+          {
+            href: '/admin',
+            icon: ManageAccountsOutlinedIcon,
+            label: '管理',
+          }
+        ])
+      }
+      setRender({ render: true, timestamp: Date.now() })
+    })
+  if (secondaryList.length === 1 && showAdmin) {
+    setsecondaryList([...secondaryList, {
+      href: '/admin',
+      icon: ManageAccountsOutlinedIcon,
+      label: '管理',
+    }])
+  }
 
   return (
     <React.Fragment>
@@ -116,32 +121,4 @@ export default function SecondaryListItems() {
       })}
     </React.Fragment>
   );
-} 
-
-function useLocalStorage <T> (key: string, initialValue: T)  {
-  const [state, setState] = React.useState(() => {
-    // Initialize the state
-    try {
-      const value = window.localStorage.getItem(key)
-      // Check if the local storage already has any values,
-      // otherwise initialize it with the passed initialValue
-      return value ? JSON.parse(value) : initialValue
-    } catch (error) {
-      console.log(error)
-    }
-  })
-
-  const setValue = (value: (arg0: any) => any) => {
-    try {
-      // If the passed value is a callback function,
-      //  then call it with the existing state.
-      const valueToStore = value instanceof Function ? value(state) : value
-      window.localStorage.setItem(key, JSON.stringify(valueToStore))
-      setState(value)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  return [state, setValue]
 }
