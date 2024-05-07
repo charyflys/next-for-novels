@@ -12,6 +12,8 @@ import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlin
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { Box } from '@mui/material';
 import { getProfile } from '@/request/profile';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { resBody } from '@/lib/quickapi';
 
 const MainList = [
   {
@@ -36,20 +38,19 @@ const MainList = [
   },
 ]
 
-export function MainListItems ()
-{
+export function MainListItems() {
   return (
     <React.Fragment>
       {MainList.map(v => {
         return (
           <ListItemButton href={v.href} key={v.href}>
-          <ListItemIcon>
-            <Box component={v.icon}  />
-          </ListItemIcon>
-          <ListItemText primary={v.label} />
-        </ListItemButton>
+            <ListItemIcon>
+              <Box component={v.icon} />
+            </ListItemIcon>
+            <ListItemText primary={v.label} />
+          </ListItemButton>
         )
-  
+
       })}
     </React.Fragment>
   )
@@ -63,13 +64,19 @@ export const SecondaryList = [
   },
 ]
 
-export async function SecondaryListItems (){
+export const getServerSideProps = (async () => {
   const { data } = await getProfile();
+  return { props: { data } }
+}) satisfies GetServerSideProps<{ data: resBody }>
+
+export function SecondaryListItems({
+  data,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (data.role === 'admin') {
     SecondaryList.push({
       href: '/admin',
       icon: ManageAccountsOutlinedIcon,
-      label: '管理',  
+      label: '管理',
     });
   }
   return (
@@ -77,13 +84,13 @@ export async function SecondaryListItems (){
       {SecondaryList.map(v => {
         return (
           <ListItemButton href={v.href} key={v.href}>
-          <ListItemIcon>
-            <Box component={v.icon}  />
-          </ListItemIcon>
-          <ListItemText primary={v.label} />
-        </ListItemButton>
+            <ListItemIcon>
+              <Box component={v.icon} />
+            </ListItemIcon>
+            <ListItemText primary={v.label} />
+          </ListItemButton>
         )
-  
+
       })}
     </React.Fragment>
   );

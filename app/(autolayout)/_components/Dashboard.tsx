@@ -135,7 +135,7 @@ export default function Dashboard({children}: Readonly<{
           <List component="nav">
             <MainListItems />
             <Divider sx={{ my: 1 }} />
-            <SecondaryListItems />
+            <SecondaryListItems data={undefined} />
           </List>
         </Drawer>
         <Box
