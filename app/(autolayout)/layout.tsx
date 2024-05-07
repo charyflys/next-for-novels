@@ -1,10 +1,12 @@
-'use client'
+'use server'
 
 import Dashboard from "./_components/Dashboard"
 import AllLayout from "@/app/allayout"
 // import { useAlertStore } from '@/stores/Alert'
 // import { useRouter } from 'next/navigation';
 // import { CheckSession } from "@/request/signin";
+
+
 
 export default function RootLayout({
     children,
