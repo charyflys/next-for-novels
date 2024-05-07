@@ -65,7 +65,7 @@ export const SecondaryList = [
 export default function SecondaryListItems() {
   const [secondaryList, setsecondaryList] = React.useState(SecondaryList)
   getProfile().then(res => {
-    if (res.data.role === 'admin') {
+    if (res.data.role === 'admin' || res.data.role === 'super') {
       setsecondaryList([...secondaryList, {
         href: '/admin',
         icon: ManageAccountsOutlinedIcon,
