@@ -8,9 +8,10 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import CampaignOutlinedIcon from '@mui/icons-material/CampaignOutlined';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
-
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { Box } from '@mui/material';
+import { getProfile } from '@/request/profile';
 
 const MainList = [
   {
@@ -35,21 +36,24 @@ const MainList = [
   },
 ]
 
-export const mainListItems = (
-  <React.Fragment>
-    {MainList.map(v => {
-      return (
-        <ListItemButton href={v.href} key={v.href}>
-        <ListItemIcon>
-          <Box component={v.icon}  />
-        </ListItemIcon>
-        <ListItemText primary={v.label} />
-      </ListItemButton>
-      )
-
-    })}
-  </React.Fragment>
-)
+export function MainListItems ()
+{
+  return (
+    <React.Fragment>
+      {MainList.map(v => {
+        return (
+          <ListItemButton href={v.href} key={v.href}>
+          <ListItemIcon>
+            <Box component={v.icon}  />
+          </ListItemIcon>
+          <ListItemText primary={v.label} />
+        </ListItemButton>
+        )
+  
+      })}
+    </React.Fragment>
+  )
+}
 
 export const SecondaryList = [
   {
@@ -59,18 +63,25 @@ export const SecondaryList = [
   },
 ]
 
-export const secondaryListItems = (
-  <React.Fragment>
-    {SecondaryList.map(v => {
-      return (
-        <ListItemButton href={v.href} key={v.href}>
-        <ListItemIcon>
-          <Box component={v.icon}  />
-        </ListItemIcon>
-        <ListItemText primary={v.label} />
-      </ListItemButton>
-      )
-
-    })}
-  </React.Fragment>
-);
+export async function SecondaryListItems (){
+  (await getProfile()).data.role === 'admin' && SecondaryList.push({
+    href: '/admin',
+    icon: ManageAccountsOutlinedIcon,
+    label: '管理',
+  });
+  return (
+    <React.Fragment>
+      {SecondaryList.map(v => {
+        return (
+          <ListItemButton href={v.href} key={v.href}>
+          <ListItemIcon>
+            <Box component={v.icon}  />
+          </ListItemIcon>
+          <ListItemText primary={v.label} />
+        </ListItemButton>
+        )
+  
+      })}
+    </React.Fragment>
+  );
+} 
