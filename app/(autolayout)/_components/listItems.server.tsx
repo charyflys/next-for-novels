@@ -64,11 +64,14 @@ export const SecondaryList = [
 ]
 
 export async function SecondaryListItems (){
-  (await getProfile()).data.role === 'admin' && SecondaryList.push({
-    href: '/admin',
-    icon: ManageAccountsOutlinedIcon,
-    label: '管理',
-  });
+  const { data } = await getProfile();
+  if (data.role === 'admin') {
+    SecondaryList.push({
+      href: '/admin',
+      icon: ManageAccountsOutlinedIcon,
+      label: '管理',  
+    });
+  }
   return (
     <React.Fragment>
       {SecondaryList.map(v => {
