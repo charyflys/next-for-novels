@@ -72,7 +72,7 @@ export const getServerSideProps = (async () => {
 export function SecondaryListItems({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  if (data.role === 'admin') {
+  if (data&&data.role === 'admin') {
     SecondaryList.push({
       href: '/admin',
       icon: ManageAccountsOutlinedIcon,
