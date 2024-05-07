@@ -1,3 +1,4 @@
+'use client'
 
 import * as React from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -12,7 +13,6 @@ import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlin
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { Box } from '@mui/material';
 import { getProfile } from '@/request/profile';
-import { bo, F } from '@upstash/redis/zmscore-4382faf4';
 import { useLocalStorage } from '@/lib/frontquick';
 
 const MainList = [
