@@ -73,7 +73,7 @@ export default function SecondaryListItems() {
     getProfile().then(res => {
       if (res.data.role === 'admin' || res.data.role === 'super') {
         setShowAdmin(true)
-        setsecondaryList([
+        if(secondaryList.length!==1)setsecondaryList([
           {
             href: '/',
             icon: SettingsOutlinedIcon,
@@ -83,7 +83,7 @@ export default function SecondaryListItems() {
       }
       else {
         setShowAdmin(false)
-        setsecondaryList([
+        if(secondaryList.length===1)setsecondaryList([
           {
             href: '/',
             icon: SettingsOutlinedIcon,
@@ -104,6 +104,7 @@ export default function SecondaryListItems() {
       icon: ManageAccountsOutlinedIcon,
       label: '管理',
     }])
+    setRender({ render: true, timestamp: Date.now() })
   }
 
   return (
