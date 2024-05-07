@@ -92,7 +92,7 @@ const columns: GridColDef[] = [
 ];
 
 
-export function DataTable({rows}:{rows:Email_Access[]}) {
+function DataTable({rows}:{rows:Email_Access[]}) {
  
   return (
     <div style={{ height: 400, width: '100%' }}>
