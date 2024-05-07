@@ -15,7 +15,7 @@ import Container from '@mui/material/Container';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import SecondaryListItems,{ MainListItems, } from './listItems.server';
+import SecondaryListItems,{ MainListItems, } from './listItems';
 
 import { Copyright } from '../../allayout';
 

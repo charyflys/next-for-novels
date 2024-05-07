@@ -12,8 +12,6 @@ import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlin
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { Box } from '@mui/material';
 import { getProfile } from '@/request/profile';
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import { resBody } from '@/lib/quickapi';
 
 const MainList = [
   {
@@ -64,21 +62,17 @@ export const SecondaryList = [
   },
 ]
 
-export const getServerSideProps = (async () => {
-  const { data } = await getProfile();
-  return { props: { data } }
-}) satisfies GetServerSideProps<{ data: resBody }>
-
-export default function SecondaryListItems({
-  data,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  if (data&&data.role === 'admin') {
-    SecondaryList.push({
-      href: '/admin',
-      icon: ManageAccountsOutlinedIcon,
-      label: '管理',
-    });
-  }
+export default function SecondaryListItems() {
+  const [secondaryList, setsecondaryList] = React.useState(SecondaryList)
+  getProfile().then(res => {
+    if (res.data.role === 'admin') {
+      setsecondaryList([...secondaryList, {
+        href: '/admin',
+        icon: ManageAccountsOutlinedIcon,
+        label: '管理',
+      }])
+    }
+  })
   return (
     <React.Fragment>
       {SecondaryList.map(v => {
