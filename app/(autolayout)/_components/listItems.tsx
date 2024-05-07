@@ -75,7 +75,7 @@ export default function SecondaryListItems() {
   })
   return (
     <React.Fragment>
-      {SecondaryList.map(v => {
+      {secondaryList.map(v => {
         return (
           <ListItemButton href={v.href} key={v.href}>
             <ListItemIcon>
