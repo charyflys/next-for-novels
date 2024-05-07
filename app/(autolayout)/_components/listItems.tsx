@@ -35,7 +35,7 @@ const MainList = [
     label: '我的小说',
   },
 ]
-
+// 主列表，包括首页，公告，收藏，小说
 export function MainListItems() {
   return (
     <React.Fragment>
@@ -61,18 +61,46 @@ export const SecondaryList = [
     label: '设置',
   },
 ]
-
+// 次要列表
+// 管理员才显示管理选项
 export default function SecondaryListItems() {
   const [secondaryList, setsecondaryList] = React.useState(SecondaryList)
-  if(secondaryList.length === 1)getProfile().then(res => {
+  const [showAdmin, setShowAdmin] = useLocalStorage<boolean>('showAdmin', false)
+  getProfile().then(res => {
     if (res.data.role === 'admin' || res.data.role === 'super') {
+      setShowAdmin(true)
+      setsecondaryList([
+        {
+          href: '/',
+          icon: SettingsOutlinedIcon,
+          label: '设置',
+        },
+      ])
+    }
+    else {
+      setShowAdmin(false)
+      setsecondaryList([
+        {
+          href: '/',
+          icon: SettingsOutlinedIcon,
+          label: '设置',
+        },
+        {
+          href: '/admin',
+          icon: ManageAccountsOutlinedIcon,
+          label: '管理',
+        }
+      ])
+    }
+  })  
+  if(secondaryList.length === 1&&showAdmin){
       setsecondaryList([...secondaryList, {
         href: '/admin',
         icon: ManageAccountsOutlinedIcon,
         label: '管理',
       }])
-    }
-  })
+  } 
+
   return (
     <React.Fragment>
       {secondaryList.map(v => {
@@ -89,3 +117,31 @@ export default function SecondaryListItems() {
     </React.Fragment>
   );
 } 
+
+function useLocalStorage <T> (key: string, initialValue: T)  {
+  const [state, setState] = React.useState(() => {
+    // Initialize the state
+    try {
+      const value = window.localStorage.getItem(key)
+      // Check if the local storage already has any values,
+      // otherwise initialize it with the passed initialValue
+      return value ? JSON.parse(value) : initialValue
+    } catch (error) {
+      console.log(error)
+    }
+  })
+
+  const setValue = (value: (arg0: any) => any) => {
+    try {
+      // If the passed value is a callback function,
+      //  then call it with the existing state.
+      const valueToStore = value instanceof Function ? value(state) : value
+      window.localStorage.setItem(key, JSON.stringify(valueToStore))
+      setState(value)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return [state, setValue]
+}
