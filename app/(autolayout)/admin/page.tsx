@@ -1,3 +1,4 @@
+'use client'
 import { Email_Access } from "@/lib/supabase/email";
 import { getEmail } from "@/request/email";
 import { Box, Paper, Tab, Tabs, Typography } from "@mui/material";
