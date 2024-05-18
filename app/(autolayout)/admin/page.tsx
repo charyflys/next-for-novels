@@ -72,7 +72,6 @@ const columns: GridColDef[] = [
   {
     field: 'Status',
     headerName: '状态',
-    description: 'This column has a value getter and is not sortable.',
     sortable: false,
     width: 160,
     valueGetter: (value, row) => row.status ? '有效' : '无效',
@@ -80,15 +79,8 @@ const columns: GridColDef[] = [
   {
     field: 'role',
     headerName: '权限',
-    width: 90,
-  },
-  {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
+    description: 'super为超管，admin为管理员，空为普通用户',
     width: 160,
-    valueGetter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
   },
 ];
 
