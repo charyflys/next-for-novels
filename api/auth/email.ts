@@ -35,14 +35,14 @@ export async function POST(req: Request) {
 }
 
 export async function DELETE(req: Request) {
-    const { email } = await getBody<{ email: string, }>(req)
+    const { id } = await getBody<{ id: number, }>(req)
     const token = getCookie(req).get(hostTokenName)
     if (!token) return resultNoData('您未登录，请先登录', '401')
     const user = await redis.get<User&{ profile: User_Profile}>(md5(token))
     if (!user) return resultNoData('登陆过期', '401')
     if (!(user.profile.role === 'super' || user.profile.role === 'admin')) return resultNoData('无权限', '403')
     // const { data, error } = await supabase.auth.setSession(Session)
-    const { msg, err } = await removeEmail(email)
+    const { msg, err } = await removeEmail(id)
     return resultNoData(msg, err?'500':'200')
 
 }

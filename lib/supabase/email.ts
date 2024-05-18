@@ -25,11 +25,11 @@ export async function getAllCol() {
     return error ? [] : data
 }
 
-export async function removeEmail(email: string) {
-    if (!email) return { msg: 'no_email', err: true }
+export async function removeEmail(id: number) {
+    if (!id) return { msg: 'no_email', err: true }
     const { error } = await supabase.from(table_name)
         .delete()
-        .eq('email', email)
+        .eq('id', id)
     if (error) return { msg: error.message, err: true }
     return { msg: 'success' }
 }

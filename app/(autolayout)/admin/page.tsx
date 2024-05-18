@@ -1,24 +1,58 @@
 'use client'
 import { Email_Access } from "@/lib/supabase/email";
-import { getEmail } from "@/request/email";
-import { Box, Button, Paper, Tab, Tabs, Typography } from "@mui/material";
+import { deleteAccessEmail, getEmail } from "@/request/email";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Tab, Tabs, TextField, Typography } from "@mui/material";
 import { DataGrid, GridCallbackDetails, GridColDef, GridRowSelectionModel } from '@mui/x-data-grid';
 import React from "react";
 
 export default function Page() {
   const [value, setValue] = React.useState(0);
   const [rows, setRows] = React.useState<Email_Access[]>([]);
+  const [selectedRows, setSelectedRows] = React.useState<Array<number|string>>([]);
+  
+  
   if(rows.length === 0)getEmail().then(res => {
-    console.log('?');
     setRows(res.data);
   });
-  console.log(rows);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
   function onSelectChange(rowSelectionModel: GridRowSelectionModel, details: GridCallbackDetails<any>) {
-    console.log(rowSelectionModel,details);
+    setSelectedRows(rowSelectionModel);
   }
+  function handleDelete() {
+    const arr: Promise<any>[] = []
+    selectedRows.forEach(item => {
+      arr.push(deleteAccessEmail({id:item}))
+    })
+    Promise.all(arr).then(() => {
+      getEmail().then(res => {
+        setRows(res.data);
+      })
+    })
+  }
+
+  function handleAdd() {
+    //TODO
+
+  }
+
+  const [delOpen, setdelOpen] = React.useState(false);
+  const [addOpen, setAddOpen] = React.useState(false);
+  function delClose() {
+    setdelOpen(false);
+  }
+  function delDialogOpen() {
+    setdelOpen(true);
+  }
+
+  function addDialogOpen() {
+    setAddOpen(true);
+  }
+  function addClose() {
+    setAddOpen(false);
+  }
+
   return (
   <Paper>
     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -29,11 +63,65 @@ export default function Page() {
     </Box>
     <CustomTabPanel value={value} index={0}>
       <Box>
-        <Button>新增</Button>
-        <Button>删除</Button>
+        <Button onClick={addDialogOpen}>新增</Button>
+        <Button onClick={delDialogOpen}>删除</Button>
         {/* <Button>修改</Button> */}
       </Box>
       <DataTable rows={rows} onSelectChange={onSelectChange}/>
+      <Dialog
+        open={addOpen}
+        onClose={addClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Use Google's location service?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            请输入要新增的邮箱
+          </DialogContentText>
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="name"
+            name="email"
+            label="Email Address"
+            type="email"
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={addClose}>取消</Button>
+          <Button onClick={handleDelete} autoFocus>
+            提交
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={delOpen}
+        onClose={delClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Use Google's location service?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            确认删除？
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={delClose}>取消</Button>
+          <Button onClick={handleDelete} autoFocus color="error">
+            确认
+          </Button>
+        </DialogActions>
+      </Dialog>
     </CustomTabPanel>
     <CustomTabPanel value={value} index={1}>
       Item Two

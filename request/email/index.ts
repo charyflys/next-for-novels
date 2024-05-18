@@ -19,7 +19,7 @@ export async function addAccessEmail(data: { email: string }) {
     )
 }
 
-export async function deleteAccessEmail(data: { email: string }) {
+export async function deleteAccessEmail(data: { id: any }) {
     return await request<resBody>(
         'delete',
         url,
