@@ -57,7 +57,7 @@ const PROFILE_NAMES = [
 
 export type User_Profile = {
     role: 'super' | 'admin' | null,
-    nickname: string | null,
+    nickname: string | undefined,
     status: boolean,
     muted: number | null,
     avatar: string | null,
