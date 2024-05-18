@@ -1,10 +1,8 @@
 'use client'
 import { Email_Access } from "@/lib/supabase/email";
 import { getEmail } from "@/request/email";
-import { Box, Paper, Tab, Tabs, Typography } from "@mui/material";
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowModes, GridRowModesModel } from '@mui/x-data-grid';
+import { Box, Button, Paper, Tab, Tabs, Typography } from "@mui/material";
+import { DataGrid, GridCallbackDetails, GridColDef, GridRowSelectionModel } from '@mui/x-data-grid';
 import React from "react";
 
 export default function Page() {
@@ -16,6 +14,9 @@ export default function Page() {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+  function onSelectChange(rowSelectionModel: GridRowSelectionModel, details: GridCallbackDetails<any>) {
+    console.log(rowSelectionModel,details);
+  }
   return (
   <Paper>
     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -25,7 +26,12 @@ export default function Page() {
       </Tabs>
     </Box>
     <CustomTabPanel value={value} index={0}>
-      <DataTable rows={rows} />
+      <Box>
+        <Button>新增</Button>
+        <Button>删除</Button>
+        {/* <Button>修改</Button> */}
+      </Box>
+      <DataTable rows={rows} onSelectChange={onSelectChange}/>
     </CustomTabPanel>
     <CustomTabPanel value={value} index={1}>
       Item Two
@@ -66,69 +72,33 @@ function a11yProps(index: number) {
   };
 }
 
-function handleEditClick(id: any) {
-  return () => {
-    console.log(`Edit ${id}`);
-  };
-}
 
-function handleDeleteClick(id: any) {  
-  return () => {
-    console.log(`Delete ${id}`);
-  };
-}
+const columns: GridColDef[] = [
+  { field: 'id', headerName: 'ID', width: 70 },
+  { field: 'email', headerName: '邮箱', width: 130 },
+  // { field: 'status', headerName: '状态', width: 70 },
+  {
+    field: 'Status',
+    headerName: '状态',
+    sortable: false,
+    width: 160,
+    valueGetter: (value, row) => row.status ? '有效' : '无效',
+  },
+  {
+    field: 'role',
+    headerName: '权限',
+    description: 'super为超管，admin为管理员，空为普通用户',
+    width: 160,
+  },
+];
 
 
+function DataTable({rows, onSelectChange}:{rows:Email_Access[],onSelectChange:(rowSelectionModel: GridRowSelectionModel, details: GridCallbackDetails<any>)=>void}): JSX.Element {
 
-function DataTable({rows}:{rows:Email_Access[]}) {
-  const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'email', headerName: '邮箱', width: 130 },
-    // { field: 'status', headerName: '状态', width: 70 },
-    {
-      field: 'Status',
-      headerName: '状态',
-      sortable: false,
-      width: 160,
-      valueGetter: (value, row) => row.status ? '有效' : '无效',
-    },
-    {
-      field: 'role',
-      headerName: '权限',
-      description: 'super为超管，admin为管理员，空为普通用户',
-      width: 160,
-    },
-    {
-      field: 'actions',
-      type: 'actions',
-      headerName: '操作',
-      width: 100,
-      cellClassName: 'actions',
-      getActions: ({ id }) => {
-
-        return [
-          <GridActionsCellItem
-            key={id}
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            onClick={handleEditClick(id)}
-            color="inherit"
-          />,
-          <GridActionsCellItem
-            key={id}
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
-        ];
-      },
-    },
-  ];
   return (
     <div style={{ height: 400, width: '100%' }}>
       <DataGrid
+        onRowSelectionModelChange={onSelectChange}
         rows={rows}
         columns={columns}
         initialState={{
@@ -138,7 +108,6 @@ function DataTable({rows}:{rows:Email_Access[]}) {
         }}
         pageSizeOptions={[5, 10]}
         checkboxSelection
-        
       />
     </div>
   );
