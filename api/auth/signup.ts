@@ -23,7 +23,7 @@ export async function POST(req: Request): Promise<Response> {
         addProfile({
             id: data.user.id,
             role: access.role,
-            nickname: null,
+            nickname: undefined,
             status: true,
             muted: null,
             avatar: null,
