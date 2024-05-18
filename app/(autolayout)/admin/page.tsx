@@ -9,8 +9,10 @@ export default function Page() {
   const [value, setValue] = React.useState(0);
   const [rows, setRows] = React.useState<Email_Access[]>([]);
   if(rows.length === 0)getEmail().then(res => {
+    console.log('?');
     setRows(res.data);
   });
+  console.log(rows);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
