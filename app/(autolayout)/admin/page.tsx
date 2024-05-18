@@ -5,13 +5,12 @@ import { Box, Button, Paper, Tab, Tabs, Typography } from "@mui/material";
 import { DataGrid, GridCallbackDetails, GridColDef, GridRowSelectionModel } from '@mui/x-data-grid';
 import React from "react";
 
-export default async function Page() {
-  const { data } = await getEmail();
+export default function Page() {
   const [value, setValue] = React.useState(0);
-  const [rows, setRows] = React.useState<Email_Access[]>(data);
-  // getEmail().then(res => {
-  //   setRows(res.data);
-  // });
+  const [rows, setRows] = React.useState<Email_Access[]>([]);
+  rows||getEmail().then(res => {
+    setRows(res.data);
+  });
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
