@@ -1,4 +1,3 @@
-'use client'
 import { resBody } from "@/lib/quickapi";
 import { Email_Access } from "@/lib/supabase/email";
 import { getEmail } from "@/request/email";
