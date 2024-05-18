@@ -1,16 +1,24 @@
 'use client'
+import { resBody } from "@/lib/quickapi";
 import { Email_Access } from "@/lib/supabase/email";
 import { getEmail } from "@/request/email";
 import { Box, Button, Paper, Tab, Tabs, Typography } from "@mui/material";
 import { DataGrid, GridCallbackDetails, GridColDef, GridRowSelectionModel } from '@mui/x-data-grid';
+import { GetServerSideProps, InferGetServerSidePropsType } from "next/types";
 import React from "react";
 
-export default function Page() {
+
+export const getServerSideProps = (async () => {
+  const { data } = await getEmail();
+  return { props: { data } }
+}) satisfies GetServerSideProps<{ data: resBody }>
+
+export default function Page({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [value, setValue] = React.useState(0);
-  const [rows, setRows] = React.useState<Email_Access[]>([]);
-  getEmail().then(res => {
-    setRows(res.data);
-  });
+  const [rows, setRows] = React.useState<Email_Access[]>(data.data);
+  // getEmail().then(res => {
+  //   setRows(res.data);
+  // });
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };

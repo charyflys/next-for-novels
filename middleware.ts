@@ -78,5 +78,6 @@ export const config = {
         '/favorite',
         '/search',
         '/announce',
+        '/admin'
     ],
 };
