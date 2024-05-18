@@ -1,6 +1,6 @@
 'use client'
 import { Email_Access } from "@/lib/supabase/email";
-import { deleteAccessEmail, getEmail } from "@/request/email";
+import { addAccessEmail, deleteAccessEmail, getEmail } from "@/request/email";
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Tab, Tabs, TextField, Typography } from "@mui/material";
 import { DataGrid, GridCallbackDetails, GridColDef, GridRowSelectionModel } from '@mui/x-data-grid';
 import React from "react";
@@ -29,12 +29,18 @@ export default function Page() {
       getEmail().then(res => {
         setRows(res.data);
       })
+      delClose()
     })
   }
-
+  const [addEmail, setAddEmail] = React.useState('');
   function handleAdd() {
     //TODO
-
+    addAccessEmail({email:addEmail}).then(() => {
+      getEmail().then(res => {
+        setRows(res.data);  
+      })
+      addClose()
+    })
   }
 
   const [delOpen, setdelOpen] = React.useState(false);
@@ -75,7 +81,7 @@ export default function Page() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
+          {"新增"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -89,6 +95,7 @@ export default function Page() {
             name="email"
             label="Email Address"
             type="email"
+            onChange={(e) => {e.preventDefault();setAddEmail(e.target.value)}}
             fullWidth
             variant="standard"
           />
@@ -108,16 +115,16 @@ export default function Page() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
+          {"确认删除"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            确认删除？
+            确认删除选中的所有邮箱？
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={delClose}>取消</Button>
-          <Button onClick={handleDelete} autoFocus color="error">
+          <Button onClick={handleAdd} autoFocus color="error">
             确认
           </Button>
         </DialogActions>
