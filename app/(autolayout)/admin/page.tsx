@@ -8,7 +8,7 @@ import React from "react";
 export default function Page() {
   const [value, setValue] = React.useState(0);
   const [rows, setRows] = React.useState<Email_Access[]>([]);
-  rows||getEmail().then(res => {
+  if(rows.length === 0)getEmail().then(res => {
     setRows(res.data);
   });
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
