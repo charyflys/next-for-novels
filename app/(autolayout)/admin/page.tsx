@@ -95,6 +95,7 @@ export default function Page() {
             name="email"
             label="Email Address"
             type="email"
+            autoComplete="email"
             onChange={(e) => {e.preventDefault();setAddEmail(e.target.value)}}
             fullWidth
             variant="standard"

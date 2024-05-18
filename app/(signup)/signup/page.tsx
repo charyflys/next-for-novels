@@ -12,7 +12,6 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { SignUp as SignUpRequest } from '@/request/signup';
 import { useAlertStore } from '@/stores/Alert'
-import { AxiosError } from 'axios';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
