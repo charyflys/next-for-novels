@@ -102,7 +102,7 @@ export default function Page() {
         </DialogContent>
         <DialogActions>
           <Button onClick={addClose}>取消</Button>
-          <Button onClick={handleDelete} autoFocus>
+          <Button onClick={handleAdd} autoFocus>
             提交
           </Button>
         </DialogActions>
@@ -124,7 +124,7 @@ export default function Page() {
         </DialogContent>
         <DialogActions>
           <Button onClick={delClose}>取消</Button>
-          <Button onClick={handleAdd} autoFocus color="error">
+          <Button onClick={handleDelete} autoFocus color="error">
             确认
           </Button>
         </DialogActions>
