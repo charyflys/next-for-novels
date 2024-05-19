@@ -17,7 +17,6 @@ export default function Home() {
                 <Box component='form' onSubmit={handleSubmit}>
                     <TextField
                         name="search"
-                        label="搜索"
                         variant="standard"
                         InputProps={{
                         startAdornment: (
