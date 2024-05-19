@@ -1,3 +1,5 @@
+'use client'
+
 import { Grid, Card, Paper,TextField, InputAdornment, Box, Button } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import { SimpleNovel } from "./_components/SimpleNovel";
