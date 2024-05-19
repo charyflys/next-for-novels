@@ -18,6 +18,7 @@ export default function Home() {
                     <TextField
                         name="search"
                         label="搜索"
+                        variant="standard"
                         InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
