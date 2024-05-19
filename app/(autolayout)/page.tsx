@@ -14,16 +14,22 @@ export default function Home() {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <Box component='form' onSubmit={handleSubmit}>
+                <Box 
+                    component='form' 
+                    onSubmit={handleSubmit}
+                    display="flex"
+                    alignItems="center"
+                >
                     <TextField
                         name="search"
                         variant="standard"
+                        fullWidth 
                         InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <Search />
-                            </InputAdornment>
-                        ),
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <Search />
+                                </InputAdornment>
+                            ),
                         }}
                     />
                     <Button type="submit">搜索</Button>
