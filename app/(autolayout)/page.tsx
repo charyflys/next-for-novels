@@ -3,7 +3,7 @@
 import { Grid, Typography, Paper,TextField, InputAdornment, Box, Button } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import { SimpleNovel } from "./_components/SimpleNovel";
-
+import NovelCard from "./_components/NovelCard";
 export default function Home() {
     function handleSubmit(e: React.FormEvent<HTMLFormElement>,) {
         e.preventDefault();
@@ -39,8 +39,32 @@ export default function Home() {
           推荐小说
         </Typography>
         <Grid container spacing={4}>
+            <NovelCard
+                name="hello"
+                img="http://lz.sinaimg.cn/large/8a65eec0gy1hnttgax1tej207i0aidh8.jpg"
+                description="简介"
+            ></NovelCard>
+            <NovelCard
+                name="hello"
+                img="http://lz.sinaimg.cn/large/8a65eec0gy1hnttgax1tej207i0aidh8.jpg"
+                description="简介"
+
+            ></NovelCard>
+            <NovelCard
+                name="hello"
+                img="http://lz.sinaimg.cn/large/8a65eec0gy1hnttgax1tej207i0aidh8.jpg"
+                description="简介"
+
+            ></NovelCard>
+            <NovelCard
+                name="hello"
+                img="http://lz.sinaimg.cn/large/8a65eec0gy1hnttgax1tej207i0aidh8.jpg"
+                description="简介"
+
+            ></NovelCard>
+            
           {/* Example Recommended Novels */}
-          <Grid item xs={12} sm={6} md={4}>
+          {/* <Grid item xs={12} sm={6} md={4}>
             <Paper elevation={3} sx={{ p: 2 }}>
               <Typography variant="h6">小说 1</Typography>
               <Typography>简介...</Typography>
@@ -57,7 +81,7 @@ export default function Home() {
               <Typography variant="h6">小说 3</Typography>
               <Typography>简介...</Typography>
             </Paper>
-          </Grid>
+          </Grid> */}
         </Grid>
         <Box sx={{ my: 4 }}>
           <Typography variant="h5" component="h2" gutterBottom>
