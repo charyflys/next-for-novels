@@ -71,6 +71,7 @@ export default function SecondaryListItems() {
   const [render, setRender] = useLocalStorage<{ render: boolean, timestamp: number }>('render', { render: false, timestamp: 0 })
   if (!render || render.timestamp < Date.now() - 3600000)
     getProfile().then(res => {
+      console.log(res)
       if (res.data.role === 'admin' || res.data.role === 'super') {
         setShowAdmin(true)
         if(secondaryList.length!==1)setsecondaryList([
