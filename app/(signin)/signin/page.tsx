@@ -14,11 +14,14 @@ import { useRouter } from 'next/navigation';
 import { useAlertStore } from '@/stores/Alert'
 
 import { SignIn } from '@/request/signin';
+import { useLocalStorage } from '@/lib/frontquick';
 // TODO remove, this demo shouldn't need to reset the theme.t
 
 export default function Login() {
   const router = useRouter()
   const pushAlert = useAlertStore(state => state.setMsgAndColorAndOpen)
+  const [showAdmin, setShowAdmin] = useLocalStorage<boolean>('showAdmin', false)
+  const [render, setRender] = useLocalStorage<{ render: boolean, timestamp: number }>('render', { render: false, timestamp: 0 })
 
   const handleSubmit =async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,8 +34,10 @@ export default function Login() {
     }
     SignIn(email,password)
     .then((res) => {
-      console.log(res)
+      // console.log(res)
       if(res.code==='200'){
+        setShowAdmin(false)
+        setRender({ render: false, timestamp: 0 })
         router.push('/')
         pushAlert('登录成功','success')
       }
