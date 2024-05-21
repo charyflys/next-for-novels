@@ -8,7 +8,10 @@ export async function POST(req:Request) {
     obj.forEach((item,key) => {
         res[key] = item
         if (item instanceof Blob) {
-            res[key] = item.size
+            res[key+'Size'] = item.size
+            res[key+'Type'] = item.type
+            res[key+'Name'] = item.name
+            res[key+'LastModified'] = item.lastModified
         }
     })  
     // const form = new multiparty.Form();
