@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 function PostForm() {
     return request(
         'post',
-        '/api/test/formdata',
+        '/test/formdata',
         {
             name: 'test',
             age: 20,

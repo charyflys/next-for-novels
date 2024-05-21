@@ -72,6 +72,7 @@ export default function request<T> (
       file = new FormData();
       for(const key in submitData){
         if(!(submitData[key] instanceof Array)){
+          console.log(submitData[key]);
           file.append(key,submitData[key]);
         } else {
           submitData[key].forEach((item:any) => {
