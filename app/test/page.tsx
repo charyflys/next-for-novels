@@ -13,9 +13,13 @@ function PostForm() {
         }
     )
 }
+function handleClick() {
+    console.log('clicked');
+    PostForm();
+}
 
 export default function Page() {
   return <div>
-    <Button onAbort={PostForm}>formdata</Button>
+    <Button onClick={handleClick}>formdata</Button>
   </div>;
 }
