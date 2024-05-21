@@ -10,7 +10,8 @@ function PostForm() {
             name: 'test',
             age: 20,
             file: new File(['hello world'], 'hello.txt', { type: 'text/plain' })
-        }
+        },
+        'formdata'
     )
 }
 function handleClick() {
