@@ -1,3 +1,4 @@
+'use client'
 import request from "@/request";
 import { Button } from "@mui/material";
 
