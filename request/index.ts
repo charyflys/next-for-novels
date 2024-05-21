@@ -55,8 +55,8 @@ export default function request<T> (
     method: 'post'|'get'|'put'|'delete', 
     url: string, 
     submitData?: any, 
-    ContentType?: 'form'|'file'|'files'|'rest'|'json') {
-  let file,contentType:string
+    ContentType?: 'form'|'file'|'files'|'rest'|'json'|'formdata') {
+  let file: FormData,contentType:string
   switch (ContentType) {
     case "form":
       contentType = "application/x-www-form-urlencoded";
@@ -67,12 +67,21 @@ export default function request<T> (
       file.append('imgFile',submitData as Blob);
       submitData = file;
       break;
-    case "files":
+    case "formdata":
         contentType = "multipart/form-data";
       file = new FormData();
-      for(let i:number = 0;i<submitData.length;i++) {
-        file.append('file',submitData[i]);
+      for(const key in submitData){
+        if(!(submitData[key] instanceof Array)){
+          file.append(key,submitData[key]);
+        } else {
+          submitData[key].forEach((item:any) => {
+            file.append(key,item);
+          });
+        }
       }
+      // for(let i:number = 0;i<submitData.length;i++) {
+      //   file.append('file',submitData[i]);
+      // }
       submitData = file;
       break;
     case "rest":

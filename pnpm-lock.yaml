@@ -35,6 +35,9 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.42.5
         version: 2.42.5(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@types/lzma':
+        specifier: ^2.3.0
+        version: 2.3.0
       '@types/md5':
         specifier: ^2.3.5
         version: 2.3.5
@@ -56,6 +59,9 @@ importers:
       jose:
         specifier: ^5.2.4
         version: 5.2.4
+      lzma:
+        specifier: ^2.3.2
+        version: 2.3.2
       magic-sdk:
         specifier: ^28.0.3
         version: 28.0.3
@@ -963,6 +969,9 @@ packages:
 
   '@types/keyv@3.1.4':
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
+
+  '@types/lzma@2.3.0':
+    resolution: {integrity: sha512-z7TknP6ts5GPnN7P2bkZC1B/tMpoMJXG3UnPY1XDrwBq1OJQ2EpHtEypFwq5Q0A5iS37+oc+MT/o/B7x5lgl8Q==}
 
   '@types/md5@2.3.5':
     resolution: {integrity: sha512-/i42wjYNgE6wf0j2bcTX6kuowmdL/6PE4IVitMpm2eYKBUuYCprdcWVK+xEF0gcV6ufMCRhtxmReGfc6hIK7Jw==}
@@ -2736,6 +2745,10 @@ packages:
 
   lz-string@1.5.0:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
+    hasBin: true
+
+  lzma@2.3.2:
+    resolution: {integrity: sha512-DcfiawQ1avYbW+hsILhF38IKAlnguc/fjHrychs9hdxe4qLykvhT5VTGNs5YRWgaNePh7NTxGD4uv4gKsRomCQ==}
     hasBin: true
 
   magic-sdk@28.0.3:
@@ -4970,6 +4983,10 @@ snapshots:
   '@types/json5@0.0.29': {}
 
   '@types/keyv@3.1.4':
+    dependencies:
+      '@types/node': 20.12.7
+
+  '@types/lzma@2.3.0':
     dependencies:
       '@types/node': 20.12.7
 
@@ -7233,6 +7250,8 @@ snapshots:
       yallist: 4.0.0
 
   lz-string@1.5.0: {}
+
+  lzma@2.3.2: {}
 
   magic-sdk@28.0.3:
     dependencies:

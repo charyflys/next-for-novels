@@ -14,6 +14,7 @@ novel_id (主键): 唯一标识每本小说
 title: 小说标题
 cover: 小说封面
 status: 状态，0表示未完结，1表示完结
+hidden: 是否隐藏，0表示不隐藏，1表示隐藏
 author_id (外键): 作者ID，关联到 Author 表
 description: 小说简介
 created_at: 创建时间
@@ -39,3 +40,6 @@ content: 文章内容
 article_number: 文章编号，表示在该章节中的顺序
 created_at: 创建时间
 updated_at: 更新时间
+
+为考虑到数据库大小问题，文本压缩引入LZMA算法。
+article上传和编辑的作者认证问题
