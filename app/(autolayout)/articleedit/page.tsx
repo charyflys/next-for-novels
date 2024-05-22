@@ -1,5 +1,5 @@
 'use client'
-import { Container, Typography, TextField, Box, Button, Grid } from '@mui/material';
+import { Container, Typography, TextField, Box, Button, Grid, Paper, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
 import { useState } from 'react';
 
 export default function EditArticle() {
@@ -25,49 +25,55 @@ export default function EditArticle() {
           <Typography variant="h4" component="h1" gutterBottom>
             编辑文章
           </Typography>
-          <Grid container spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={12} sm={6} md={4}>
-              <TextField
-                label="标题"
-                variant="outlined"
-                fullWidth
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={4}>
+              <Paper sx={{ p: 2 }}>
+                <Box sx={{ mb: 2 }}>
+                  <TextField
+                    label="标题"
+                    variant="outlined"
+                    fullWidth
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </Box>
+                <Box sx={{ mb: 2 }}>
+                  <TextField
+                    label="对应章节"
+                    variant="outlined"
+                    fullWidth
+                    value={chapter}
+                    onChange={(e) => setChapter(e.target.value)}
+                  />
+                </Box>
+                <Box sx={{ mb: 2 }}>
+                  <TextField
+                    label="章节内编号"
+                    variant="outlined"
+                    fullWidth
+                    value={sectionNumber}
+                    onChange={(e) => setSectionNumber(e.target.value)}
+                  />
+                </Box>
+                <Button variant="contained" color="primary" onClick={handleSave} fullWidth>
+                  保存
+                </Button>
+              </Paper>
             </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <TextField
-                label="对应章节"
-                variant="outlined"
-                fullWidth
-                value={chapter}
-                onChange={(e) => setChapter(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <TextField
-                label="章节内编号"
-                variant="outlined"
-                fullWidth
-                value={sectionNumber}
-                onChange={(e) => setSectionNumber(e.target.value)}
-              />
+            <Grid item xs={12} md={8}>
+              <Paper sx={{ p: 2, height: '100%' }}>
+                <TextField
+                  label="内容"
+                  variant="outlined"
+                  fullWidth
+                  multiline
+                  rows={20}
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                />
+              </Paper>
             </Grid>
           </Grid>
-          <TextField
-            label="内容"
-            variant="outlined"
-            fullWidth
-            multiline
-            rows={20}
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
-          <Box sx={{ mt: 2 }}>
-            <Button variant="contained" color="primary" onClick={handleSave}>
-              保存
-            </Button>
-          </Box>
         </Box>
       </Container>
     </>
