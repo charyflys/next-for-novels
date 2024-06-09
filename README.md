@@ -22,24 +22,28 @@ updated_at: 更新时间
 Author 表：存储作者的信息，不使用，改使用Profile表。
 id可能危险吗？不确定
 
-章节表
-chapter_id (主键): 唯一标识每个章节
-novel_id (外键): 小说ID，关联到 Novel 表
-title: 章节标题
-chapter_number: 章节编号
-created_at: 创建时间
-updated_at: 更新时间
-
-
-Article 表：存储文章的信息。
-
-article_id (主键): 唯一标识每篇文章
-chapter_id (外键): 章节ID，关联到 Chapter 表
-title: 文章标题
-content: 文章内容
-article_number: 文章编号，表示在该章节中的顺序
-created_at: 创建时间
-updated_at: 更新时间
-
 为考虑到数据库大小问题，文本压缩引入LZMA算法。
 article上传和编辑的作者认证问题
+
+由于article压缩后的二进制文件无法传输到数据库中，再使用base64又会变大，与压缩的初衷不符
+使用supabase的二进制存储解决
+更改原有的表设置，为novel表添加一个json存储的字段来存储目录，
+
+json格式
+[
+    {
+        chapter_name: '章节名称',
+        index: <章节序列>,
+        [
+            {
+                article_name: '文章内容',
+                index: <文章序列>,
+                created_at: 创建时间,
+                updated_at: 更新时间,
+                exist: boolean //不推荐先设置目录后输入文章
+            }
+        ]
+    }
+]
+文章存储路径为
+/(md5小说名+作者名)/(章名)/(节名)
