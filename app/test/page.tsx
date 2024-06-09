@@ -4,8 +4,9 @@ import request from "@/request";
 import { Article } from "@/types/Article";
 import { Button } from "@mui/material";
 // import { compress, decompress } from "lzma";
-import {decompress,compress} from 'lzma/src/lzma_worker'
-
+import lzma from 'lzma/src/lzma_worker'
+const compress = lzma.compress
+const decompress = lzma.decompress
 
 function PostForm() {
     return request(
