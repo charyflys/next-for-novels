@@ -33,7 +33,7 @@ function UploadFile() {
   )
 }
 async function getArticle(articlepath: string) {
-  return await fetch('/test/uploadfile'+`?article=${articlepath}`)
+  return await fetch('/api/test/uploadfile'+`?article=${articlepath}`)
   .then(res=>res.arrayBuffer())
   .then(arrbuf=> {
       const uint8arr = new Uint8Array(arrbuf)
