@@ -93,7 +93,7 @@ function clickGetArticle() {
   getArticle('/test/article.txt')
 }
 export default function Page() {
-  console.log(decompress,compress)
+  console.log(decompress,compress,lzma)
   return <div>
     <Button onClick={handleClick}>formdata</Button>
     <Button onClick={handleClick1}>uploadfile</Button>
