@@ -23,7 +23,7 @@ function PostForm() {
 function UploadFile() {
   return request(
       'post',
-      '/test/uploadfile',
+      '/api/test/uploadfile',
       {
           name: 'test',
           age: 20,
