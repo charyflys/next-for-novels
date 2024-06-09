@@ -1,5 +1,5 @@
 import { getBody, result } from "../../lib/quickapi";
-import { addArticle, getArticle } from "@/lib/supabase/articleBlob";
+import { addArticle, getArticle } from "../../lib/supabase/articleBlob";
 
 
 export async function POST(req:Request) {
