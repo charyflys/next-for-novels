@@ -54,9 +54,10 @@ async function addArticle(data: Article) {
               updated_at,
               exist,
           } = data
-          const length = result.byteLength
-          const blob = new Blob(result)
-          console.log(blob,result)
+          const uint8arr = new Uint8Array(result as Array<number>)
+          const str = new TextDecoder().decode(uint8arr)
+          const blob = new Blob([uint8arr])
+          console.log(blob,result,str)
           // const blob2 = new Blob([new TextDecoder().decode(result)])
           resolve(request<resBody>(
               'post',
