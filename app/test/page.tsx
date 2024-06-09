@@ -33,7 +33,7 @@ function UploadFile() {
   )
 }
 async function getArticle(articlepath: string) {
-  return await fetch('/api/test/uploadfile'+`?article=${articlepath}`)
+  return await fetch('/api/test/uploadfile'+`?name=${articlepath}`)
   .then(res=>res.arrayBuffer())
   .then(arrbuf=> {
       const uint8arr = new Uint8Array(arrbuf)
@@ -54,6 +54,9 @@ async function addArticle(data: Article) {
               updated_at,
               exist,
           } = data
+
+          const blob = new Blob([result])
+          console.log(blob,result)
           resolve(request<resBody>(
               'post',
               '/test/uploadfile',
@@ -63,7 +66,7 @@ async function addArticle(data: Article) {
                   created_at,
                   updated_at,
                   exist,
-                  content: new Blob([result])
+                  content: blob
               },
               'formdata'
           ))
