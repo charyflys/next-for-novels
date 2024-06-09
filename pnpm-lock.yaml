@@ -65,6 +65,9 @@ importers:
       lzma:
         specifier: ^2.3.2
         version: 2.3.2
+      lzma-web:
+        specifier: ^3.0.1
+        version: 3.0.1
       magic-sdk:
         specifier: ^28.0.3
         version: 28.0.3
@@ -2763,6 +2766,9 @@ packages:
   lz-string@1.5.0:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
     hasBin: true
+
+  lzma-web@3.0.1:
+    resolution: {integrity: sha512-sb5cdfd+PLNljK/HUgYzvnz4G7r0GFK8sonyGrqJS0FVyUQjFYcnmU2LqTWFi6r48lH1ZBstnxyLWepKM/t7QA==}
 
   lzma@2.3.2:
     resolution: {integrity: sha512-DcfiawQ1avYbW+hsILhF38IKAlnguc/fjHrychs9hdxe4qLykvhT5VTGNs5YRWgaNePh7NTxGD4uv4gKsRomCQ==}
@@ -7304,6 +7310,8 @@ snapshots:
       yallist: 4.0.0
 
   lz-string@1.5.0: {}
+
+  lzma-web@3.0.1: {}
 
   lzma@2.3.2: {}
 

@@ -4,69 +4,69 @@ import request from "@/request";
 import { Article } from "@/types/Article";
 import { Button } from "@mui/material";
 // import { compress, decompress } from "lzma";
-
+import LZMA from 'lzma-web'
+const lzma = new LZMA()
 function PostForm() {
-    return request(
-        'post',
-        '/test/formdata',
-        {
-            name: 'test',
-            age: 20,
-            file: new File(['hello world'], 'hello.txt', { type: 'text/plain' })
-        },
-        'formdata'
-    )
+  return request(
+    'post',
+    '/test/formdata',
+    {
+      name: 'test',
+      age: 20,
+      file: new File(['hello world'], 'hello.txt', { type: 'text/plain' })
+    },
+    'formdata'
+  )
 }
 function UploadFile() {
   return request(
+    'post',
+    '/test/uploadfile',
+    {
+      name: 'test',
+      age: 20,
+      file: new File(['hello world'], 'hello.txt', { type: 'text/plain' })
+    },
+    'formdata'
+  )
+}
+async function getArticle(articlepath: string) {
+  return await fetch('/test/uploadfile' + `?article=${articlepath}`)
+    .then(res => res.arrayBuffer())
+    .then(arrbuf => {
+      const uint8arr = new Uint8Array(arrbuf)
+      lzma.decompress(uint8arr).then((result) => {
+        console.log(result)
+      })
+    })
+}
+
+async function addArticle(data: Article) {
+  return lzma.compress(data.content, 8).then((result) => {
+    const {
+      name,
+      index,
+      created_at,
+      updated_at,
+      exist,
+    } = data
+    return request<resBody>(
       'post',
       '/test/uploadfile',
       {
-          name: 'test',
-          age: 20,
-          file: new File(['hello world'], 'hello.txt', { type: 'text/plain' })
+        name,
+        index,
+        created_at,
+        updated_at,
+        exist,
+        content: result
       },
       'formdata'
-  )
+    )
+  }).catch(() => {
+    return({ code:'500', msg: 'compress failed' })
+  })
 }
-// async function getArticle(articlepath: string) {
-//   return await fetch('/test/uploadfile'+`?article=${articlepath}`)
-//   .then(res=>res.arrayBuffer())
-//   .then(arrbuf=> {
-//       const uint8arr = new Uint8Array(arrbuf)
-//       decompress(uint8arr,(result,error) => {
-//           console.log(result,error)
-//       })
-//   })
-// }
-
-// async function addArticle(data: Article) {
-//   return new Promise((resolve,reject) => {
-//       compress(data.content,8,(result,error) => {
-//           if (error)reject({ code:'500', msg: 'compress failed' })
-//           const {
-//               name,
-//               index,
-//               created_at,
-//               updated_at,
-//               exist,
-//           } = data
-//           resolve(request<resBody>(
-//               'post',
-//               '/test/uploadfile',
-//               {
-//                   name,
-//                   index,
-//                   created_at,
-//                   updated_at,
-//                   exist,
-//                   content: result
-//               },
-//               'formdata'
-//           ))
-//       })
-//   })
-// }
 
 function handleClick() {
   console.log('clicked');
@@ -95,5 +95,5 @@ export default function Page() {
     <Button onClick={handleClick1}>uploadfile</Button>
     <Button onClick={clickAddArticle}>add</Button>
     <Button onClick={clickGetArticle}>get</Button>
-    </div>;
+  </div>;
 }
