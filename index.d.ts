@@ -8,7 +8,7 @@ declare module 'lzma/src/lzma_worker' {
         compress(
             str: Buffer | string | Uint8Array,
             mode: Mode,
-            on_finish: (result: Uint8Array, error?: Error) => void,
+            on_finish: (result: Array, error?: Error) => void,
             on_progress?: (percent: number) => void,
         ): void,
     
