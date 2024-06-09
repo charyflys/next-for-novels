@@ -3,10 +3,12 @@ import { resBody } from "@/lib/quickapi";
 import request from "@/request";
 import { Article } from "@/types/Article";
 import { Button } from "@mui/material";
-import 'lzma-purejs'
+// import 'lzma-purejs'
 // import { compress, decompress } from "lzma";
 // import LZMA from 'lzma-web'
 // const lzma = new LZMA()
+import lzma_worker from 'lzma/src/lzma_worker'
+
 function PostForm() {
   return request(
     'post',
