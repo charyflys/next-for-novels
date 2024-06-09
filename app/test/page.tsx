@@ -54,9 +54,10 @@ async function addArticle(data: Article) {
               updated_at,
               exist,
           } = data
-
+          const length = result.byteLength
           const blob = new Blob([result])
-          console.log(blob,result)
+          const blob2 = new Blob([result.buffer])
+          console.log(blob,length,blob2)
           resolve(request<resBody>(
               'post',
               '/test/uploadfile',
