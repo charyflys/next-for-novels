@@ -56,8 +56,8 @@ async function addArticle(data: Article) {
           } = data
           const length = result.byteLength
           const blob = new Blob([result])
-          const blob2 = new Blob([new TextDecoder().decode(result)])
-          console.log(blob,length,blob2)
+          console.log(blob,result)
+          // const blob2 = new Blob([new TextDecoder().decode(result)])
           resolve(request<resBody>(
               'post',
               '/test/uploadfile',
@@ -67,7 +67,7 @@ async function addArticle(data: Article) {
                   created_at,
                   updated_at,
                   exist,
-                  content: blob2
+                  content: blob
               },
               'formdata'
           ))
