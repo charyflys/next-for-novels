@@ -3,7 +3,7 @@ import { resBody } from "@/lib/quickapi";
 import request from "@/request";
 import { Article } from "@/types/Article";
 import { Button } from "@mui/material";
-import { compress, decompress } from "lzma";
+// import { compress, decompress } from "lzma";
 
 function PostForm() {
     return request(
@@ -29,44 +29,44 @@ function UploadFile() {
       'formdata'
   )
 }
-async function getArticle(articlepath: string) {
-  return await fetch('/test/uploadfile'+`?article=${articlepath}`)
-  .then(res=>res.arrayBuffer())
-  .then(arrbuf=> {
-      const uint8arr = new Uint8Array(arrbuf)
-      decompress(uint8arr,(result,error) => {
-          console.log(result,error)
-      })
-  })
-}
+// async function getArticle(articlepath: string) {
+//   return await fetch('/test/uploadfile'+`?article=${articlepath}`)
+//   .then(res=>res.arrayBuffer())
+//   .then(arrbuf=> {
+//       const uint8arr = new Uint8Array(arrbuf)
+//       decompress(uint8arr,(result,error) => {
+//           console.log(result,error)
+//       })
+//   })
+// }
 
-async function addArticle(data: Article) {
-  return new Promise((resolve,reject) => {
-      compress(data.content,8,(result,error) => {
-          if (error)reject({ code:'500', msg: 'compress failed' })
-          const {
-              name,
-              index,
-              created_at,
-              updated_at,
-              exist,
-          } = data
-          resolve(request<resBody>(
-              'post',
-              '/test/uploadfile',
-              {
-                  name,
-                  index,
-                  created_at,
-                  updated_at,
-                  exist,
-                  content: result
-              },
-              'formdata'
-          ))
-      })
-  })
-}
+// async function addArticle(data: Article) {
+//   return new Promise((resolve,reject) => {
+//       compress(data.content,8,(result,error) => {
+//           if (error)reject({ code:'500', msg: 'compress failed' })
+//           const {
+//               name,
+//               index,
+//               created_at,
+//               updated_at,
+//               exist,
+//           } = data
+//           resolve(request<resBody>(
+//               'post',
+//               '/test/uploadfile',
+//               {
+//                   name,
+//                   index,
+//                   created_at,
+//                   updated_at,
+//                   exist,
+//                   content: result
+//               },
+//               'formdata'
+//           ))
+//       })
+//   })
+// }
 
 function handleClick() {
   console.log('clicked');
