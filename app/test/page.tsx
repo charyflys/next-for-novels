@@ -3,9 +3,10 @@ import { resBody } from "@/lib/quickapi";
 import request from "@/request";
 import { Article } from "@/types/Article";
 import { Button } from "@mui/material";
+import 'lzma-purejs'
 // import { compress, decompress } from "lzma";
-import LZMA from 'lzma-web'
-const lzma = new LZMA()
+// import LZMA from 'lzma-web'
+// const lzma = new LZMA()
 function PostForm() {
   return request(
     'post',
@@ -30,43 +31,43 @@ function UploadFile() {
     'formdata'
   )
 }
-async function getArticle(articlepath: string) {
-  return await fetch('/test/uploadfile' + `?article=${articlepath}`)
-    .then(res => res.arrayBuffer())
-    .then(arrbuf => {
-      const uint8arr = new Uint8Array(arrbuf)
-      lzma.decompress(uint8arr).then((result) => {
-        console.log(result)
-      })
-    })
-}
+// async function getArticle(articlepath: string) {
+//   return await fetch('/test/uploadfile' + `?article=${articlepath}`)
+//     .then(res => res.arrayBuffer())
+//     .then(arrbuf => {
+//       const uint8arr = new Uint8Array(arrbuf)
+//       lzma.decompress(uint8arr).then((result) => {
+//         console.log(result)
+//       })
+//     })
+// }
 
-async function addArticle(data: Article) {
-  return lzma.compress(data.content, 8).then((result) => {
-    const {
-      name,
-      index,
-      created_at,
-      updated_at,
-      exist,
-    } = data
-    return request<resBody>(
-      'post',
-      '/test/uploadfile',
-      {
-        name,
-        index,
-        created_at,
-        updated_at,
-        exist,
-        content: result
-      },
-      'formdata'
-    )
-  }).catch(() => {
-    return({ code:'500', msg: 'compress failed' })
-  })
-}
+// async function addArticle(data: Article) {
+//   return lzma.compress(data.content, 8).then((result) => {
+//     const {
+//       name,
+//       index,
+//       created_at,
+//       updated_at,
+//       exist,
+//     } = data
+//     return request<resBody>(
+//       'post',
+//       '/test/uploadfile',
+//       {
+//         name,
+//         index,
+//         created_at,
+//         updated_at,
+//         exist,
+//         content: result
+//       },
+//       'formdata'
+//     )
+//   }).catch(() => {
+//     return({ code:'500', msg: 'compress failed' })
+//   })
+// }
 
 function handleClick() {
   console.log('clicked');
