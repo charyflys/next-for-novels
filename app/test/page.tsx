@@ -67,7 +67,7 @@ async function addArticle(data: Article) {
                   created_at,
                   updated_at,
                   exist,
-                  content: blob
+                  content: blob2
               },
               'formdata'
           ))
