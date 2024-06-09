@@ -56,7 +56,7 @@ async function addArticle(data: Article) {
           } = data
           const length = result.byteLength
           const blob = new Blob([result])
-          const blob2 = new Blob([result.buffer])
+          const blob2 = new Blob([new TextDecoder().decode(result)])
           console.log(blob,length,blob2)
           resolve(request<resBody>(
               'post',
