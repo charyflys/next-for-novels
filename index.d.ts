@@ -1,3 +1,5 @@
+
+
 declare module 'lzma/src/lzma_worker' {
     export const LZMA: {
         compress(
@@ -23,3 +25,4 @@ declare module 'lzma/src/lzma_worker' {
         ): void;
     }
 }
+
