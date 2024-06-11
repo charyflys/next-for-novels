@@ -33,5 +33,12 @@ export async function GET(req:Request) {
     if (re.err) {
         return resultNoData(re.msg,'403')
     }
-    return new Response(re.file,{status: 200,})
+    return new Response(re.file,
+        {
+            status: 200,
+            headers: {
+                'Cache-Control': 'public, max-age=864000, immutable'
+            }
+        }
+    )
 }

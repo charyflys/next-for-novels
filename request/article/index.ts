@@ -20,22 +20,20 @@ export async function getArticle(articlepath: string) {
             }
             return {
                 code: '200',
-                data: result,
+                data: result as string,
                 msg: 'ok'
             }
         })
     })
 }
 
-export async function addArticle(data: ArticleFull) {
+export async function addArticle(data: ArticleContent) {
     return new Promise((resolve,reject) => {
         compress(data.content,8,(result,error) => {
             if (error)reject({ code:'500', msg: 'compress failed' })
             const {
                 name,
                 index,
-                created_at,
-                updated_at,
                 exist,
                 novelId,
                 chapterIndex,
@@ -47,8 +45,6 @@ export async function addArticle(data: ArticleFull) {
                 {
                     name,
                     index,
-                    created_at,
-                    updated_at,
                     exist,
                     content: new Blob([new Uint8Array(result)]),
                     novelId,
@@ -60,7 +56,7 @@ export async function addArticle(data: ArticleFull) {
     })
 }
 
-export async function deleteArticle(data: ArticleNoBody) {
+export async function deleteArticle(data: ArticleBase) {
     return await request<resBody>(
         'delete',
         url,
