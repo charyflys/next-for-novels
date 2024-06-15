@@ -1,5 +1,5 @@
 import { getAllCol, getNovel, getNovelsByIds, updateNovel, addNovel } from "../../lib/supabase/novel";
-import { authCheck, getBody, result, resultNoData } from "../../lib/quickapi";
+import { authCheck, getBody, getQuery, result, resultNoData } from "../../lib/quickapi";
 
 
 type novelQuery = {
@@ -11,10 +11,11 @@ type novelQuery = {
 export async function GET(req: Request) {
     const { check ,res, user} = await authCheck(req)
     if (res) return  resultNoData(...res)
-    const { type, id, user_id } = await getBody<novelQuery>(req)
+    const { type, id, user_id } = await getQuery(req)
     switch(type) {
         case 'info': {
-            const data = await getNovel(id)
+            const novelid = (id) as string
+            const data = await getNovel(parseInt(novelid))
             if (!data) return resultNoData('不存在指定的小说', '404')
             return result(data)
         }
