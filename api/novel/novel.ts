@@ -10,7 +10,7 @@ type novelQuery = {
 // 接口合并，几个和获取Novel的接口合并到一起
 export async function GET(req: Request) {
     const { check ,res, user} = await authCheck(req)
-    if (check||(!user)) return res
+    if (check||(!user)) return  res?resultNoData(...res) : resultNoData('error','500')
     const { type, id, user_id } = await getBody<novelQuery>(req)
     switch(type) {
         case 'info': {
@@ -33,7 +33,7 @@ export async function GET(req: Request) {
 // 新增Novel，不包含目录结构，可以使用form
 export async function POST(req: Request) {
     const { check ,res, user} = await authCheck(req)
-    if (check||(!user)) return res
+    if (check||(!user)) return  res?resultNoData(...res) : resultNoData('error','500')
     const novel = await getBody<NovelBase>(req)
     if (user.id!==novel.author_id) {
         novel.author_id = user.id
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
 // 更新Novel
 export async function PUT(req:Request) {
     const { check ,res, user} = await authCheck(req)
-    if (check||(!user)) return res
+    if (check||(!user)) return  res?resultNoData(...res) : resultNoData('error','500')
     const novel = await getBody<NovelBase>(req)
     if (user.id!==novel.author_id) {
         return resultNoData('你不是该文章的所有者，参与者功能暂时未开发，敬请期待','403')

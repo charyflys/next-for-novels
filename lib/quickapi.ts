@@ -103,12 +103,12 @@ export async function authCheck(req: Request) {
     const token = getCookie(req).get(hostTokenName)
     if (!token) return { 
         check: false, 
-        res: resultNoData('您未登录，请先登录', '401') 
+        res: ['您未登录，请先登录', '401']
     }
     const user = await redis.get<User & { profile: User_Profile }>(md5(token))
     if (!user) return { 
         check: false, 
-        res: resultNoData('登陆过期', '401') 
+        res: ['登陆过期', '401']
     }
     return {
         check: true,
