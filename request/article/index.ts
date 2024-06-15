@@ -9,22 +9,23 @@ const url = '/novel/article'
 export async function getArticle(articlepath: string) {
     return await fetch('/api'+url+`?article=${articlepath}`)
     .then(res=>res.arrayBuffer())
-    .then(arrbuf=> {
+    .then(arrbuf=> new Promise((resolve, reject) => {
+
         const uint8arr = new Uint8Array(arrbuf)
         decompress(uint8arr,(result,error) => {
             if (error) {
-                return {
+                reject({
                     code: '500',
                     msg: error.message
-                }
+                })
             }
-            return {
+            resolve({
                 code: '200',
                 data: result as string,
                 msg: 'ok'
-            }
+            })
         })
-    })
+    }))
 }
 
 export async function addArticle(data: ArticleContent) {
