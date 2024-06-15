@@ -41,7 +41,7 @@ export async function POST(req:Request) {
     await updateNovelMuLu({ novel_id: novel.novel_id, catalogue: novel.catalogue})
     const uploadFile = new File(
         [file], 
-        `/n${article.novelId}/c${article.chapterIndex}/a${article.index}`
+        `/n${article.novelId}/c${article.chapterIndex}/a${article.index}.lzma`
     )
     const re = await addArticle(uploadFile)
     if (re.err) {

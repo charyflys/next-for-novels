@@ -54,7 +54,7 @@ function clickAddArticle() {
   })
 }
 function clickGetArticle() {
-  getArticle('/n1/c1/a0')
+  getArticle('/n1/c1/a0.lzma')
 }
 export default function Page() {
   console.log(decompress,compress,lzma)
