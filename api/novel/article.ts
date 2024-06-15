@@ -23,7 +23,7 @@ export async function POST(req:Request) {
     if (!novel) {
         return resultNoData('要修改的小说不存在','404')
     }
-    const chapter = novel.catalogue.find(v=>v.index===article.chapterIndex)
+    const chapter = novel.catalogue.find(v=>v.index===article.chapterIndex-0)
     if (!chapter) {
         return resultNoData('不存在对应的章节'+article.chapterIndex,'404')
     }
