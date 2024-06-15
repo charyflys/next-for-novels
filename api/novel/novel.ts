@@ -26,8 +26,12 @@ export async function GET(req: Request) {
         case 'persons': {
             // TODO 展示指定用户的收藏，鉴于现阶段压根就没做这么一个表......
         }
-    }
-    return resultNoData('未知的请求', '500')
+        default: 
+            const data = await getAllCol()
+            if (data===null) return  resultNoData('错误，请向开发者求助', '500')
+            return result(data)
+        }
+    // return resultNoData('未知的请求', '500')
 }
 
 // 新增Novel，不包含目录结构，可以使用form
