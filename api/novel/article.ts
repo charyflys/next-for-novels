@@ -41,7 +41,7 @@ export async function POST(req:Request) {
     await updateNovelMuLu({ novel_id: novel.novel_id, catalogue: novel.catalogue})
     const uploadFile = new File(
         [file], 
-        `/n${article.novelId}/c${article.chapterIndex}/a${article.index}.lzma`
+        `/${article.novelId}/${article.chapterIndex}/${article.index}`
     )
     const re = await addArticle(uploadFile)
     if (re.err) {
@@ -51,8 +51,8 @@ export async function POST(req:Request) {
 }
 
 export async function GET(req:Request) {
-    const { name } = await getQuery(req)
-    const re = await getArticle(name as string)
+    const { article } = await getQuery(req)
+    const re = await getArticle(article as string)
     if (re.err) {
         return resultNoData(re.msg,'403')
     }
