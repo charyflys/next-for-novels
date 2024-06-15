@@ -6,12 +6,12 @@ declare interface ArticleBase {
 }
 
 declare interface Article extends ArticleBase {
-    created_at: number,
-    updated_at: number
+    created_at?: number,
+    updated_at?: number
 }
 
 declare interface ArticleContent extends ArticleBase {
-    novelId: string
+    novelId: number
     chapterIndex: number
     content: string
 }

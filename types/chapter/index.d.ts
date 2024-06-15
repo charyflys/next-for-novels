@@ -4,7 +4,7 @@ declare interface ChapterBase {
 }
 
 declare interface Chapter extends ChapterBase{
-    articles: ArticleBase[]
+    articles: Article[]
 }
 
 declare interface ChapterUp extends ChapterBase {

@@ -1,3 +1,4 @@
+import { getNovel } from "../../lib/supabase/novel";
 import { resultNoData, result, getQuery, authCheck } from "../../lib/quickapi";
 import { addArticle, getArticle } from "../../lib/supabase/articleBlob";
 
@@ -17,6 +18,27 @@ export async function POST(req:Request) {
         return result(res,'no file','500')
     }
     const article = res as ArticleContent
+
+    const novel = await getNovel(article.novelId)
+    if (!novel) {
+        return resultNoData('要修改的小说不存在','404')
+    }
+    const chapter = novel.catalogue.find(v=>v.index===article.chapterIndex)
+    if (!chapter) {
+        return resultNoData('不存在对应的章节','404')
+    }
+    const purposeArticle = chapter.articles.find(v=>v.index === article.index) as  Article
+
+    const {name,index,exist} = article
+    if (!purposeArticle) {
+        chapter.articles.push({name,index,exist,created_at: Math.floor(Date.now()/1000)})
+    } else {
+        purposeArticle.exist = exist
+        purposeArticle.index = index
+        purposeArticle.name = name
+        purposeArticle.updated_at = Math.floor(Date.now()/1000)
+    }
+
     const uploadFile = new File(
         [file], 
         `/${article.novelId}/${article.chapterIndex}/${article.index}`

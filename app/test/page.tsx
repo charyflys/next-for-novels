@@ -5,6 +5,7 @@ import { Button } from "@mui/material";
 // import { compress, decompress } from "lzma";
 import lzma from 'lzma/src/lzma_worker'
 import { getNovels, getNovelById, addNovel, updateNovel } from "@/request/novel";
+import { addArticle, getArticle } from "@/request/article";
 const compress = lzma.LZMA.compress
 const decompress = lzma.LZMA.decompress
 
@@ -32,46 +33,7 @@ function UploadFile() {
       'formdata'
   )
 }
-async function getArticle(articlepath: string) {
-  return await fetch('/api/test/uploadfile'+`?name=${articlepath}`)
-  .then(res=>res.arrayBuffer())
-  .then(arrbuf=> {
-      const uint8arr = new Uint8Array(arrbuf)
-      decompress(uint8arr,(result,error) => {
-          console.log(result,error)
-      })
-  })
-}
 
-async function addArticle(data: ArticleContent) {
-  return new Promise((resolve,reject) => {
-      compress(data.content,8,(result,error) => {
-          if (error)reject({ code:'500', msg: 'compress failed' })
-          const {
-              name,
-              index,
-              exist,
-          } = data
-          const uint8arr = new Uint8Array(result as Array<number>)
-          const str = new TextDecoder().decode(uint8arr)
-          const blob = new Blob([uint8arr])
-          console.log(blob,result,str)
-          // const blob2 = new Blob([new TextDecoder().decode(result)])
-          resolve(request<resBody>(
-              'post',
-              '/test/uploadfile',
-              {
-                  name,
-                  index,
-
-                  exist,
-                  content: blob
-              },
-              'formdata'
-          ))
-      })
-  })
-}
 
 function handleClick() {
   console.log('clicked');
@@ -83,8 +45,8 @@ function handleClick1() {
 }
 function clickAddArticle() {
   addArticle({
-    novelId: '2389094309',
-    chapterIndex: 3,
+    novelId: 1,
+    chapterIndex: 1,
     index: 0,
     name: '测试章节',
     exist: true,
@@ -92,7 +54,7 @@ function clickAddArticle() {
   })
 }
 function clickGetArticle() {
-  getArticle('/test/article.txt')
+  getArticle('/1/1/0')
 }
 export default function Page() {
   console.log(decompress,compress,lzma)
