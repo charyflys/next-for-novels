@@ -9,15 +9,9 @@ export async function POST(req:Request) {
     obj.forEach((item,key) => {
         res[key] = item
         if (item instanceof Blob) {
-            // res[key+'Size'] = item.size
-            // res[key+'Type'] = item.type
-            // res[key+'Name'] = item.name
-            // res[key+'LastModified'] = item.lastModified
             file = item
         }
     })  
-    // const { check ,res:response, user} = await authCheck(req)
-    // if (check||(!user)) return res
 
     if (!file) {
         return result(res,'no file','500')
