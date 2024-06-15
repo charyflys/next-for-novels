@@ -52,7 +52,12 @@ export async function PUT(req:Request) {
     const { check ,res, user} = await authCheck(req)
     if (res) return  resultNoData(...res)
     const novel = await getBody<NovelBase>(req)
-    if (user.id!==novel.author_id) {
+    const purpose  = await getNovel(novel.novel_id)
+    if (!purpose) {
+        return resultNoData('要修改的小说不存在','404')
+    }
+
+    if (user.id!==purpose.author_id) {
         return resultNoData('你不是该文章的所有者，参与者功能暂时未开发，敬请期待','403')
     }
     const {msg, err} = await updateNovel(novel)
