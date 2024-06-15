@@ -96,17 +96,17 @@ function clickGetArticle() {
 }
 export default function Page() {
   console.log(decompress,compress,lzma)
-  setInterval(() => {
-    if (window&&(!('obj' in window))) {
-      const a = window as any
-      a.obj = {
-        getNovels,
-        getNovelById,
-        addNovel,
-        updateNovel
-      }
-    }
-  },100)
+  // setInterval(() => {
+  //   if (window&&(!('obj' in window))) {
+  //     const a = window as any
+  //     a.obj = {
+  //       getNovels,
+  //       getNovelById,
+  //       addNovel,
+  //       updateNovel
+  //     }
+  //   }
+  // },100)
   return <div>
     <Button onClick={handleClick}>formdata</Button>
     <Button onClick={handleClick1}>uploadfile</Button>
