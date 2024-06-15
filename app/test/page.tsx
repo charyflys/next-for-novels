@@ -4,6 +4,7 @@ import request from "@/request";
 import { Button } from "@mui/material";
 // import { compress, decompress } from "lzma";
 import lzma from 'lzma/src/lzma_worker'
+import { getNovels, getNovelById, addNovel, updateNovel } from "@/request/novel";
 const compress = lzma.LZMA.compress
 const decompress = lzma.LZMA.decompress
 
@@ -95,6 +96,17 @@ function clickGetArticle() {
 }
 export default function Page() {
   console.log(decompress,compress,lzma)
+  setInterval(() => {
+    if (window&&(!('obj' in window))) {
+      const a = window as any
+      a.obj = {
+        getNovels,
+        getNovelById,
+        addNovel,
+        updateNovel
+      }
+    }
+  },100)
   return <div>
     <Button onClick={handleClick}>formdata</Button>
     <Button onClick={handleClick1}>uploadfile</Button>

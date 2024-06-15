@@ -1,19 +1,12 @@
 import { addAccessEmail, getAllCol, removeEmail } from "../../lib/supabase/email";
-import { getBody, getCookie, result, resultNoData } from "../../lib/quickapi";
-import { hostTokenName } from "../../lib/env-values";
-import {User } from "@supabase/supabase-js";
-import redis from "../../lib/redis";
-import md5 from "md5";
-import { User_Profile } from "@/lib/supabase/profile";
+import { authCheck, getBody, getCookie, result, resultNoData } from "../../lib/quickapi";
 
 /** 
  * 这个功能实际没有更新session的功能
 */
 export async function GET(req: Request) {
-    const token = getCookie(req).get(hostTokenName)
-    if (!token) return resultNoData('您未登录，请先登录', '401')
-    const user = await redis.get<User&{ profile: User_Profile}>(md5(token))
-    if (!user) return resultNoData('登陆过期', '401')
+    const { check ,res, user} = await authCheck(req)
+    if (check||(!user)) return res
     if (!(user.profile.role === 'super' || user.profile.role === 'admin')) return resultNoData('无权限', '403')
     const coldata = await getAllCol()
     return result(coldata)
@@ -23,10 +16,8 @@ export async function POST(req: Request) {
     const { email } = await getBody<{ email: string, }>(req)
 
 
-    const token = getCookie(req).get(hostTokenName)
-    if (!token) return resultNoData('您未登录，请先登录', '401')
-    const user = await redis.get<User&{ profile: User_Profile}>(md5(token))
-    if (!user) return resultNoData('登陆过期', '401')
+    const { check ,res, user} = await authCheck(req)
+    if (check||(!user)) return res
     if (!(user.profile.role === 'super' || user.profile.role === 'admin')) return resultNoData('无权限', '403')
     // const { data, error } = await supabase.auth.setSession(Session)
     const { msg,err } = await addAccessEmail(email, user)
@@ -36,10 +27,9 @@ export async function POST(req: Request) {
 
 export async function DELETE(req: Request) {
     const { id } = await getBody<{ id: number, }>(req)
-    const token = getCookie(req).get(hostTokenName)
-    if (!token) return resultNoData('您未登录，请先登录', '401')
-    const user = await redis.get<User&{ profile: User_Profile}>(md5(token))
-    if (!user) return resultNoData('登陆过期', '401')
+    const { check ,res, user} = await authCheck(req)
+    if (check||(!user)) return res
+
     if (!(user.profile.role === 'super' || user.profile.role === 'admin')) return resultNoData('无权限', '403')
     // const { data, error } = await supabase.auth.setSession(Session)
     const { msg, err } = await removeEmail(id)

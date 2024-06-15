@@ -2,6 +2,10 @@ import querystring from 'querystring'
 import { jwtVerify, SignJWT } from 'jose'
 // import jwt from 'jsonwebtoken'
 import { hostTokenName, jwtSecret } from './env-values';
+import { User_Profile } from './supabase/profile';
+import md5 from 'md5';
+import redis from './redis';
+import { User } from '@supabase/supabase-js';
 // jose.s
 const JOSE_SECRET = new TextEncoder().encode(jwtSecret)
 
@@ -69,30 +73,47 @@ export async function explainJWT<T>(token: string) {
 }
 
 export async function resultCookie(
-    res:Response,
-    config: { 
-        name:string,
+    res: Response,
+    config: {
+        name: string,
         value: string,
         secure: boolean,
         path?: string,
         maxage: number,
     }) {
     res.headers.set('Set-Cookie',
-        `${config.name}=${config.value};`+
-        `Path=${ config.path||'/' };`+
+        `${config.name}=${config.value};` +
+        `Path=${config.path || '/'};` +
         `Max-Age=${config.maxage};` +
-        `${config.secure ? 'Secure;':''}`
+        `${config.secure ? 'Secure;' : ''}`
     )
     return res
 }
 
-export async function resultToken(res: Response,token: string) {
+export async function resultToken(res: Response, token: string) {
     return resultCookie(res, {
         name: hostTokenName,
         value: token,
         secure: true,
         maxage: 2592000
     })
+}
+
+export async function authCheck(req: Request) {
+    const token = getCookie(req).get(hostTokenName)
+    if (!token) return { 
+        check: false, 
+        res: resultNoData('您未登录，请先登录', '401') 
+    }
+    const user = await redis.get<User & { profile: User_Profile }>(md5(token))
+    if (!user) return { 
+        check: false, 
+        res: resultNoData('登陆过期', '401') 
+    }
+    return {
+        check: true,
+        user
+    }
 }
 
 export type resBody = {

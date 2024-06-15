@@ -4,7 +4,7 @@ import lzma from 'lzma/src/lzma_worker'
 const compress = lzma.LZMA.compress
 const decompress = lzma.LZMA.decompress
 
-const url = '/auth/article'
+const url = '/novel/article'
 
 export async function getArticle(articlepath: string) {
     return await fetch('/api'+url+`?article=${articlepath}`)

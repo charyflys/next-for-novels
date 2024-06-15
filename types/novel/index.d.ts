@@ -3,6 +3,7 @@
 // 相反下行应该携带
 
 declare interface NovelBase {
+    novel_id: number
     title: string
     status: boolean
     hidden: boolean
@@ -15,5 +16,10 @@ declare interface NovelBase {
 declare interface Novel extends NovelBase{
     created_at: number
     updated_at: number
+    catalogue: Chapter[]
+}
+
+declare interface NovelMuLu {
+    novel_id: number
     catalogue: Chapter[]
 }
