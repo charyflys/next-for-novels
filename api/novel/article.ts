@@ -1,4 +1,4 @@
-import { getNovel } from "../../lib/supabase/novel";
+import { getNovel, updateNovelMuLu } from "../../lib/supabase/novel";
 import { resultNoData, result, getQuery, authCheck } from "../../lib/quickapi";
 import { addArticle, getArticle } from "../../lib/supabase/articleBlob";
 
@@ -25,7 +25,7 @@ export async function POST(req:Request) {
     }
     const chapter = novel.catalogue.find(v=>v.index===article.chapterIndex)
     if (!chapter) {
-        return resultNoData('不存在对应的章节','404')
+        return resultNoData('不存在对应的章节'+article.chapterIndex,'404')
     }
     const purposeArticle = chapter.articles.find(v=>v.index === article.index) as  Article
 
@@ -38,7 +38,7 @@ export async function POST(req:Request) {
         purposeArticle.name = name
         purposeArticle.updated_at = Math.floor(Date.now()/1000)
     }
-
+    await updateNovelMuLu({ novel_id: novel.novel_id, catalogue: novel.catalogue})
     const uploadFile = new File(
         [file], 
         `/${article.novelId}/${article.chapterIndex}/${article.index}`
