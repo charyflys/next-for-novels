@@ -6,8 +6,8 @@ import { authCheck, getBody, getCookie, result, resultNoData } from "../../lib/q
 */
 export async function GET(req: Request) {
     const { check ,res, user} = await authCheck(req)
-    if (check||(!user)) return  res?resultNoData(...res) : resultNoData('error','500')
-        if (!(user.profile.role === 'super' || user.profile.role === 'admin')) return resultNoData('无权限', '403')
+    if (res) return  resultNoData(...res)
+    if (!(user.profile.role === 'super' || user.profile.role === 'admin')) return resultNoData('无权限', '403')
     const coldata = await getAllCol()
     return result(coldata)
 }
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 
 
     const { check ,res, user} = await authCheck(req)
-    if (check||(!user)) return  res?resultNoData(...res) : resultNoData('error','500')
+    if (res) return  resultNoData(...res)
     if (!(user.profile.role === 'super' || user.profile.role === 'admin')) return resultNoData('无权限', '403')
     // const { data, error } = await supabase.auth.setSession(Session)
     const { msg,err } = await addAccessEmail(email, user)
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
 export async function DELETE(req: Request) {
     const { id } = await getBody<{ id: number, }>(req)
     const { check ,res, user} = await authCheck(req)
-    if (check||(!user)) return  res?resultNoData(...res) : resultNoData('error','500')
+    if (res) return  resultNoData(...res)
 
     if (!(user.profile.role === 'super' || user.profile.role === 'admin')) return resultNoData('无权限', '403')
     // const { data, error } = await supabase.auth.setSession(Session)
