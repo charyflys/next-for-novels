@@ -4,9 +4,11 @@ import { Search } from "@mui/icons-material";
 import BookCard from "../_components/BookCard";
 import { useState } from "react";
 import { getNovels } from "@/request/novel";
+import { useRouter } from 'next/router'
 export default function SearchView() {
     const [novelList,setNovelList] = useState<NovelWithAuthor[]>([])
     const [search, setSearch] = useState<string>('')
+    const router = useRouter()
     if (novelList.length===0) {
         getNovels().then(res => {
             if(res.data) {
@@ -19,46 +21,14 @@ export default function SearchView() {
             }
         })
     }
+    console.log(router.query)
     function handleSubmit(e: React.FormEvent<HTMLFormElement>,) {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const search = formData.get('search') as string;
         setSearch(search)
         console.log(search);
-    }
-    const novel: NovelWithAuthor = {
-        author: {
-            role: null,
-            nickname: '什么',
-            status: false,
-            muted: null,
-            avatar: null
-        },
-        created_at: 0,
-        updated_at: 0,
-        catalogue: [
-            {
-                articles: [
-                    {
-                        path: "",
-                        name: "",
-                        index: 0,
-                        exist: false
-                    }
-                ],
-                index: 0,
-                name: ""
-            }
-        ],
-        novel_id: 0,
-        title: "人",
-        status: false,
-        hidden: false,
-        desciption: `由于工作过度，注意到的时候被卡车撞了的主人公伊中雄二。
-    “啊，不该这么工作的。下一次要悠闲地在乡下生活……”也许是通过了雄二这样的愿望，他与神相遇，转生到了异世界的乡下。作为乡下贵族的次子阿尔弗里特=斯洛伍雷特获得了新生的他，在乡下会过着快乐而悠闲的生活吗？
-    （PS：购书卷ID265）`,
-        cover: "https://s2.loli.net/2024/06/10/baJvmKlgDG6oTLO.png",
-        author_id: "dasfaew232f24"
+        
     }
     return (
         <Grid container spacing={2} sx={{

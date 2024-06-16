@@ -32,6 +32,10 @@ function applySetCookie(req: NextRequest, res: NextResponse) {
 }
 
 export default async function middleware(request: Request) {
+    if (process.env.NODE_ENV === 'development') {
+        // 在开发环境中禁用中间件
+        return NextResponse.next();
+      }
     const req = new NextRequest(request)
     const url = req.nextUrl.clone()
     url.pathname = '/signin'
