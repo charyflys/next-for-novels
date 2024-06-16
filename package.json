@@ -41,6 +41,7 @@
     "querystring": "^0.2.1",
     "react": "^18",
     "react-dom": "^18",
+    "server-only-context": "^0.1.0",
     "styled-components": "^6.1.8",
     "ts-node": "^10.9.2",
     "zustand": "^4.5.2"

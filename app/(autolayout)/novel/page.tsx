@@ -1,11 +1,23 @@
-'use client'
 import React from 'react';
 import { Card, CardContent, CardMedia, Typography, Box, Button, Chip, Grid, Stack, Accordion, AccordionDetails, AccordionSummary, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { getNovelById } from '@/request/novel';
 
 const tags = ['web', '王都调查篇', '村子的收获祭', '卡古拉拉旅游篇'];
 
-export default function BookDetailPage() {
+export default async function BookDetailPage({
+    params,
+    searchParams,
+  }: {
+    params: { slug: string };
+    searchParams?: { [key: string]: string | string[] | undefined };
+  }) {
+    // const [novel, setNovel] = useState()
+    // useEffect(() => {
+    //     // const 
+    // })
+    const novelid = searchParams?.novelId as string
+    const {data: novel} = await getNovelById(parseInt(novelid)) as {data: NovelWithAuthor}
     return (
         <Box sx={{ p: 3, minHeight: '100vh' }}>
             <Card sx={{ display: 'flex', mb: 2, }}>
@@ -18,7 +30,7 @@ export default function BookDetailPage() {
                 <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                     <CardContent sx={{ flex: '1 0 auto' }}>
                         <Typography component="div" variant="h5" sx={{ fontWeight: 'bold', mb: 1 }}>
-                            转生后想要在田园过慢生活
+                            {novel.title}
                         </Typography>
                         <Typography variant="subtitle1" component="div" sx={{ mb: 1 }}>
                             作者：镜若玉
