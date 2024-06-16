@@ -1,5 +1,6 @@
-import { getAllCol, getNovel, getNovelsByIds, updateNovel, addNovel } from "../../lib/supabase/novel";
+import { getAllCol, getNovel, getNovelsByIds, updateNovel, addNovel, getNovelsFromMine } from "../../lib/supabase/novel";
 import { authCheck, getBody, getQuery, result, resultNoData } from "../../lib/quickapi";
+import { getProfile, User_Profile } from "../../lib/supabase/profile";
 
 
 // 接口合并，几个和获取Novel的接口合并到一起
@@ -16,10 +17,23 @@ export async function GET(req: Request) {
         }
         case 'search': {
             const data = await getAllCol()
-            if (data===null) return  resultNoData('错误，请向开发者求助', '500')
-            return result(data)
+            if (data===null) return resultNoData('错误，请向开发者求助', '500')
+            const arr:[string,User_Profile][] = []
+            data.forEach(v=>{
+            })
+            for(const v of data) {
+                const profile = await getProfile(v.author_id)
+                profile&&arr.push([v.author_id,profile])
+            }
+            return result({novelList:data,profiles: arr})
         }
         case 'persons': {
+            const userId = (user_id) as string
+            const data = await getNovelsFromMine(userId)
+            if (data===null) return resultNoData('错误，请向开发者求助', '500')
+            return result(data)
+        }
+        case 'collection' : {
             // TODO 展示指定用户的收藏，鉴于现阶段压根就没做这么一个表......
         }
         default: 

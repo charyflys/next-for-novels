@@ -21,6 +21,11 @@ export async function getNovelsByIds(Ids: number[]) {
     return error ? [] : data
 }
 
+export async function getNovelsFromMine(id:string) {
+    const { data, error } = await supabase.from(table_name).select().eq('author_id',id)
+    return error ? [] : data
+}
+
 export async function updateNovel(novel: NovelBase) {
     const id = novel.novel_id
     const obj = {} as any
@@ -65,11 +70,3 @@ const NovelName = [
     'desciption',
     'cover',
 ]
-
-export type User_Profile = {
-    role: 'super' | 'admin' | null,
-    nickname: string | undefined,
-    status: boolean,
-    muted: number | null,
-    avatar: string | null,
-}

@@ -1,135 +1,116 @@
 'use client'
 
-import { Grid, Typography, Paper,TextField, InputAdornment, Box, Button } from "@mui/material";
+import { Grid, Typography, Paper, TextField, InputAdornment, Box, Button } from "@mui/material";
 import { Search } from "@mui/icons-material";
-import { SimpleNovel } from "./_components/SimpleNovel";
-import NovelCard from "./_components/NovelCard";
+import BookCard from "./_components/BookCard";
 export default function Home() {
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>,) {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        const search = formData.get('search') as string;
-        console.log(search);
-    }
-    return (
-        <Grid container spacing={2}>
-            <Grid item xs={12}>
-                <Box 
-                    component='form' 
-                    onSubmit={handleSubmit}
-                    display="flex"
-                    alignItems="center"
-                >
-                    <TextField
-                        name="search"
-                        variant="standard"
-                        fullWidth 
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <Search />
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
-                    <Button type="submit">搜索</Button>
-                </Box>
-            </Grid>
-            <Typography variant="h5" component="h2" gutterBottom>
-          推荐小说
-        </Typography>
-        <Grid container spacing={4}>
-            <NovelCard
-                name="hello"
-                img="http://lz.sinaimg.cn/large/8a65eec0gy1hnttgax1tej207i0aidh8.jpg"
-                description="简介"
-            ></NovelCard>
-            <NovelCard
-                name="hello"
-                img="http://lz.sinaimg.cn/large/8a65eec0gy1hnttgax1tej207i0aidh8.jpg"
-                description="简介"
-
-            ></NovelCard>
-            <NovelCard
-                name="hello"
-                img="http://lz.sinaimg.cn/large/8a65eec0gy1hnttgax1tej207i0aidh8.jpg"
-                description="简介"
-
-            ></NovelCard>
-            <NovelCard
-                name="hello"
-                img="http://lz.sinaimg.cn/large/8a65eec0gy1hnttgax1tej207i0aidh8.jpg"
-                description="简介"
-
-            ></NovelCard>
-            
-          {/* Example Recommended Novels */}
-          {/* <Grid item xs={12} sm={6} md={4}>
-            <Paper elevation={3} sx={{ p: 2 }}>
-              <Typography variant="h6">小说 1</Typography>
-              <Typography>简介...</Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Paper elevation={3} sx={{ p: 2 }}>
-              <Typography variant="h6">小说 2</Typography>
-              <Typography>简介...</Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Paper elevation={3} sx={{ p: 2 }}>
-              <Typography variant="h6">小说 3</Typography>
-              <Typography>简介...</Typography>
-            </Paper>
-          </Grid> */}
-        </Grid>
-        <Box sx={{ my: 4 }}>
-          <Typography variant="h5" component="h2" gutterBottom>
-            我收藏的小说更新
-          </Typography>
-          <Grid container spacing={4}>
-            {/* Example Favorite Novels */}
-            <Grid item xs={12} sm={6} md={4}>
-              <Paper elevation={3} sx={{ p: 2 }}>
-                <Typography variant="h6">收藏的小说 1</Typography>
-                <Typography>最新章节...</Typography>
-              </Paper>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Paper elevation={3} sx={{ p: 2 }}>
-                <Typography variant="h6">收藏的小说 2</Typography>
-                <Typography>最新章节...</Typography>
-              </Paper>
-            </Grid>
-          </Grid>
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>,) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const search = formData.get('search') as string;
+    console.log(search);
+  }
+  const novel: NovelWithAuthor = {
+    author: {
+      role: null,
+      nickname: '什么',
+      status: false,
+      muted: null,
+      avatar: null
+    },
+    created_at: 0,
+    updated_at: 0,
+    catalogue: [
+      {
+        articles: [
+          {
+            path: "",
+            name: "",
+            index: 0,
+            exist: false
+          }
+        ],
+        index: 0,
+        name: ""
+      }
+    ],
+    novel_id: 0,
+    title: "人",
+    status: false,
+    hidden: false,
+    desciption: `由于工作过度，注意到的时候被卡车撞了的主人公伊中雄二。
+“啊，不该这么工作的。下一次要悠闲地在乡下生活……”也许是通过了雄二这样的愿望，他与神相遇，转生到了异世界的乡下。作为乡下贵族的次子阿尔弗里特=斯洛伍雷特获得了新生的他，在乡下会过着快乐而悠闲的生活吗？
+（PS：购书卷ID265）`,
+    cover: "",
+    author_id: "dasfaew232f24"
+  }
+  return (
+    <Grid container spacing={2} sx={{
+      margin: 0,
+      width: '100%'
+    }}>
+      <Grid item xs={12} sx={{
+        marginBottom: 2
+      }}>
+        <Box
+          component='form'
+          onSubmit={handleSubmit}
+          display="flex"
+          alignItems="center"
+        >
+          <TextField
+            name="search"
+            variant="standard"
+            fullWidth
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Button type="submit">搜索</Button>
         </Box>
-            {/* <Grid item xs={12} md={8} lg={9}>
-                <Paper
-                    sx={{
-                        p: 2,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        height: 240,
-                    }}
-                >
-                    <SimpleNovel
-                        name="hello"
-                        img="http://lz.sinaimg.cn/large/8a65eec0gy1hnttgax1tej207i0aidh8.jpg"
-                    ></SimpleNovel>
-                </Paper>
-            </Grid>
-            <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                    sx={{
-                        p: 2,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        height: 240,
-                    }}
-                >
-                    2
-                </Paper>
-            </Grid> */}
+      </Grid>
+      <Typography variant="h5" component="h2" gutterBottom>
+        推荐小说
+      </Typography>
+      <Grid container spacing={4} sx={{
+        display: 'grid',
+        justifyContent: 'space-around',
+        gridGap: '10px',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 500px))'
+      }}>
+      <Grid item>
+        <BookCard novel={novel} />
         </Grid>
-    )
+        <Grid item>
+          <BookCard novel={novel} />
+        </Grid>
+        <Grid item>
+          <BookCard novel={novel} />
+        </Grid>
+      </Grid>
+      <Typography variant="h5" component="h2" gutterBottom>
+        我收藏的小说更新
+      </Typography>
+      <Grid container spacing={4} sx={{
+        display: 'grid',
+        justifyContent: 'space-around',
+        gridGap: '10px',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 500px))'
+      }}>
+        <Grid item>
+        <BookCard novel={novel} />
+        </Grid>
+        <Grid item>
+          <BookCard novel={novel} />
+        </Grid>
+        <Grid item>
+          <BookCard novel={novel} />
+        </Grid>
+      </Grid>
+    </Grid>
+  )
 }

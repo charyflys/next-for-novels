@@ -19,7 +19,19 @@ declare interface Novel extends NovelBase{
     catalogue: Chapter[]
 }
 
+declare interface NovelWithAuthor extends Novel{
+    author: User_Profile
+}
+
 declare interface NovelMuLu {
     novel_id: number
     catalogue: Chapter[]
+}
+
+declare type User_Profile = {
+    role: 'super' | 'admin' | null,
+    nickname: string | undefined,
+    status: boolean,
+    muted: number | null,
+    avatar: string | null,
 }
