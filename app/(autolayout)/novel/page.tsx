@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import { Card, CardContent, CardMedia, Typography, Box, Button, Chip, Grid, Stack, Accordion, AccordionDetails, AccordionSummary, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
