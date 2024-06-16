@@ -7,7 +7,7 @@ import { getNovels } from "@/request/novel";
 export default function SearchView() {
     const [novelList,setNovelList] = useState<NovelWithAuthor[]>([])
     const [search, setSearch] = useState<string>('')
-    if (!novelList) {
+    if (novelList.length===0) {
         getNovels().then(res => {
             if(res.data) {
                 const { novelList:list, profiles }:{novelList: Novel[],profiles:[string,User_Profile][]} = res.data
