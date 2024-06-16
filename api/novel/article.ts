@@ -36,7 +36,7 @@ export async function POST(req:Request) {
 
     const uploadFile = new File(
         [file], 
-        `${user.id}/n${novel.novel_id}/c${chapter.index}/a${article.index}`
+        `${user.id}/n${novel.novel_id}-c${chapter.index}-a${article.index}`
     )
     const re = await addArticle(uploadFile)
     if (re.err) {
