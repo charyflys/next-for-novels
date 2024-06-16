@@ -30,7 +30,8 @@ export async function getArticle(fileName:string) {
 }
 
 export async function checkArticleList(userid: string) {
-    const { data, error } = await supabase.storage.from(bucketName).list('/'+userid)
+    // const { data, error } = await supabase.storage.from(bucketName).list('/'+userid)
+    const { data, error } = await supabase.storage.from(bucketName).list()
     if (error) {
         return { msg: error.message, err: true }
     }
