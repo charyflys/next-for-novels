@@ -56,6 +56,7 @@ export async function POST(req:Request) {
         purposeArticle.index = index
         purposeArticle.name = name
         purposeArticle.updated_at = Math.floor(Date.now()/1000)
+        purposeArticle.path = uploadFile.name
     }
     await updateNovelMuLu({ novel_id: novel.novel_id, catalogue: novel.catalogue})
     return resultNoData(re.path)
