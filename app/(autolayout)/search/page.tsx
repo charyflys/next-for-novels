@@ -12,7 +12,7 @@ export default function SearchView() {
     // const router = useRouter()
     // const querySearch = searchParams.get('q')
     // const [search, setSearch] = useState<string>(querySearch||'')
-    const { q } = qs.parse(location.search.replace('?', '')) as { q: string | undefined }
+    const { q } = qs.parse(window.location.search.replace('?', '')) as { q: string | undefined }
     const [search, setSearch] = useState<string>(q || '')
     if (novelList.length === 0) {
         getNovels().then(res => {
@@ -32,9 +32,9 @@ export default function SearchView() {
         const search = formData.get('search') as string;
         setSearch(search)
         // router.replace(`/search?q=${search}`)
-        const url = new URL(location.href)
+        const url = new URL(window.location.href)
         url.searchParams.set('q',search)
-        history.pushState({},'',url)
+        window.history.pushState({},'',url)
     }
     return (
         <Grid container spacing={2} sx={{
