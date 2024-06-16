@@ -2,11 +2,6 @@ import { getAllCol, getNovel, getNovelsByIds, updateNovel, addNovel } from "../.
 import { authCheck, getBody, getQuery, result, resultNoData } from "../../lib/quickapi";
 
 
-type novelQuery = {
-    type: 'search'|'info'|'persons'
-    id: number
-    user_id: string
-}
 // 接口合并，几个和获取Novel的接口合并到一起
 export async function GET(req: Request) {
     const { check ,res, user} = await authCheck(req)

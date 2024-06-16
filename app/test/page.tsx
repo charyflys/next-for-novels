@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 // import { compress, decompress } from "lzma";
 import lzma from 'lzma/src/lzma_worker'
 import { getNovels, getNovelById, addNovel, updateNovel } from "@/request/novel";
-import { addArticle, getArticle } from "@/request/article";
+import { addArticle, checkArticleList, getArticle } from "@/request/article";
 const compress = lzma.LZMA.compress
 const decompress = lzma.LZMA.decompress
 
@@ -54,7 +54,10 @@ function clickAddArticle() {
   })
 }
 function clickGetArticle() {
-  getArticle('/1/1/0').then(res=>console.log(res))
+  let path = '1/1/0'
+  'path' in window&&typeof window.path === 'string'&&(path = window.path)
+  getArticle(path).then(res=>console.log(res))
+  checkArticleList()
 }
 export default function Page() {
   console.log(decompress,compress,lzma)

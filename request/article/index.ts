@@ -57,6 +57,13 @@ export async function addArticle(data: ArticleContent) {
     })
 }
 
+export async function checkArticleList() {
+    return await request<resBody>(
+        'put',
+        url,
+    )
+}
+
 export async function deleteArticle(data: ArticleBase) {
     return await request<resBody>(
         'delete',

@@ -6,6 +6,7 @@ declare interface ArticleBase {
 }
 
 declare interface Article extends ArticleBase {
+    path: string
     created_at?: number,
     updated_at?: number
 }

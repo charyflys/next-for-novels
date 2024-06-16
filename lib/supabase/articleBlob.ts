@@ -28,3 +28,11 @@ export async function getArticle(fileName:string) {
     }
     return { msg: 'success', file: data }
 }
+
+export async function checkArticleList(userid: string) {
+    const { data, error } = await supabase.storage.from(bucketName).list('/'+userid)
+    if (error) {
+        return { msg: error.message, err: true }
+    }
+    return { msg: 'success', filelist: data }
+}
