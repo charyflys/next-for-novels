@@ -4,13 +4,14 @@ import { Search } from "@mui/icons-material";
 import BookCard from "../_components/BookCard";
 import { useState } from "react";
 import { getNovels } from "@/request/novel";
-import { useSearchParams,useRouter } from 'next/navigation'
+// import { useSearchParams,useRouter } from 'next/navigation'
 export default function SearchView() {
     const [novelList,setNovelList] = useState<NovelWithAuthor[]>([])
-    const searchParams  = useSearchParams()
-    const router = useRouter()
-    const querySearch = searchParams.get('q')
-    const [search, setSearch] = useState<string>(querySearch||'')
+    // const searchParams  = useSearchParams()
+    // const router = useRouter()
+    // const querySearch = searchParams.get('q')
+    // const [search, setSearch] = useState<string>(querySearch||'')
+    const [search, setSearch] = useState<string>('')
     if (novelList.length===0) {
         getNovels().then(res => {
             if(res.data) {
@@ -28,7 +29,7 @@ export default function SearchView() {
         const formData = new FormData(e.currentTarget);
         const search = formData.get('search') as string;
         setSearch(search)
-        router.replace(`/search?q=${search}`)
+        // router.replace(`/search?q=${search}`)
         console.log(search);
         
     }
