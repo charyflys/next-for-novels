@@ -32,13 +32,13 @@ export default function BookCard({ novel }:{ novel:NovelWithAuthor }) {
             height:60,
             marginBottom: 2,
             }}>
-            简介：{novel.desciption}
+            简介：{novel.description}
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'space-around',paddingTop: 1}}>
             <Button href={`/novel/${novel.novel_id}`}>
                 <b>查看详情</b>
             </Button>
-            <Button color='inherit' href={`/novel/${novel.novel_id}/${novel.catalogue[0].articles[0].path}`}>
+            <Button color='inherit'>
                 <b>开始阅读</b>
             </Button>
         </Box>

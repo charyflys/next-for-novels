@@ -7,7 +7,7 @@ declare interface NovelBase {
     title: string
     status: boolean
     hidden: boolean
-    desciption: string
+    description: string
     cover: string
     author_id:  string
 

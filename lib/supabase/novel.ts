@@ -12,7 +12,17 @@ export async function getNovel(id: number) {
 }
 
 export async function getAllCol() {
-    const { data, error } = await supabase.from(table_name).select()
+    const { data, error } = await supabase
+    .from(table_name)
+    .select(`
+        novel_id,
+        title,
+        status,
+        hidden,
+        description,
+        cover,
+        author_id
+    `)
     return error ? [] : data as Novel[]
 }
 

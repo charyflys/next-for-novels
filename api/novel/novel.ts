@@ -13,7 +13,8 @@ export async function GET(req: Request) {
             const novelid = (id) as string
             const data = await getNovel(parseInt(novelid))
             if (!data) return resultNoData('不存在指定的小说', '404')
-            return result(data)
+            const profile = await getProfile(data.author_id)
+            return result(Object.assign(data,{ author: profile }))
         }
         case 'search': {
             const data = await getAllCol()
