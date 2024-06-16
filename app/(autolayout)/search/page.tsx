@@ -12,11 +12,12 @@ export default function SearchView() {
     // const router = useRouter()
     // const querySearch = searchParams.get('q')
     // const [search, setSearch] = useState<string>(querySearch||'')
-    const { q } = qs.parse(window.location.search.replace('?', '')) as { q: string | undefined }
-    const [search, setSearch] = useState<string>(q || '')
+    const [search, setSearch] = useState<string>('')
     if (novelList.length === 0) {
         getNovels().then(res => {
             if (res.data) {
+                const { q } = qs.parse(window.location.search.replace('?', '')) as { q: string | undefined }
+                setSearch(q||'')
                 const { novelList: list, profiles }: { novelList: Novel[], profiles: [string, User_Profile][] } = res.data
                 const map = new Map(profiles)
                 setNovelList(list.map(v => {
