@@ -42,19 +42,22 @@ export default function BookDetailPage() {
                 <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                     <CardContent sx={{ flex: '1 0 auto' }}>
                         <Typography component="div" variant="h5" sx={{ fontWeight: 'bold', mb: 1 }}>
-                            {novel ? novel?.title : <Skeleton variant='text' height={32} width={400} />}
+                            {novel ? novel.title : <Skeleton variant='text' height={32} width={400} />}
                         </Typography>
                         <Typography variant="subtitle1" component="div" sx={{ mb: 1 }}>
-                            作者：{novel ? novel?.author.nickname : <Skeleton variant='text' height={27} width={150} sx={{ display: 'inline-block' }} />}
+                            作者：{novel ? novel.author.nickname : <Skeleton variant='text' height={27} width={150} sx={{ display: 'inline-block' }} />}
                         </Typography>
                         <Typography variant="body2" component="div" sx={{ mb: 1 }}>
-                            更新时间：{novel ? novel?.updated_at : <Skeleton variant='text' height={20} width={150} sx={{ display: 'inline-block' }} />}
+                            创建时间：{novel ? new Date((novel.created_at+1704038400)*1000).toLocaleString() : <Skeleton variant='text' height={20} width={150} sx={{ display: 'inline-block' }} />}
+                        </Typography>
+                        <Typography variant="body2" component="div" sx={{ mb: 1 }}>
+                            更新时间：{novel ? new Date((novel.updated_at+1704038400)*1000).toLocaleString() : <Skeleton variant='text' height={20} width={150} sx={{ display: 'inline-block' }} />}
                         </Typography>
                         <Typography variant="body2" component="div" sx={{ mb: 1 }}>
                             简介：
                         </Typography>
                         {novel ?
-                            <Typography variant="body2" component="div" sx={{ minHeight: 100,paddingRight:1 }}>{novel?.description}</Typography>
+                            <Typography variant="body2" component="div" sx={{ minHeight: 100,paddingRight:1 }}>{novel.description}</Typography>
                             : (
                                 <Typography>
                                     <Skeleton variant='text' height={20} />

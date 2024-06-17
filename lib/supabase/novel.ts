@@ -54,7 +54,8 @@ export async function updateNovel(novel: NovelBase) {
 export async function updateNovelMuLu(novel: NovelMuLu) {
     const id = novel.novel_id
     const updateNovel = {
-        catalogue: novel.catalogue
+        catalogue: novel.catalogue,
+        updated_at: Math.floor((Date.now() - 1704038400000)/1000)
     }
     const { error } = await supabase
     .from(table_name)
@@ -66,7 +67,8 @@ export async function updateNovelMuLu(novel: NovelMuLu) {
 
 
 export async function addNovel(novel: NovelBase) {
-    const { error, data } = await supabase
+    Object.assign(novel,{create_at: Math.floor((Date.now() - 1704038400000)/1000)})
+    const { error } = await supabase
         .from(table_name)
         .insert(novel)
     if (error) return { msg: error.message, err: true }
