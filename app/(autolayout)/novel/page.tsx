@@ -8,78 +8,22 @@ const tags = ['web', '王都调查篇', '村子的收获祭', '卡古拉拉旅�
 
 export default function BookDetailPage() {
     const [novel, setNovel] = useState<NovelWithAuthor>()
+    const errPush = () => {
+        location.replace('/search')
+    }
     useEffect(() => {
-        // Object.assign(window, {
-        //     setA: () => {
-        //         setNovel({
-        //             author: {
-        //                 role: null,
-        //                 nickname: '什么',
-        //                 status: false,
-        //                 muted: null,
-        //                 avatar: null
-        //             },
-        //             created_at: 0,
-        //             updated_at: 0,
-        //             catalogue: [
-        //                 {
-        //                     articles: [
-        //                         {
-        //                             path: "",
-        //                             name: "A",
-        //                             index: 0,
-        //                             exist: false
-        //                         },
-        //                         {
-        //                             path: "",
-        //                             name: "F",
-        //                             index: 1,
-        //                             exist: false
-        //                         },
-        //                     ],
-        //                     index: 0,
-        //                     name: "C"
-        //                 },
-        //                 {
-        //                     articles: [
-        //                         {
-        //                             path: "",
-        //                             name: "A",
-        //                             index: 0,
-        //                             exist: false
-        //                         },
-        //                         {
-        //                             path: "",
-        //                             name: "F",
-        //                             index: 1,
-        //                             exist: false
-        //                         },
-        //                     ],
-        //                     index: 0,
-        //                     name: "T"
-        //                 },
-        //             ],
-        //             novel_id: 0,
-        //             title: "人",
-        //             status: false,
-        //             hidden: false,
-        //             description: `由于工作过度，注意到的时候被卡车撞了的主人公伊中雄二。
-        //         “啊，不该这么工作的。下一次要悠闲地在乡下生活……”也许是通过了雄二这样的愿望，他与神相遇，转生到了异世界的乡下。作为乡下贵族的次子阿尔弗里特=斯洛伍雷特获得了新生的他，在乡下会过着快乐而悠闲的生活吗？
-        //         （PS：购书卷ID265）`,
-        //             cover: "",
-        //             author_id: "dasfaew232f24"
-        //         })
-        //     }
-        // })
         if (!novel) {
             const res = /\/novel\/(\d+)/.exec(location.pathname)
             if (!res) {
-                location.replace('/search')
+                errPush()
             }
             const result = res as RegExpExecArray
             getNovelById(parseInt(result[1])).then(res => {
                 const novelFromServer = res.data as NovelWithAuthor
                 setNovel(novelFromServer)
+            })
+            .catch(err => {
+                errPush()
             })
         }
     })
