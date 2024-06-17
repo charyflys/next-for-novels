@@ -110,7 +110,7 @@ export default function Dashboard({children,pageProps}: Readonly<{
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dashboard
+              骰子小说网
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
@@ -152,7 +152,7 @@ export default function Dashboard({children,pageProps}: Readonly<{
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <Container maxWidth="lg" sx={{ mt: 4, mb: 4,width:'99vw' }}>
             {children}
             <Copyright />
           </Container>
