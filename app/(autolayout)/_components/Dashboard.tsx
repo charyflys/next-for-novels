@@ -152,7 +152,7 @@ export default function Dashboard({children,pageProps}: Readonly<{
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4,width:'99vw' }}>
+          <Container maxWidth="lg" sx={{ mt: 4, mb: 4, }}>
             {children}
             <Copyright />
           </Container>

@@ -31,7 +31,7 @@ export default function BookDetailPage() {
         }
     })
     return (
-        <Box sx={{ p: 3, minHeight: '100vh' }}>
+        <Box sx={{ p: 2, minHeight: '100vh' }}>
             <Card sx={{ display: 'flex', mb: 2, }}>
                 <CardMedia
                     component="img"
