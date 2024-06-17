@@ -3,7 +3,7 @@ import qs from 'qs'
 import { Grid, Typography, Paper, TextField, InputAdornment, Box, Button } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import BookCard from "../_components/BookCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getNovels } from "@/request/novel";
 // import { useSearchParams,useRouter } from 'next/navigation'
 export default function SearchView() {
@@ -13,11 +13,18 @@ export default function SearchView() {
     // const querySearch = searchParams.get('q')
     // const [search, setSearch] = useState<string>(querySearch||'')
     const [search, setSearch] = useState<string>('')
+    const getSearch = () =>setTimeout(() => {
+        if (!window) {
+            getSearch()
+            return
+        }
+        const { q } = qs.parse(window.location.search.replace('?', '')) as { q: string | undefined }
+        setSearch(q||'')
+    },10)
+    getSearch()
     if (novelList.length === 0) {
         getNovels().then(res => {
             if (res.data) {
-                const { q } = qs.parse(window.location.search.replace('?', '')) as { q: string | undefined }
-                setSearch(q||'')
                 const { novelList: list, profiles }: { novelList: Novel[], profiles: [string, User_Profile][] } = res.data
                 const map = new Map(profiles)
                 setNovelList(list.map(v => {
