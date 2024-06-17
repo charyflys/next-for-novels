@@ -12,6 +12,7 @@ export default function SearchView() {
     // const router = useRouter()
     // const querySearch = searchParams.get('q')
     // const [search, setSearch] = useState<string>(querySearch||'')
+    let render = false
     const [search, setSearch] = useState<string>('')
     const getSearch = () =>setTimeout(() => {
         if (typeof window==='undefined') {
@@ -21,9 +22,13 @@ export default function SearchView() {
         const { q } = qs.parse(window.location.search.replace('?', '')) as { q: string | undefined }
         setSearch(q||'')
     },10)
+    useEffect(() => {
+        if (!render) {
+           render=true
+           getSearch() 
+        }
+    })
     if (novelList.length === 0) {
-        console.log(!!setTimeout)
-        // getSearch()
         getNovels().then(res => {
             if (res.data) {
                 const { novelList: list, profiles }: { novelList: Novel[], profiles: [string, User_Profile][] } = res.data
