@@ -14,7 +14,7 @@ export default function SearchView() {
     // const [search, setSearch] = useState<string>(querySearch||'')
     const [search, setSearch] = useState<string>('')
     const getSearch = () =>setTimeout(() => {
-        if (!window) {
+        if (typeof window==='undefined') {
             getSearch()
             return
         }
@@ -23,7 +23,7 @@ export default function SearchView() {
     },10)
     if (novelList.length === 0) {
         console.log(!!setTimeout)
-        getSearch()
+        // getSearch()
         getNovels().then(res => {
             if (res.data) {
                 const { novelList: list, profiles }: { novelList: Novel[], profiles: [string, User_Profile][] } = res.data
