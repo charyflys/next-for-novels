@@ -4,13 +4,26 @@ import { Card, CardContent, CardMedia, Typography, Box, Button, Grid, Accordion,
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { getNovelById } from '@/request/novel';
 import { ExpandLess,ExpandMore } from '@mui/icons-material';
+import { useNovelStore } from '@/stores/Novel'
+import { useRouter } from 'next/navigation';
 
 export default function BookDetailPage() {
     const [novel, setNovel] = useState<NovelWithAuthor>()
-
     const [showChapter, setChapter] = useState('')
+    const router = useRouter()
+
     const errPush = () => {
         location.replace('/search')
+    }
+    const setNovelCache = useNovelStore(state => state.updateNovel)
+    function toArticleClickCache (e: React.MouseEvent) {
+        e.preventDefault()
+        novel&&setNovelCache(novel)
+        const el = e.currentTarget
+        if ('href' in el&&typeof el.href==='string'){
+            router.push(el.href)
+        }
+
     }
     useEffect(() => {
         if (!novel) {
@@ -97,7 +110,12 @@ export default function BookDetailPage() {
                                             <List component='div' disablePadding>
                                                 {v.articles.map(a => {
                                                     return (
-                                                        <ListItemButton sx={{ pl:4 }} key={a.path} href={`/novel/${novel.novel_id}/${a.path.split('/').join('&')}`}>
+                                                        <ListItemButton
+                                                         sx={{ pl:4 }} 
+                                                         key={a.path} 
+                                                         href={`/novel/${novel.novel_id}/${a.path.split('/').join('&')}`}
+                                                         onClick={toArticleClickCache}
+                                                         >
                                                             <ListItemText primary={`第${a.index}节  ${a.name}`}></ListItemText>
                                                         </ListItemButton>
                                                     )
@@ -105,66 +123,22 @@ export default function BookDetailPage() {
                                             </List>
                                         </Collapse>
                                     </>
-                                    // <Grid item xs={12} md={6} key={v.index} sx={{ maxWidth: '100%' }}>
-
-                                    //     <Accordion sx={{ maxWidth: '100%' }}>
-                                    //         <AccordionSummary sx={{ maxWidth: '100%' }} expandIcon={<ExpandMoreIcon />}>
-                                    //             <Typography>{v.name}</Typography>
-                                    //         </AccordionSummary>
-                                    //         <AccordionDetails>
-                                    //             <List>
-                                    //                 {v.articles.map(a => {
-                                    //                     return (
-                                    //                         <ListItemButton key={a.path}>
-                                    //                             <ListItemText primary={a.name}></ListItemText>
-                                    //                         </ListItemButton>
-                                    //                     )
-                                    //                 })}
-                                    //             </List>
-                                    //         </AccordionDetails>
-                                    //     </Accordion>
-                                    // </Grid>
                                 )
                             })
                                 : (
                                     <>
                                         <Skeleton>
-                                            <Grid item xs={12} md={6}>
-                                                <Accordion sx={{ maxWidth: '100%' }}>
-                                                    <AccordionSummary sx={{ maxWidth: '100%' }} expandIcon={<ExpandMoreIcon />}>
-                                                        <Typography width={'100vw'}>你</Typography>
-                                                    </AccordionSummary>
-                                                </Accordion>
-                                            </Grid>
+                                            <ListItemButton></ListItemButton>
                                         </Skeleton>
                                         <Skeleton>
-                                            <Grid item xs={12} md={6}>
-                                                <Accordion sx={{ maxWidth: '100%' }}>
-                                                    <AccordionSummary sx={{ maxWidth: '100%' }} expandIcon={<ExpandMoreIcon />}>
-                                                        <Typography width={'100vw'}>你</Typography>
-                                                    </AccordionSummary>
-                                                </Accordion>
-                                            </Grid>
+                                            <ListItemButton></ListItemButton>
                                         </Skeleton>
                                         <Skeleton>
-                                            <Grid item xs={12} md={6}>
-                                                <Accordion sx={{ maxWidth: '100%' }}>
-                                                    <AccordionSummary sx={{ maxWidth: '100%' }} expandIcon={<ExpandMoreIcon />}>
-                                                        <Typography width={'100vw'}>你</Typography>
-                                                    </AccordionSummary>
-                                                </Accordion>
-                                            </Grid>
+                                            <ListItemButton></ListItemButton>
                                         </Skeleton>
                                         <Skeleton>
-                                            <Grid item xs={12} md={6}>
-                                                <Accordion sx={{ maxWidth: '100%' }}>
-                                                    <AccordionSummary sx={{ maxWidth: '100%' }} expandIcon={<ExpandMoreIcon />}>
-                                                        <Typography width={'100vw'}>你</Typography>
-                                                    </AccordionSummary>
-                                                </Accordion>
-                                            </Grid>
+                                            <ListItemButton></ListItemButton>
                                         </Skeleton>
-
                                     </>
                                 )
                         }

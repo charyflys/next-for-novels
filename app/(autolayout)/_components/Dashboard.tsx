@@ -148,11 +148,12 @@ export default function Dashboard({children,pageProps}: Readonly<{
                 : theme.palette.grey[900],
             flexGrow: 1,
             height: '100vh',
-            overflow: 'auto',
+            overflowY: 'auto',
+            overflowX: 'hidden'
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4, }}>
+          <Container maxWidth="lg" sx={{ mt: 4, mb: 4, width:'90vw'}}>
             {children}
             <Copyright />
           </Container>

@@ -6,7 +6,7 @@ const decompress = lzma.LZMA.decompress
 
 const url = '/novel/article'
 
-export async function getArticle(articlepath: string) {
+export async function getArticle(articlepath: string) :Promise<{code: string,msg: string,data:string}> {
     return await fetch('/api'+url+`?article=${articlepath}`)
     .then(res=>res.arrayBuffer())
     .then(arrbuf=> new Promise((resolve, reject) => {

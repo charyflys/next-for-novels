@@ -1,4 +1,6 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+'use client'
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Typography,
@@ -7,42 +9,65 @@ import {
   Link,
   Grid,
   Paper,
-  Stack
+  Stack,
+  Button,
+  CardMedia,
+  Drawer,
+  ListItemButton,
+  ListItemText,
+  List,
+  Collapse
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MenuIcon from '@mui/icons-material/Menu';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
+import Comment from '@mui/icons-material/Comment';
+import GradeIcon from '@mui/icons-material/Grade';
+import { useNovelStore } from '@/stores/Novel';
+import { getNovelById } from '@/request/novel';
+import { getArticle } from '@/request/article';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
+export default function ChapterDetailPage() {
+  const [open, setOpen] = useState(false)
+  const [renderInner, setRender] = useState<string[]>([])
+  const [novel, setNovel] = useState<NovelWithAuthor>()
+  const [showChapter, setChapter] = useState('')
 
-export default function ChapterDetailPage () {
-    const inner= `
-              75 三个臭皮匠，但……
+  const NovelStore = useNovelStore(state => state.Novel)
 
-          醒来后，发现自己被绑在冰冷的地上。
+  let novelId: number, articlePath: string, pathCheck: boolean
+  if (!novel) {
+    if (NovelStore) {
+      setNovel(NovelStore)
+    }
+  }
+  useEffect(() => {
+    if (!pathCheck) {
+      const res = /\/novel\/(\d+)\/(.{36})&(.+)/.exec(location.pathname)
+      if (res) {
+        articlePath = res[2] + '/' + res[3]
+        novelId = parseInt(res[1])
+        if (!novel) {
+          getNovelById(novelId).then(res => {
+            const novelFromServer = res.data as NovelWithAuthor
+            setNovel(novelFromServer)
+          })
+        }
+        getArticle(articlePath).then(res => {
+          setRender([res.data])
+        })
+      }
+    }
+  })
 
-          “可恶！！丽艾尔人呢，给我出来！！”
+  function handleClickTest(event: React.MouseEvent) {
+    event.preventDefault()
+  }
 
-          我仿佛是一只害怕的小型犬，带着哭腔大声叫唤。
 
-          可恶，结果她还是干出了绑架临尝这种毫无新鲜感的事情。我也想过她总有一天会这么干，但没想到她会在光天化日之下行动。
-          话说我被绑架的次数是不是越来越多了？别再绑架了，我甚至都有一点习惯了。
-          好了，这是掌握现状吧。
-
-          我被绑架多久了？这是哪里？
-
-          这里太黑了，除了冰冷的地面和头上的铁框外什么都感觉不到。
-
-          “……神官？”
-
-          听到一个熟悉的声音。
-
-          我尽最大伸出手，指尖碰到了冰冷的铁框栏杆……厚厚的布？
-          我再用手指抚过栏杆上的间隙，试着拉了一下那块布。布似乎只是轻轻盖着，一碰就滑了下来。
-          另一个侧展现出的空间比我想象的要狭窄。
-
-          这是一个毫无装饰的大房间，像是个仓库。房间角落里堆着一座女神像。旁边还有几个被布盖住的正方形笼子，估计和关住我的这个一样。`
   return (
-    <Box sx={{ p: 2, bgcolor: '#fff', minHeight: '100vh', color: '#000' }}>
+    <>
+      <Box sx={{ p: 1, bgcolor: '#fff', color: '#000', position: 'sticky', top: 63, paddingBottom: 1 }}>
         <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
           <IconButton>
             <ArrowBackIcon />
@@ -50,32 +75,83 @@ export default function ChapterDetailPage () {
           <Typography variant="h6" component="div">
             75 三个臭皮匠，但……
           </Typography>
-          <IconButton>
+          <IconButton onClick={() => setOpen(true)}>
             <MenuIcon />
           </IconButton>
         </Stack>
+      </Box>
+      <Box sx={{ p: 2, bgcolor: '#fff', color: '#000', paddingTop: 0 }}>
 
-        {/* <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2, mb: 2 }}>
-          <Typography variant="body2" color="text.secondary">
-            评论(15)
-          </Typography>
-          <Box>
-            <IconButton>
-              <ShareIcon />
-            </IconButton>
-            <IconButton>
-              <FavoriteIcon />
-            </IconButton>
-          </Box>
-        </Box> */}
-        <Typography variant="body2" color="text.secondary" sx={{ textAlign:'center' }}>
+        <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
           更新时间: 2024-06-11 21:49:55
         </Typography>
         <Divider sx={{ mt: 2, mb: 2 }} />
         <Typography variant="body1" component="div" sx={{ whiteSpace: 'pre-wrap', padding: 2 }}>
-            {inner}
+          {renderInner}
         </Typography>
-    </Box>
+      </Box>
+      <Divider />
+      <Box sx={{ p: 2, bgcolor: '#fff', color: '#000', display: 'flex', justifyContent: 'space-around' }}>
+        <IconButton size='large'>
+          <FavoriteIcon fontSize='large' color='error' />
+        </IconButton>
+        <IconButton size='large'>
+          <GradeIcon fontSize='large' color='inherit' />
+        </IconButton>
+        <IconButton size='large'>
+          <Comment fontSize='large' />
+        </IconButton>
+      </Box>
+      <Divider />
+      <Box sx={{ p: 2, bgcolor: '#fff', color: '#000', display: 'flex', justifyContent: 'space-around' }}>
+        <Button>
+          上一话
+        </Button>
+        <Button>
+          目录
+        </Button>
+        <Button href='/' onClick={handleClickTest}>
+          下一话
+        </Button>
+      </Box>
+      <Box
+        sx={{ p: 2, bgcolor: '#fff', color: '#000', margin: '10px 0' }}
+      >
+
+      </Box>
+      <Drawer anchor='right' open={open} onClose={() => setOpen(false)}>
+        <List sx={{ marginTop: 10, width: 300 }}>
+          {
+            novel?.catalogue.map(v => {
+              return (
+                <>
+                  <ListItemButton onClick={() => setChapter(v.name)}>
+                    <ListItemText primary={`第${v.index}章    ${v.name}`} />
+                    {showChapter !== v.name ? <ExpandLess /> : <ExpandMore />}
+                  </ListItemButton>
+                  <Collapse in={showChapter === v.name} timeout='auto' unmountOnExit>
+                    <List component='div' disablePadding>
+                      {v.articles.map(a => {
+                        return (
+                          <ListItemButton
+                            sx={{ pl: 4 }}
+                            key={a.path}
+                            href={`/novel/${novel.novel_id}/${a.path.split('/').join('&')}`}
+                          >
+                            <ListItemText primary={`第${a.index}节  ${a.name}`}></ListItemText>
+                          </ListItemButton>
+                        )
+                      })}
+                    </List>
+                  </Collapse>
+                </>
+              )
+            })
+
+          }
+        </List>
+      </Drawer>
+    </>
   );
 };
 
