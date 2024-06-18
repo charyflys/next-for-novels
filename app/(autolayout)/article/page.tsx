@@ -35,7 +35,7 @@ export default function ChapterDetailPage() {
 
   const NovelStore = useNovelStore(state => state.Novel)
 
-  let novelId: number, articlePath: string, pathCheck: boolean
+  let novelId: number, articlePath: string, pathCheck: boolean = false, render: boolean = false
   if (!novel) {
     if (NovelStore) {
       setNovel(NovelStore)
@@ -48,15 +48,19 @@ export default function ChapterDetailPage() {
       if (res) {
         articlePath = res[2] + '/' + res[3]
         novelId = parseInt(res[1])
+        console.log(novel)
         if (!novel) {
           getNovelById(novelId).then(res => {
             const novelFromServer = res.data as NovelWithAuthor
             setNovel(novelFromServer)
           })
         }
-        if(!renderInner)getArticle(articlePath).then(res => {
-          setRender([res.data])
-        })
+        if(!render){
+          render = true
+          getArticle(articlePath).then(res => {
+            setRender([res.data])
+          })
+        }
       }
     }
   })

@@ -17,12 +17,12 @@ export default function BookDetailPage() {
     }
     const setNovelCache = useNovelStore(state => state.updateNovel)
     function toArticleClickCache (e: React.MouseEvent) {
-        e.preventDefault()
+        // e.preventDefault()
         novel&&setNovelCache(novel)
         const el = e.currentTarget
-        if ('href' in el&&typeof el.href==='string'){
-            router.push(el.href)
-        }
+        // if ('href' in el&&typeof el.href==='string'){
+        //     router.push(el.href)
+        // }
 
     }
     useEffect(() => {
