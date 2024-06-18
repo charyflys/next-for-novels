@@ -54,7 +54,7 @@ export default function ChapterDetailPage() {
             setNovel(novelFromServer)
           })
         }
-        getArticle(articlePath).then(res => {
+        if(!renderInner)getArticle(articlePath).then(res => {
           setRender([res.data])
         })
       }
