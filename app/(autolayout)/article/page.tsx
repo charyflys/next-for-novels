@@ -32,10 +32,8 @@ export default function ChapterDetailPage() {
   const [renderInner, setRender] = useState<string[]>([])
   const [novel, setNovel] = useState<NovelWithAuthor>()
   const [showChapter, setChapter] = useState('')
-
+  const [pathCheck, setPathCheck] = useState(false)
   const NovelStore = useNovelStore(state => state.Novel)
-
-  let novelId: number, articlePath: string, pathCheck: boolean = false, render: boolean = false
   if (!novel) {
     if (NovelStore) {
       setNovel(NovelStore)
@@ -44,19 +42,17 @@ export default function ChapterDetailPage() {
   useEffect(() => {
     if (!pathCheck) {
       const res = /\/novel\/(\d+)\/(.{36})&(.+)/.exec(location.pathname)
-      pathCheck=true
+      setPathCheck(true)
       if (res) {
-        articlePath = res[2] + '/' + res[3]
-        novelId = parseInt(res[1])
-        console.log(novel)
+        const articlePath = res[2] + '/' + res[3]
+        const novelId = parseInt(res[1])
         if (!novel) {
           getNovelById(novelId).then(res => {
             const novelFromServer = res.data as NovelWithAuthor
             setNovel(novelFromServer)
           })
         }
-        if(!render){
-          render = true
+        if(renderInner.length===0){
           getArticle(articlePath).then(res => {
             setRender([res.data])
           })
