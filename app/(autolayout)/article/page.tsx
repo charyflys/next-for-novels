@@ -44,6 +44,7 @@ export default function ChapterDetailPage() {
   useEffect(() => {
     if (!pathCheck) {
       const res = /\/novel\/(\d+)\/(.{36})&(.+)/.exec(location.pathname)
+      pathCheck=true
       if (res) {
         articlePath = res[2] + '/' + res[3]
         novelId = parseInt(res[1])
@@ -107,7 +108,7 @@ export default function ChapterDetailPage() {
         <Button>
           上一话
         </Button>
-        <Button>
+        <Button onClick={() => setOpen(true)}>
           目录
         </Button>
         <Button href='/' onClick={handleClickTest}>
@@ -125,7 +126,7 @@ export default function ChapterDetailPage() {
             novel?.catalogue.map(v => {
               return (
                 <>
-                  <ListItemButton onClick={() => setChapter(v.name)}>
+                  <ListItemButton onClick={() => setChapter(showChapter===v.name ?'':v.name)}>
                     <ListItemText primary={`第${v.index}章    ${v.name}`} />
                     {showChapter !== v.name ? <ExpandLess /> : <ExpandMore />}
                   </ListItemButton>
