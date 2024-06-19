@@ -77,13 +77,13 @@ export default async function middleware(request: Request) {
 export const config = {
     matcher: [
         '/',
-        '/novel',
+        '/novel?.*',
         '/novels',
         '/favorite',
-        '/search',
+        '/search?.*',
         '/announce',
         '/admin',
-        '/article',
+        '/article?.*',
         '/articles'
     ],
 };
