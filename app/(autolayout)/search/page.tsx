@@ -12,7 +12,7 @@ export default function SearchView() {
     // const router = useRouter()
     // const querySearch = searchParams.get('q')
     // const [search, setSearch] = useState<string>(querySearch||'')
-    let render = false
+    const [ render, setRender] = useState(false)
     const [search, setSearch] = useState<string>('')
     const getSearch = () =>setTimeout(() => {
         if (typeof window==='undefined') {
@@ -22,14 +22,15 @@ export default function SearchView() {
         const { q } = qs.parse(window.location.search.replace('?', '')) as { q: string | undefined }
         setSearch(q||'')
     },10)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         if (!render) {
            // eslint-disable-next-line react-hooks/exhaustive-deps
-           render=true
+           setRender(true)
            getSearch() 
         }
     })
-    if (novelList.length === 0) {
+    if (novelList.length === 0&&!render) {
         getNovels().then(res => {
             if (res.data) {
                 const { novelList: list, profiles }: { novelList: Novel[], profiles: [string, User_Profile][] } = res.data
