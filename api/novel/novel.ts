@@ -14,7 +14,18 @@ export async function GET(req: Request) {
             const data = await getNovel(parseInt(novelid))
             if (!data) return resultNoData('不存在指定的小说', '404')
             const profile = await getProfile(data.author_id)
-            return result(Object.assign(data, { author: profile }))
+            return new Response(JSON.stringify({
+                msg: 'ok',
+                code: '200',
+                data: Object.assign(data, { author: profile })
+            }),
+                {
+                    status: 200,
+                    headers: {
+                        'Cache-Control': 'public, max-age=1800, immutable'
+                    }
+                }
+            )
         }
         case 'search': {
             const data = await getAllCol()
@@ -32,18 +43,7 @@ export async function GET(req: Request) {
             const userId = (user_id) as string
             const data = await getNovelsFromMine(userId)
             if (data === null) return resultNoData('错误，请向开发者求助', '500')
-            return new Response(JSON.stringify({
-                msg: 'ok',
-                code: '200',
-                data: data
-            }),
-                {
-                    status: 200,
-                    headers: {
-                        'Cache-Control': 'public, max-age=1800, immutable'
-                    }
-                }
-            )
+            return result(data)
         }
         case 'collection': {
             // TODO 展示指定用户的收藏，鉴于现阶段压根就没做这么一个表......
