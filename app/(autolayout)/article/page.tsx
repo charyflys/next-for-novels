@@ -95,7 +95,7 @@ export default function ChapterDetailPage() {
       <Box sx={{ p: 2, bgcolor: '#fff', color: '#000', paddingTop: 0 }}>
 
         <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
-          {new Date(article && article.updated_at ? article.updated_at * 1000 : '').toLocaleString()}
+          更新时间：{article && article.updated_at&&new Date(article.updated_at * 1000).toLocaleString().replaceAll('/','-')}
         </Typography>
         <Divider sx={{ mt: 2, mb: 2 }} />
         <Typography variant="body1" component="div" sx={{ whiteSpace: 'pre-wrap', padding: 2 }}>
