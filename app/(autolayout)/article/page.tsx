@@ -53,17 +53,9 @@ export default function ChapterDetailPage() {
             setNovel(novelFromServer)
             if (articleM) {
               setArticlePath([parseInt(articleM[1]), parseInt(articleM[2]), parseInt(articleM[3]),])
-              const chapter = novelFromServer.catalogue.find(v => v.index === parseInt(articleM[2]))
-              const article = chapter?.articles.find(v => v.index ===parseInt(articleM[3]))
-              console.log(article)
-              if (article) {
-                setArticle(article)
-              }
-            }
-    
-            if (articlepath) {
-              const chapter = novelFromServer.catalogue.find(v => v.index === articlepath[1])
-              const article = chapter?.articles.find(v => v.index === articlepath[2])
+              const chapter = novelFromServer.catalogue.find(v => v.index-0 === parseInt(articleM[2]))
+              console.log(chapter)
+              const article = chapter?.articles.find(v => v.index-0 ===parseInt(articleM[3]))
               console.log(article)
               if (article) {
                 setArticle(article)
