@@ -33,7 +33,7 @@ export async function POST(req:Request) {
     if (!chapter) {
         return resultNoData('不存在对应的章节'+article.chapterIndex,'404')
     }
-    const purposeArticle = chapter.articles.find(v=>v.index === article.index) as  Article
+    const purposeArticle = chapter.articles.find(v=>v.index-0 === article.index-0) as  Article
 
     const uploadFile = new File(
         [file], 
