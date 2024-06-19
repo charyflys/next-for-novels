@@ -23,22 +23,19 @@ import MenuIcon from '@mui/icons-material/Menu';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Comment from '@mui/icons-material/Comment';
 import GradeIcon from '@mui/icons-material/Grade';
-import { useNovelStore } from '@/stores/Novel';
 import { getNovelById } from '@/request/novel';
 import { getArticle } from '@/request/article';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
+
+const articlePathModel = /n(\d+)-c(\d+)-a(\d+)/
 export default function ChapterDetailPage() {
   const [open, setOpen] = useState(false)
   const [renderInner, setRender] = useState<string[]>([])
   const [novel, setNovel] = useState<NovelWithAuthor>()
   const [showChapter, setChapter] = useState('')
   const [pathCheck, setPathCheck] = useState(false)
-  const NovelStore = useNovelStore(state => state.Novel)
-  if (!novel) {
-    if (NovelStore) {
-      setNovel(NovelStore)
-    }
-  }
+  const [articlepath, setArticlePath] = useState<[number, number, number]>()
+  const [article, setArticle] = useState<Article>()
   useEffect(() => {
     if (!pathCheck) {
       const res = /\/novel\/(\d+)\/(.{36})&(.+)/.exec(location.pathname)
@@ -50,12 +47,23 @@ export default function ChapterDetailPage() {
           getNovelById(novelId).then(res => {
             const novelFromServer = res.data as NovelWithAuthor
             setNovel(novelFromServer)
+            if (articlepath) {
+              const chapter = novelFromServer.catalogue.find(v => v.index === articlepath[1])
+              const article = chapter?.articles.find(v => v.index === articlepath[2])
+              if (article) {
+                setArticle(article)
+              }
+            }
           })
         }
-        if(renderInner.length===0){
+        if (renderInner.length === 0) {
           getArticle(articlePath).then(res => {
             setRender([res.data])
           })
+        }
+        const articleM = articlePathModel.exec(res[3])
+        if (articleM) {
+          setArticlePath([parseInt(articleM[1]), parseInt(articleM[2]), parseInt(articleM[3]),])
         }
       }
     }
@@ -74,7 +82,7 @@ export default function ChapterDetailPage() {
             <ArrowBackIcon />
           </IconButton>
           <Typography variant="h6" component="div">
-            75 三个臭皮匠，但……
+            {article?.name}
           </Typography>
           <IconButton onClick={() => setOpen(true)}>
             <MenuIcon />
@@ -84,7 +92,7 @@ export default function ChapterDetailPage() {
       <Box sx={{ p: 2, bgcolor: '#fff', color: '#000', paddingTop: 0 }}>
 
         <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
-          更新时间: 2024-06-11 21:49:55
+          {new Date(article && article.updated_at ? article.updated_at * 1000 : '').toLocaleString()}
         </Typography>
         <Divider sx={{ mt: 2, mb: 2 }} />
         <Typography variant="body1" component="div" sx={{ whiteSpace: 'pre-wrap', padding: 2 }}>
@@ -126,7 +134,7 @@ export default function ChapterDetailPage() {
             novel?.catalogue.map(v => {
               return (
                 <>
-                  <ListItemButton onClick={() => setChapter(showChapter===v.name ?'':v.name)}>
+                  <ListItemButton onClick={() => setChapter(showChapter === v.name ? '' : v.name)}>
                     <ListItemText primary={`第${v.index}章    ${v.name}`} />
                     {showChapter !== v.name ? <ExpandLess /> : <ExpandMore />}
                   </ListItemButton>

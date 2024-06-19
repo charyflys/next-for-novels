@@ -46,14 +46,14 @@ export async function POST(req:Request) {
     if (!purposeArticle) {
         chapter.articles.push({
             name,
-            index,
+            index:index-0,
             exist,
             created_at: Math.floor(Date.now()/1000),
             path: uploadFile.name
         })
     } else {
         purposeArticle.exist = exist
-        purposeArticle.index = index
+        purposeArticle.index = index-0
         purposeArticle.name = name
         purposeArticle.updated_at = Math.floor(Date.now()/1000)
         purposeArticle.path = uploadFile.name
