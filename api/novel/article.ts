@@ -2,6 +2,7 @@ import { getNovel, updateNovelMuLu } from "../../lib/supabase/novel";
 import { resultNoData, result, getQuery, authCheck, getBody } from "../../lib/quickapi";
 import { addArticle, checkArticleList, getArticle } from "../../lib/supabase/articleBlob";
 import md5 from "md5";
+const model = /-x(\d+)/
 
 // TODO 获取目标对象是否有权限对该novel进行修改
 export async function POST(req:Request) {
@@ -52,11 +53,16 @@ export async function POST(req:Request) {
             path: uploadFile.name
         })
     } else {
+        let num=1
+        const modelRes = model.exec(purposeArticle.path)
+        if(modelRes) {
+            num = parseInt(modelRes[1]) + 1
+        }
         purposeArticle.exist = exist
         purposeArticle.index = index-0
         purposeArticle.name = name
         purposeArticle.updated_at = Math.floor(Date.now()/1000)
-        purposeArticle.path = uploadFile.name
+        purposeArticle.path = uploadFile.name + '-x' + num
     }
     await updateNovelMuLu({ novel_id: novel.novel_id, catalogue: novel.catalogue})
     return resultNoData(re.path)
@@ -64,7 +70,12 @@ export async function POST(req:Request) {
 
 export async function GET(req:Request) {
     const { article } = await getQuery(req)
-    const re = await getArticle(article as string)
+    let articleUrl = article as string
+    const modelRes = model.exec(articleUrl)
+    if (modelRes) {
+        articleUrl = articleUrl.replace(modelRes[0],'')
+    }
+    const re = await getArticle(articleUrl)
     if (re.err) {
         return resultNoData(re.msg,'403')
     }

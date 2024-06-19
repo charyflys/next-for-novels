@@ -54,9 +54,7 @@ export default function ChapterDetailPage() {
             if (articleM) {
               setArticlePath([parseInt(articleM[1]), parseInt(articleM[2]), parseInt(articleM[3]),])
               const chapter = novelFromServer.catalogue.find(v => v.index-0 === parseInt(articleM[2]))
-              console.log(chapter)
               const article = chapter?.articles.find(v => v.index-0 ===parseInt(articleM[3]))
-              console.log(article)
               if (article) {
                 setArticle(article)
               }
