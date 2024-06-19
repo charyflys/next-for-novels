@@ -38,8 +38,9 @@ export default function BookDetailPage() {
                 const chapter = novelFromServer.catalogue[0]
                 if (chapter) setChapter(chapter.name)
             })
-                .catch(() => {
-                    errPush()
+                .catch((err) => {
+                    // errPush()
+                    console.log(err)
                 })
         }
     })
