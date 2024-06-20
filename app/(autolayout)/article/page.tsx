@@ -53,7 +53,8 @@ export default function ChapterDetailPage() {
               setArticlePath([parseInt(articleM[1]), parseInt(articleM[2]), parseInt(articleM[3]),])
               const chapter = novelFromServer.catalogue.find(v => v.index - 0 === parseInt(articleM[2]))
               const article = chapter?.articles.find(v => v.index - 0 === parseInt(articleM[3]))
-              if (article) {
+              if (article&&chapter) {
+                setChapter(chapter.name)
                 setArticle(article)
               }
             }
@@ -78,7 +79,7 @@ export default function ChapterDetailPage() {
 
   return (
     <>
-      <Box sx={{ p: 1, bgcolor: '#fff', color: '#000', position: 'sticky', top: 63, paddingBottom: 1 }}>
+      <Box sx={{ p: 1, bgcolor: '#fff', color: '#000', position: 'sticky', top: 56, paddingBottom: 1 }}>
         <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
           <IconButton href={`/novel/${novel?.novel_id}`}>
             <ArrowBackIcon />
@@ -146,7 +147,7 @@ export default function ChapterDetailPage() {
                         const isMine = a.path === article?.path
                         return (
                           <ListItemButton
-                            sx={{ pl: 4 }}
+                            sx={{ pl: 2 }}
                             key={a.path}
                             onClick={isMine ? preventDefault : () => { }}
                             href={`/novel/${novel.novel_id}/${a.path.split('/').join('&')}`}
