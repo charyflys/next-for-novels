@@ -62,7 +62,7 @@ export default function ChapterDetailPage() {
               if (article && chapter) {
                 setChapter(chapter.name)
                 setArticle(article)
-                const pre = chapter.articles.find(v => v.index = article.index - 1)
+                const pre = chapter.articles.find(v => v.index === article.index - 1)
                 if (pre) {
                   setPre(pre)
                 } else {
@@ -70,7 +70,7 @@ export default function ChapterDetailPage() {
                   const article = chapter ? chapter.articles[chapter.articles.length - 1] : undefined
                   setPre(article)
                 }
-                const next = chapter.articles.find(v => v.index = article.index + 1)
+                const next = chapter.articles.find(v => v.index === article.index + 1)
                 console.log(pre,article,next)
                 if (next) {
                   setNext(next)
