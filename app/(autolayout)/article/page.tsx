@@ -71,7 +71,7 @@ export default function ChapterDetailPage() {
                   setPre(article)
                 }
                 const next = chapter.articles.find(v => v.index === article.index + 1)
-                console.log(pre,article,next)
+                console.log(pre, article, next)
                 if (next) {
                   setNext(next)
                 } else {
@@ -119,9 +119,9 @@ export default function ChapterDetailPage() {
 
         <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
           更新时间：{
-          (article && article.updated_at && new Date(article.updated_at * 1000).toLocaleString().replaceAll('/', '-'))
-          ||
-          (article && article.created_at && new Date(article.created_at * 1000).toLocaleString().replaceAll('/', '-'))
+            (article && article.updated_at && new Date(article.updated_at * 1000).toLocaleString().replaceAll('/', '-'))
+            ||
+            (article && article.created_at && new Date(article.created_at * 1000).toLocaleString().replaceAll('/', '-'))
           }
         </Typography>
         <Divider sx={{ mt: 2, mb: 2 }} />
@@ -201,11 +201,15 @@ export default function ChapterDetailPage() {
                             href={`/novel/${novel.novel_id}/${a.path.split('/').join('&')}`}
                           >
                             {
-                              isMine ? <ListItemIcon>
-                                <BookmarkBorderIcon />
-                              </ListItemIcon> : ''
+                              isMine ?
+                                <>
+                                  <ListItemIcon>
+                                    <BookmarkBorderIcon />
+                                  </ListItemIcon>
+                                  <ListItemText primary={`第${a.index}节  ${a.name}`}></ListItemText>
+                                </>
+                                : <ListItemText inset primary={`第${a.index}节  ${a.name}`}></ListItemText>
                             }
-                            <ListItemText inset primary={`第${a.index}节  ${a.name}`}></ListItemText>
                           </ListItemButton>
                         )
                       })}
