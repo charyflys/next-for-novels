@@ -4,14 +4,28 @@ import { Grid, Typography, Paper, TextField, InputAdornment, Box, Button } from 
 import { Search } from "@mui/icons-material";
 import BookCard from "./_components/BookCard";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { CheckSession } from "@/request/signin";
 export default function Home() {
   const router = useRouter()
+  const [TimoOutSignIn,setSignIn] = useState<NodeJS.Timeout>()
+  function setTimeToSignIn () {
+    if(!TimoOutSignIn) {
+      const timeout = setTimeout(() => {
+        setSignIn(undefined)
+        CheckSession()
+        setTimeToSignIn()
+      },1000*60*25)
+      setSignIn(timeout)
+    }
+  }
   function handleSubmit(e: React.FormEvent<HTMLFormElement>,) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const search = formData.get('search') as string;
     router.push(`/search?q=${search}`)
   }
+  
   const novel: NovelWithAuthor = {
     author: {
       role: null,

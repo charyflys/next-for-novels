@@ -71,7 +71,6 @@ export default function ChapterDetailPage() {
                   setPre(article)
                 }
                 const next = chapter.articles.find(v => v.index === article.index + 1)
-                console.log(pre, article, next)
                 if (next) {
                   setNext(next)
                 } else {
