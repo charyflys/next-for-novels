@@ -34,6 +34,8 @@ export default function ChapterDetailPage() {
   const [pathCheck, setPathCheck] = useState(false)
   const [articlepath, setArticlePath] = useState<[number, number, number]>()
   const [article, setArticle] = useState<Article>()
+  const [next, setNext] = useState<Article>()
+  const [pre, setPre] = useState<Article>()
   useEffect(() => {
     if (!pathCheck) {
       const res = /\/novel\/(\d+)\/(.{36})&(.+)/.exec(location.pathname)
@@ -48,14 +50,34 @@ export default function ChapterDetailPage() {
         if (!novel) {
           getNovelById(novelId).then(res => {
             const novelFromServer = res.data as NovelWithAuthor
+            novelFromServer.catalogue.sort((a, b) => a.index - b.index)
+            novelFromServer.catalogue.forEach(v => {
+              v.articles.sort((a, b) => a.index - b.index)
+            })
             setNovel(novelFromServer)
             if (articleM) {
               setArticlePath([parseInt(articleM[1]), parseInt(articleM[2]), parseInt(articleM[3]),])
               const chapter = novelFromServer.catalogue.find(v => v.index - 0 === parseInt(articleM[2]))
               const article = chapter?.articles.find(v => v.index - 0 === parseInt(articleM[3]))
-              if (article&&chapter) {
+              if (article && chapter) {
                 setChapter(chapter.name)
                 setArticle(article)
+                const pre = chapter.articles.find(v => v.index = article.index - 1)
+                if (pre) {
+                  setPre(pre)
+                } else {
+                  const chapter = novelFromServer.catalogue.find(v => v.index - 0 === parseInt(articleM[2]) - 1)
+                  const article = chapter ? chapter.articles[chapter.articles.length - 1] : undefined
+                  setPre(article)
+                }
+                const next = chapter.articles.find(v => v.index = article.index + 1)
+                if (next) {
+                  setNext(next)
+                } else {
+                  const chapter = novelFromServer.catalogue.find(v => v.index - 1 === parseInt(articleM[2]))
+                  const article = chapter ? chapter.articles[0] : undefined
+                  setNext(article)
+                }
               }
             }
           })
@@ -116,15 +138,37 @@ export default function ChapterDetailPage() {
       </Box>
       <Divider />
       <Box sx={{ p: 2, bgcolor: '#fff', color: '#000', display: 'flex', justifyContent: 'space-around' }}>
-        <Button>
-          上一话
-        </Button>
+        {
+          pre ?
+            <Button
+              href={`/novel/${novel?.novel_id}/${pre.path.split('/').join('&')}`}
+            >
+              上一话
+            </Button>
+            :
+            <Button
+              color='inherit'
+            >
+              没有了
+            </Button>
+        }
         <Button onClick={() => setOpen(true)}>
           目录
         </Button>
-        <Button href='/' onClick={handleClickTest}>
-          下一话
-        </Button>
+        {
+          next ?
+            <Button
+              href={`/novel/${novel?.novel_id}/${next.path.split('/').join('&')}`}
+            >
+              下一话
+            </Button>
+            :
+            <Button
+              color='inherit'
+            >
+              没有了
+            </Button>
+        }
       </Box>
       <Box
         sx={{ p: 2, bgcolor: '#fff', color: '#000', margin: '10px 0' }}
@@ -147,7 +191,6 @@ export default function ChapterDetailPage() {
                         const isMine = a.path === article?.path
                         return (
                           <ListItemButton
-                            sx={{ pl: 2 }}
                             key={a.path}
                             onClick={isMine ? preventDefault : () => { }}
                             href={`/novel/${novel.novel_id}/${a.path.split('/').join('&')}`}
@@ -157,7 +200,7 @@ export default function ChapterDetailPage() {
                                 <BookmarkBorderIcon />
                               </ListItemIcon> : ''
                             }
-                            <ListItemText primary={`第${a.index}节  ${a.name}`}></ListItemText>
+                            <ListItemText inset primary={`第${a.index}节  ${a.name}`}></ListItemText>
                           </ListItemButton>
                         )
                       })}
