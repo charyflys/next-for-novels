@@ -6,17 +6,14 @@ import {
   Typography,
   Divider,
   IconButton,
-  Link,
-  Grid,
-  Paper,
   Stack,
   Button,
-  CardMedia,
   Drawer,
   ListItemButton,
   ListItemText,
   List,
-  Collapse
+  Collapse,
+  ListItemIcon
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -25,6 +22,7 @@ import Comment from '@mui/icons-material/Comment';
 import GradeIcon from '@mui/icons-material/Grade';
 import { getNovelById } from '@/request/novel';
 import { getArticle } from '@/request/article';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 const articlePathModel = /n(\d+)-c(\d+)-a(\d+)/
@@ -53,8 +51,8 @@ export default function ChapterDetailPage() {
             setNovel(novelFromServer)
             if (articleM) {
               setArticlePath([parseInt(articleM[1]), parseInt(articleM[2]), parseInt(articleM[3]),])
-              const chapter = novelFromServer.catalogue.find(v => v.index-0 === parseInt(articleM[2]))
-              const article = chapter?.articles.find(v => v.index-0 ===parseInt(articleM[3]))
+              const chapter = novelFromServer.catalogue.find(v => v.index - 0 === parseInt(articleM[2]))
+              const article = chapter?.articles.find(v => v.index - 0 === parseInt(articleM[3]))
               if (article) {
                 setArticle(article)
               }
@@ -74,12 +72,15 @@ export default function ChapterDetailPage() {
     event.preventDefault()
   }
 
+  function preventDefault(event: React.MouseEvent) {
+    event.preventDefault()
+  }
 
   return (
     <>
       <Box sx={{ p: 1, bgcolor: '#fff', color: '#000', position: 'sticky', top: 63, paddingBottom: 1 }}>
         <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
-          <IconButton>
+          <IconButton href={`/novel/${novel?.novel_id}`}>
             <ArrowBackIcon />
           </IconButton>
           <Typography variant="h6" component="div">
@@ -93,7 +94,7 @@ export default function ChapterDetailPage() {
       <Box sx={{ p: 2, bgcolor: '#fff', color: '#000', paddingTop: 0 }}>
 
         <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
-          更新时间：{article && article.updated_at&&new Date(article.updated_at * 1000).toLocaleString().replaceAll('/','-')}
+          更新时间：{article && article.updated_at && new Date(article.updated_at * 1000).toLocaleString().replaceAll('/', '-')}
         </Typography>
         <Divider sx={{ mt: 2, mb: 2 }} />
         <Typography variant="body1" component="div" sx={{ whiteSpace: 'pre-wrap', padding: 2 }}>
@@ -142,12 +143,19 @@ export default function ChapterDetailPage() {
                   <Collapse in={showChapter === v.name} timeout='auto' unmountOnExit>
                     <List component='div' disablePadding>
                       {v.articles.map(a => {
+                        const isMine = a.path === article?.path
                         return (
                           <ListItemButton
                             sx={{ pl: 4 }}
                             key={a.path}
+                            onClick={isMine ? preventDefault : () => { }}
                             href={`/novel/${novel.novel_id}/${a.path.split('/').join('&')}`}
                           >
+                            {
+                              isMine ? <ListItemIcon>
+                                <BookmarkBorderIcon />
+                              </ListItemIcon> : ''
+                            }
                             <ListItemText primary={`第${a.index}节  ${a.name}`}></ListItemText>
                           </ListItemButton>
                         )

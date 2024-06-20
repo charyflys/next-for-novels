@@ -17,9 +17,9 @@ export async function POST(req:Request) {
     })  
     const { user, res:checkres } = await authCheck(req)
     if (checkres) return resultNoData(...checkres)
-    if (!file) {
-        return result(res,'no file','500')
-    }
+    // if (!file) {
+    //     return result(res,'no file','500')
+    // }
     const article = res as ArticleContent
 
     const novel = await getNovel(article.novelId)
@@ -36,12 +36,14 @@ export async function POST(req:Request) {
     const purposeArticle = chapter.articles.find(v=>v.index-0 === article.index-0) as  Article
 
     const uploadFile = new File(
-        [file], 
+        [file? file:''], 
         `${user.id}/n${novel.novel_id}-c${chapter.index}-a${article.index}`
     )
-    const re = await addArticle(uploadFile)
-    if (re.err) {
-        return resultNoData(re.msg,'403')
+    if (file) {
+        const re = await addArticle(uploadFile)
+        if (re.err) {
+            return resultNoData(re.msg,'403')
+        }
     }
     const {name,index,exist} = article
     if (!purposeArticle) {
@@ -65,7 +67,7 @@ export async function POST(req:Request) {
         purposeArticle.path = uploadFile.name + '-x' + num
     }
     await updateNovelMuLu({ novel_id: novel.novel_id, catalogue: novel.catalogue})
-    return resultNoData(re.path)
+    return resultNoData(uploadFile.name)
 }
 
 export async function GET(req:Request) {

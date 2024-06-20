@@ -41,6 +41,9 @@ importers:
       '@types/md5':
         specifier: ^2.3.5
         version: 2.3.5
+      '@types/mockjs':
+        specifier: ^1.0.10
+        version: 1.0.10
       '@types/multiparty':
         specifier: ^0.0.36
         version: 0.0.36
@@ -80,6 +83,9 @@ importers:
       md5:
         specifier: ^2.3.0
         version: 2.3.0
+      mockjs:
+        specifier: ^1.1.0
+        version: 1.1.0
       multiparty:
         specifier: ^4.2.3
         version: 4.2.3
@@ -990,6 +996,9 @@ packages:
 
   '@types/md5@2.3.5':
     resolution: {integrity: sha512-/i42wjYNgE6wf0j2bcTX6kuowmdL/6PE4IVitMpm2eYKBUuYCprdcWVK+xEF0gcV6ufMCRhtxmReGfc6hIK7Jw==}
+
+  '@types/mockjs@1.0.10':
+    resolution: {integrity: sha512-SXgrhajHG7boLv6oU93CcmdDm0HYRiceuz6b+7z+/2lCJPTWDv0V5YiwFHT2ejE4bQqgSXQiVPQYPWv7LGsK1g==}
 
   '@types/multiparty@0.0.36':
     resolution: {integrity: sha512-DNqs3xYFMLgQfYrYuuleox1wzpUJxOgR8+WQ99DPu1B6zLT+sCMMsWfqEFTThPrI3109q81sChUKg/QM/ZUPiw==}
@@ -2880,6 +2889,10 @@ packages:
   minipass@7.0.4:
     resolution: {integrity: sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==}
     engines: {node: '>=16 || 14 >=14.17'}
+
+  mockjs@1.1.0:
+    resolution: {integrity: sha512-eQsKcWzIaZzEZ07NuEyO4Nw65g0hdWAyurVol1IPl1gahRwY+svqzfgfey8U8dahLwG44d6/RwEzuK52rSa/JQ==}
+    hasBin: true
 
   ms@2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
@@ -5060,6 +5073,8 @@ snapshots:
       '@types/node': 20.12.7
 
   '@types/md5@2.3.5': {}
+
+  '@types/mockjs@1.0.10': {}
 
   '@types/multiparty@0.0.36':
     dependencies:
@@ -7441,6 +7456,10 @@ snapshots:
   minimist@1.2.8: {}
 
   minipass@7.0.4: {}
+
+  mockjs@1.1.0:
+    dependencies:
+      commander: 4.1.1
 
   ms@2.0.0: {}
 

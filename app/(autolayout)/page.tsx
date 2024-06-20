@@ -3,12 +3,14 @@
 import { Grid, Typography, Paper, TextField, InputAdornment, Box, Button } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import BookCard from "./_components/BookCard";
+import { useRouter } from "next/navigation";
 export default function Home() {
+  const router = useRouter()
   function handleSubmit(e: React.FormEvent<HTMLFormElement>,) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const search = formData.get('search') as string;
-    console.log(search);
+    router.push(`/search?q=${search}`)
   }
   const novel: NovelWithAuthor = {
     author: {
