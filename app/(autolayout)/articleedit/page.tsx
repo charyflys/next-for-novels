@@ -1,80 +1,115 @@
 'use client'
-import { Container, Typography, TextField, Box, Button, Grid, Paper, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
-import { useState } from 'react';
+import React from 'react';
+import {
+  Container,
+  Paper,
+  Typography,
+  TextField,
+  Checkbox,
+  FormControlLabel,
+  Button,
+  DialogActions,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Grid,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  List,
+  ListItem,
+  ListItemText,
+  IconButton
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AddIcon from '@mui/icons-material/Add';
 
-export default function EditArticle() {
-    const [title, setTitle] = useState('');
-    const [chapter, setChapter] = useState('');
-    const [sectionNumber, setSectionNumber] = useState('');
-    const [content, setContent] = useState('');
-
-    const handleSave = () => {
-        // Handle save logic here
-        console.log({
-            title,
-            chapter,
-            sectionNumber,
-            content,
-        });
-    };
-
-    return (
-        <>
-            <Container>
-                <Box sx={{ my: 4 }}>
-                    <Typography variant="h4" component="h1" gutterBottom>
-                        编辑文章
-                    </Typography>
-                        <Paper sx={{ p: 2 }}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={4}>
-
-                            <Box sx={{ mb: 2 }}>
-                                <TextField
-                                    label="标题"
-                                    variant="outlined"
-                                    fullWidth
-                                    value={title}
-                                    onChange={(e) => setTitle(e.target.value)}
-                                />
-                            </Box>
-                            <Box sx={{ mb: 2 }}>
-                                <TextField
-                                    label="对应章节"
-                                    variant="outlined"
-                                    fullWidth
-                                    value={chapter}
-                                    onChange={(e) => setChapter(e.target.value)}
-                                />
-                            </Box>
-                            <Box sx={{ mb: 2 }}>
-                                <TextField
-                                    label="章节内编号"
-                                    variant="outlined"
-                                    fullWidth
-                                    value={sectionNumber}
-                                    onChange={(e) => setSectionNumber(e.target.value)}
-                                />
-                            </Box>
-                            <Button variant="contained" color="primary" onClick={handleSave} fullWidth>
-                                保存
-                            </Button>
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                            <TextField
-                                label="内容"
-                                variant="outlined"
-                                fullWidth
-                                multiline
-                                rows={20}
-                                value={content}
-                                onChange={(e) => setContent(e.target.value)}
-                            />
-                        </Grid>
-                </Grid>
-                    </Paper>
-            </Box>
-        </Container >
-    </>
+const ArticleEdit = () => {
+  return (
+    <Container>
+      <Typography variant="h4" gutterBottom>Edit Article</Typography>
+      <Paper sx={{ p: 2 }}>
+        <form>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={4}>
+              <FormControl fullWidth margin="normal">
+                <InputLabel>Index</InputLabel>
+                <Select defaultValue={1}>
+                  <MenuItem value={1}>1</MenuItem>
+                  <MenuItem value={2}>2</MenuItem>
+                  <MenuItem value={3}>3</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <InputLabel>Chapter Index</InputLabel>
+                <Select defaultValue={1}>
+                  <MenuItem value={1}>1</MenuItem>
+                  <MenuItem value={2}>2</MenuItem>
+                  <MenuItem value={3}>3</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControlLabel
+                control={<Checkbox defaultChecked />}
+                label="Exist"
+              />
+              <Accordion>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography>Images</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <List>
+                    <ListItem>
+                      <ListItemText primary="Image 1" />
+                      <IconButton edge="end" aria-label="add">
+                        <AddIcon />
+                      </IconButton>
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText primary="Image 2" />
+                      <IconButton edge="end" aria-label="add">
+                        <AddIcon />
+                      </IconButton>
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText primary="Image 3" />
+                      <IconButton edge="end" aria-label="add">
+                        <AddIcon />
+                      </IconButton>
+                    </ListItem>
+                  </List>
+                </AccordionDetails>
+              </Accordion>
+            </Grid>
+            <Grid item xs={12} md={8}>
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Name"
+                defaultValue="Example Article Name"
+              />
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Content"
+                multiline
+                rows={10}
+                defaultValue="Example content goes here..."
+              />
+            </Grid>
+          </Grid>
+          <DialogActions>
+            <Button variant="contained" color="primary">
+              Save
+            </Button>
+            <Button variant="outlined" color="secondary">
+              Cancel
+            </Button>
+          </DialogActions>
+        </form>
+      </Paper>
+    </Container>
   );
-}
+};
+
+export default ArticleEdit;

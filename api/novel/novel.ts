@@ -41,7 +41,7 @@ export async function GET(req: Request) {
         }
         case 'persons': {
             const userId = (user_id) as string
-            const data = await getNovelsFromMine(userId)
+            const data = await getNovelsFromMine(userId||user.id)
             if (data === null) return resultNoData('错误，请向开发者求助', '500')
             return result(data)
         }

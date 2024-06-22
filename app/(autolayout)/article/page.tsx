@@ -186,7 +186,7 @@ export default function ChapterDetailPage() {
               return (
                 <>
                   <ListItemButton onClick={() => setChapter(showChapter === v.name ? '' : v.name)}>
-                    <ListItemText primary={`第${v.index}章    ${v.name}`} />
+                    <ListItemText primary={`第${v.index}卷    ${v.name}`} />
                     {showChapter !== v.name ? <ExpandLess /> : <ExpandMore />}
                   </ListItemButton>
                   <Collapse in={showChapter === v.name} timeout='auto' unmountOnExit>
@@ -205,9 +205,9 @@ export default function ChapterDetailPage() {
                                   <ListItemIcon>
                                     <BookmarkBorderIcon />
                                   </ListItemIcon>
-                                  <ListItemText primary={`第${a.index}节  ${a.name}`}></ListItemText>
+                                  <ListItemText primary={`第${a.index}章  ${a.name}`}></ListItemText>
                                 </>
-                                : <ListItemText inset primary={`第${a.index}节  ${a.name}`}></ListItemText>
+                                : <ListItemText inset primary={`第${a.index}章  ${a.name}`}></ListItemText>
                             }
                           </ListItemButton>
                         )

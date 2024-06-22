@@ -23,6 +23,7 @@ export async function getAllCol() {
         cover,
         author_id
     `)
+    .eq('hidden',false)
     return error ? [] : data as Novel[]
 }
 

@@ -1,9 +1,10 @@
 import {create} from 'zustand'
-export const useUserStore = create((set) => ({
-    User: {} as User,
-    updateUser: (newUser: User) => set({User: newUser})
+export const useUserStore = create<User_Store>((set) => ({
+    User: {} as User_Profile & { id: string },
+    updateUser: (newUser: User_Profile & { id: string }) => set({User: newUser})
 }))
 
-type User = {
-    name: string
+type User_Store = {
+    User: User_Profile & { id: string }
+    updateUser: (newUser: User_Profile & { id: string }) => void
 }
