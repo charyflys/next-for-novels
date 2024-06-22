@@ -1,4 +1,4 @@
-import { getAllCol, getNovel, getNovelsByIds, updateNovel, addNovel, getNovelsFromMine } from "../../lib/supabase/novel";
+import { getAllCol, getNovel, getNovelsByIds, updateNovel, addNovel, getNovelsFromMine, updateNovelMuLu } from "../../lib/supabase/novel";
 import { authCheck, getBody, getQuery, result, resultNoData } from "../../lib/quickapi";
 import { getProfile, User_Profile } from "../../lib/supabase/profile";
 
@@ -73,6 +73,7 @@ export async function PUT(req: Request) {
     const { check, res, user } = await authCheck(req)
     if (res) return resultNoData(...res)
     const novel = await getBody<NovelBase>(req)
+
     const purpose = await getNovel(novel.novel_id)
     if (!purpose) {
         return resultNoData('要修改的小说不存在', '404')
@@ -81,7 +82,7 @@ export async function PUT(req: Request) {
     if (user.id !== purpose.author_id) {
         return resultNoData('你不是该文章的所有者，参与者功能暂时未开发，敬请期待', '403')
     }
-    const { msg, err } = await updateNovel(novel)
+    const { msg, err } ='catalogue' in novel ?await updateNovelMuLu(novel as NovelMuLu):await updateNovel(novel)
     return resultNoData(msg, err ? '500' : '200')
 
 }

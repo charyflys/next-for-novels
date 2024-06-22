@@ -19,12 +19,16 @@ import {
   Typography,
   Checkbox,
   FormControlLabel,
-  Link
+  Link,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  List
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import ViewListIcon from '@mui/icons-material/ViewList';
-import { addNovel, getNovelByUser, updateNovel } from '@/request/novel';
+import { addNovel, getNovelByUser, updateNovel, updateNovelMulu } from '@/request/novel';
 import { useAlertStore } from '@/stores/Alert';
 
 export default function NovelManagerView() {
@@ -32,6 +36,9 @@ export default function NovelManagerView() {
   const [editOpen, setEditOpen] = useState(false)
   const [addOpen, setAddOpen] = useState(false)
   const [editNovel, setEditNovel] = useState<Novel>()
+  const [muluDialog, setMuluShow] = useState(false)
+  const [muluSelect, setMuluSelect] = useState<number>()
+  const [chapterName, setChapterName] = useState<string>('')
   const setAlert = useAlertStore(state => state.setMsgAndColorAndOpen)
   if (novelList.length===0) {
     getNovelByUser('').then(res => {
@@ -42,6 +49,33 @@ export default function NovelManagerView() {
     console.log(novel)
     setEditNovel(novel)
     setEditOpen(true)
+  }
+  function EditMulu(novel: Novel) {
+    const mulu = JSON.parse(JSON.stringify(novel.catalogue))
+    const {
+      novel_id,
+      title,
+      status,
+      hidden,
+      description,
+      cover,
+      author_id,
+      created_at,
+      updated_at
+    } = novel
+    setEditNovel({
+      novel_id,
+      title,
+      status,
+      hidden,
+      description,
+      cover,
+      author_id,
+      catalogue: mulu,
+      created_at,
+      updated_at
+    })
+    setMuluShow(true)
   }
   function AddNovelSubmit (e: React.FormEvent<HTMLFormElement> ) {
     e.preventDefault()
@@ -77,6 +111,51 @@ export default function NovelManagerView() {
       setEditOpen(false)
     })
   }
+  function NameInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setChapterName(e.target.value)
+  }
+  function AddChapterInFront() {
+    if (chapterName==='') {
+      setAlert('你没有写任何名称！','warning')
+      return
+    }
+    if(editNovel) {
+      const index = editNovel.catalogue[editNovel.catalogue.length-1].index + 1 || 1
+      editNovel.catalogue.push({
+        index,
+        name: chapterName,
+        articles: []
+      })
+      setEditNovel(JSON.parse(JSON.stringify(editNovel)))
+    }
+  }
+  function ChangeChapterInFront() {
+    if (chapterName==='') {
+      setAlert('你没有写任何名称！','warning')
+      return
+    }
+    if(editNovel) {
+      const chapter = editNovel.catalogue.find(v=>v.index===muluSelect)
+      if (chapter) {
+        chapter.name = chapterName
+        setEditNovel(JSON.parse(JSON.stringify(editNovel)))
+      } else {
+        setAlert('你没有选中任何一卷')
+      }
+    }
+  }
+  function MuluSubmit() {
+    if (editNovel) {
+      const {novel_id, catalogue} = editNovel
+      updateNovelMulu({novel_id, catalogue}).then(res => {
+        getNovelByUser('').then(res => {
+          setNovelList(res.data)
+        })
+        setAlert('修改成功','success')
+        setMuluShow(false)
+      })
+    }
+  }
   return (
     <Container>
       {/* <Typography variant="h4" gutterBottom>Novel Management</Typography> */}
@@ -110,7 +189,7 @@ export default function NovelManagerView() {
                     <IconButton onClick={(e) => EditNovel(e,v)}>
                       <EditIcon />
                     </IconButton>
-                    <IconButton >
+                    <IconButton onClick={() => EditMulu(v)}>
                       <ViewListIcon />
                     </IconButton>
                   </TableCell>
@@ -218,6 +297,38 @@ export default function NovelManagerView() {
             </DialogActions>
           </form>
         </DialogContent>
+      </Dialog>
+
+      <Dialog open={muluDialog} onClose={() => setMuluShow(false)}>
+        <DialogTitle>其他设置</DialogTitle>
+        <DialogContent>
+          <List>
+            {
+              editNovel?.catalogue.map(v => (
+                <ListItemButton 
+                selected={muluSelect===v.index} 
+                key={v.index}
+                onClick={()=>{setMuluSelect(v.index);setChapterName(v.name)}}
+                >
+                  <ListItemText primary={v.index+'. '+v.name} />
+                </ListItemButton>
+              ))
+            }
+          </List>
+            <TextField 
+            fullWidth
+            margin='normal'
+            label={muluSelect?`第${muluSelect}卷名称`:'卷名称'}
+            value={chapterName}
+            onChange={NameInputChange}
+            />
+            <Button onClick={AddChapterInFront}>新增</Button>
+            <Button onClick={ChangeChapterInFront}>修改</Button>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setMuluShow(false)}>取消</Button>
+          <Button onClick={MuluSubmit} variant="contained" color="primary">提交</Button>
+        </DialogActions>
       </Dialog>
     </Container>
   );

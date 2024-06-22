@@ -29,3 +29,7 @@ export async function addNovel(novel: NovelBase) {
 export async function updateNovel(novel:NovelBase) {
     return request<resBody>('put', url, novel, 'form')
 }
+
+export async function updateNovelMulu(novel: NovelMuLu) {
+    return request<resBody>('put', url,novel,'json')
+}
