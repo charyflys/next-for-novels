@@ -25,12 +25,14 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import { addNovel, getNovelByUser, updateNovel } from '@/request/novel';
+import { useAlertStore } from '@/stores/Alert';
 
 export default function NovelManagerView() {
   const [novelList, setNovelList] = useState<Novel[]>([])
   const [editOpen, setEditOpen] = useState(false)
   const [addOpen, setAddOpen] = useState(false)
   const [editNovel, setEditNovel] = useState<Novel>()
+  const setAlert = useAlertStore(state => state.setMsgAndColorAndOpen)
   if (novelList.length===0) {
     getNovelByUser('').then(res => {
       setNovelList(res.data)
@@ -54,6 +56,8 @@ export default function NovelManagerView() {
       getNovelByUser('').then(res => {
         setNovelList(res.data)
       })
+      setAlert('添加成功','success')
+      setAddOpen(false)
     })
   }
   function EditNovelSubmit (e: React.FormEvent<HTMLFormElement> ) {
@@ -69,6 +73,8 @@ export default function NovelManagerView() {
       getNovelByUser('').then(res => {
         setNovelList(res.data)
       })
+      setAlert('修改成功','success')
+      setEditOpen(false)
     })
   }
   return (
