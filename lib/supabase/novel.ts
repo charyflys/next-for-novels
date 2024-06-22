@@ -80,6 +80,6 @@ const NovelName = [
     'title',
     'status',
     'hidden',
-    'desciption',
+    'description',
     'cover',
 ]
