@@ -14,6 +14,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { Box } from '@mui/material';
 import { getProfile } from '@/request/profile';
 import { useLocalStorage } from '@/lib/frontquick';
+import { CheckSession } from '@/request/signin';
 
 const MainList = [
   {
@@ -69,7 +70,7 @@ export default function SecondaryListItems() {
   const [secondaryList, setsecondaryList] = React.useState(SecondaryList)
   const [showAdmin, setShowAdmin] = useLocalStorage<boolean>('showAdmin', false)
   const [render, setRender] = useLocalStorage<{ render: boolean, timestamp: number }>('render', { render: false, timestamp: 0 })
-  if (!render || render.timestamp < Date.now() - 3600000)
+  if (!render || render.timestamp < Date.now() - 1800000) {
     getProfile().then(res => {
       // console.log(res)
       if (res.data.role === 'admin' || res.data.role === 'super') {
@@ -99,6 +100,11 @@ export default function SecondaryListItems() {
       }
       setRender({ render: true, timestamp: Date.now() })
     })
+  }
+  if (render&&render.timestamp < Date.now() - 900000) {
+    CheckSession()
+  }
+    
   if (secondaryList.length === 1 && showAdmin) {
     setsecondaryList([...secondaryList, {
       href: '/admin',
