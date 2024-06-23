@@ -50,7 +50,7 @@ export async function POST(req:Request) {
         chapter.articles.push({
             name,
             index:index-0,
-            exist,
+            exist: true,
             created_at: Math.floor(Date.now()/1000),
             path: uploadFile.name
         })
@@ -60,7 +60,7 @@ export async function POST(req:Request) {
         if(modelRes) {
             num = parseInt(modelRes[1]) + 1
         }
-        purposeArticle.exist = exist
+        purposeArticle.exist = true
         purposeArticle.index = index-0
         purposeArticle.name = name
         purposeArticle.updated_at = Math.floor(Date.now()/1000)

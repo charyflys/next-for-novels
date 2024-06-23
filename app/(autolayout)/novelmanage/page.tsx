@@ -21,7 +21,6 @@ import {
   FormControlLabel,
   Link,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
   List
 } from '@mui/material';

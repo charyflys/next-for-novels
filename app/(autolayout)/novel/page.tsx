@@ -3,22 +3,24 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardMedia, Typography, Box, Button, Grid, Accordion, AccordionDetails, AccordionSummary, List, ListItem, ListItemButton, ListItemText, Skeleton, Collapse } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { getNovelById } from '@/request/novel';
-import { ExpandLess,ExpandMore } from '@mui/icons-material';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { useNovelStore } from '@/stores/Novel'
 import { useRouter } from 'next/navigation';
+import { useAlertStore } from '@/stores/Alert';
 
 export default function BookDetailPage() {
     const [novel, setNovel] = useState<NovelWithAuthor>()
     const [showChapter, setChapter] = useState('')
+    const setAlert = useAlertStore(state => state.setMsgAndColorAndOpen)
     const router = useRouter()
 
     const errPush = () => {
         location.replace('/search')
     }
     const setNovelCache = useNovelStore(state => state.updateNovel)
-    function toArticleClickCache (e: React.MouseEvent) {
+    function toArticleClickCache(e: React.MouseEvent) {
         // e.preventDefault()
-        novel&&setNovelCache(novel)
+        novel && setNovelCache(novel)
         const el = e.currentTarget
         // if ('href' in el&&typeof el.href==='string'){
         //     router.push(el.href)
@@ -38,10 +40,11 @@ export default function BookDetailPage() {
                 const chapter = novelFromServer.catalogue[0]
                 if (chapter) setChapter(chapter.name)
             })
-                .catch((err) => {
-                    // errPush()
-                    console.log(err)
-                })
+            .catch((err) => {
+                // errPush()
+                console.log(err)
+                setAlert(err.msg, 'error')
+            })
         }
     })
     return (
@@ -49,7 +52,7 @@ export default function BookDetailPage() {
             <Card sx={{ display: 'flex', mb: 2, }}>
                 <CardMedia
                     component="img"
-                    sx={{ width: 100,height:150,marginLeft:2,marginTop:2 }}
+                    sx={{ width: 100, height: 150, marginLeft: 2, marginTop: 2 }}
                     image={novel?.cover || 'https://s2.loli.net/2024/06/16/EMq4BWVYrRuegnU.jpg'} // 替换为你的图像路径
                     alt={novel?.title}
                 />
@@ -62,16 +65,16 @@ export default function BookDetailPage() {
                             作者：{novel ? novel.author.nickname : <Skeleton variant='text' height={27} width={150} sx={{ display: 'inline-block' }} />}
                         </Typography>
                         <Typography variant="body2" component="div" sx={{ mb: 1 }}>
-                            创建时间：{novel ? new Date((novel.created_at+1704038400)*1000).toLocaleString() : <Skeleton variant='text' height={20} width={150} sx={{ display: 'inline-block' }} />}
+                            创建时间：{novel ? new Date((novel.created_at + 1704038400) * 1000).toLocaleString() : <Skeleton variant='text' height={20} width={150} sx={{ display: 'inline-block' }} />}
                         </Typography>
                         <Typography variant="body2" component="div" sx={{ mb: 1 }}>
-                            更新时间：{novel ? new Date((novel.updated_at+1704038400)*1000).toLocaleString() : <Skeleton variant='text' height={20} width={150} sx={{ display: 'inline-block' }} />}
+                            更新时间：{novel ? new Date((novel.updated_at + 1704038400) * 1000).toLocaleString() : <Skeleton variant='text' height={20} width={150} sx={{ display: 'inline-block' }} />}
                         </Typography>
                         <Typography variant="body2" component="div" sx={{ mb: 1 }}>
                             简介：
                         </Typography>
                         {novel ?
-                            <Typography variant="body2" component="div" sx={{ minHeight: 100,paddingRight:1 }}>{novel.description}</Typography>
+                            <Typography variant="body2" component="div" sx={{ minHeight: 100, paddingRight: 1 }}>{novel.description}</Typography>
                             : (
                                 <Typography>
                                     <Skeleton variant='text' height={20} />
@@ -112,11 +115,11 @@ export default function BookDetailPage() {
                                                 {v.articles.map(a => {
                                                     return (
                                                         <ListItemButton
-                                                         sx={{ pl:4 }} 
-                                                         key={a.path} 
-                                                         href={`/novel/${novel.novel_id}/${a.path.split('/').join('&')}`}
-                                                         onClick={toArticleClickCache}
-                                                         >
+                                                            sx={{ pl: 4 }}
+                                                            key={a.path}
+                                                            href={`/novel/${novel.novel_id}/${a.path.split('/').join('&')}`}
+                                                            onClick={toArticleClickCache}
+                                                        >
                                                             <ListItemText primary={`第${a.index}节  ${a.name}`}></ListItemText>
                                                         </ListItemButton>
                                                     )

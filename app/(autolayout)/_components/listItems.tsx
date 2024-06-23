@@ -33,18 +33,24 @@ const MainList = [
     label: '我的收藏',
   },
   {
-    href: '/novels',
+    href: '/novelmanage',
     icon: MenuBookOutlinedIcon,
     label: '我的小说',
   },
 ]
 // 主列表，包括首页，公告，收藏，小说
 export function MainListItems() {
+  const [path, setPath] = React.useState('')
+  React.useEffect(() => {
+    if (path==='') {
+      setPath(location.pathname)
+    }
+  })
   return (
     <React.Fragment>
       {MainList.map(v => {
         return (
-          <ListItemButton href={v.href} key={v.href}>
+          <ListItemButton selected={path===v.href} href={v.href} key={v.href}>
             <ListItemIcon>
               <Box component={v.icon} />
             </ListItemIcon>
@@ -70,6 +76,12 @@ export default function SecondaryListItems() {
   const [secondaryList, setsecondaryList] = React.useState(SecondaryList)
   const [showAdmin, setShowAdmin] = useLocalStorage<boolean>('showAdmin', false)
   const [render, setRender] = useLocalStorage<{ render: boolean, timestamp: number }>('render', { render: false, timestamp: 0 })
+  const [path, setPath] = React.useState('')
+  React.useEffect(() => {
+    if (path==='') {
+      setPath(location.pathname)
+    }
+  })
   if (!render || render.timestamp < Date.now() - 1800000) {
     getProfile().then(res => {
       // console.log(res)
@@ -77,7 +89,7 @@ export default function SecondaryListItems() {
         setShowAdmin(true)
         if(secondaryList.length!==1)setsecondaryList([
           {
-            href: '/',
+            href: '/setting',
             icon: SettingsOutlinedIcon,
             label: '设置',
           },
@@ -87,7 +99,7 @@ export default function SecondaryListItems() {
         setShowAdmin(false)
         if(secondaryList.length===1)setsecondaryList([
           {
-            href: '/',
+            href: '/setting',
             icon: SettingsOutlinedIcon,
             label: '设置',
           },
@@ -118,7 +130,7 @@ export default function SecondaryListItems() {
     <React.Fragment>
       {secondaryList.map(v => {
         return (
-          <ListItemButton href={v.href} key={v.href}>
+          <ListItemButton selected={path===v.href} href={v.href} key={v.href}>
             <ListItemIcon>
               <Box component={v.icon} />
             </ListItemIcon>
