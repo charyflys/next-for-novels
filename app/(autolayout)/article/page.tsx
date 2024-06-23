@@ -40,7 +40,7 @@ export default function ChapterDetailPage() {
   const [pre, setPre] = useState<Article>()
 
   const [settingsOpen, setSettingsOpen] = useState(false)
-  const [settings, setSettings] = useLocalStorage<{fontSize?:number,lineHeight?:number}>('watchViewSetting',{})
+  const [settings, setSettings] = useState<{fontSize?:number,lineHeight?:number}>({})
   
   useEffect(() => {
     if (!pathCheck) {
@@ -94,6 +94,7 @@ export default function ChapterDetailPage() {
           })
         }
       }
+      setSettings(JSON.parse(localStorage.getItem('watchViewSetting')||'{}'))
     }
   })
 
@@ -107,6 +108,10 @@ export default function ChapterDetailPage() {
       fontSize: num,
       lineHeight: settings.lineHeight
     })
+    localStorage.setItem('watchViewSetting',JSON.stringify({
+      fontSize: num,
+      lineHeight: settings.lineHeight
+    }))
   }
   function setLineHeight(event: Event, value: number | number[]) {
     const num = value as number
@@ -114,6 +119,10 @@ export default function ChapterDetailPage() {
       fontSize: settings.fontSize,
       lineHeight: num
     })
+    localStorage.setItem('watchViewSetting',JSON.stringify({
+      fontSize: settings.fontSize,
+      lineHeight: num
+    }))
   }
   
 
