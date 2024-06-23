@@ -13,7 +13,8 @@ import {
   ListItemText,
   List,
   Collapse,
-  ListItemIcon
+  ListItemIcon,
+  Slider
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -23,7 +24,8 @@ import GradeIcon from '@mui/icons-material/Grade';
 import { getNovelById } from '@/request/novel';
 import { getArticle } from '@/request/article';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import { ExpandLess, ExpandMore, Settings } from '@mui/icons-material';
+import { useLocalStorage } from '@/lib/frontquick';
 
 const articlePathModel = /n(\d+)-c(\d+)-a(\d+)/
 export default function ChapterDetailPage() {
@@ -36,6 +38,10 @@ export default function ChapterDetailPage() {
   const [article, setArticle] = useState<Article>()
   const [next, setNext] = useState<Article>()
   const [pre, setPre] = useState<Article>()
+
+  const [settingsOpen, setSettingsOpen] = useState(false)
+  const [settings, setSettings] = useLocalStorage<{fontSize?:number,lineHeight?:number}>('watchViewSetting',{})
+  
   useEffect(() => {
     if (!pathCheck) {
       const res = /\/novel\/(\d+)\/(.{36})&(.+)/.exec(location.pathname)
@@ -84,20 +90,32 @@ export default function ChapterDetailPage() {
         }
         if (renderInner.length === 0) {
           getArticle(articlePath).then(res => {
-            setRender([res.data])
+            setRender(res.data.split('\n').map(v => v+'\n'))
           })
         }
       }
     }
   })
 
-  function handleClickTest(event: React.MouseEvent) {
-    event.preventDefault()
-  }
-
   function preventDefault(event: React.MouseEvent) {
     event.preventDefault()
   }
+
+  function setFontSize(event: Event, value: number | number[]) {
+    const num = value as number
+    setSettings({
+      fontSize: num,
+      lineHeight: settings.lineHeight
+    })
+  }
+  function setLineHeight(event: Event, value: number | number[]) {
+    const num = value as number
+    setSettings({
+      fontSize: settings.fontSize,
+      lineHeight: num
+    })
+  }
+  
 
   return (
     <>
@@ -115,7 +133,29 @@ export default function ChapterDetailPage() {
         </Stack>
       </Box>
       <Box sx={{ p: 2, bgcolor: '#fff', color: '#000', paddingTop: 0 }}>
-
+        <IconButton onClick={() => setSettingsOpen(!settingsOpen)}>
+          <Settings fontSize='small' />
+        </IconButton>
+        <Collapse in={settingsOpen}>        
+          <Box sx={{ p: 2}}>
+            <Typography>字体大小</Typography>
+            <Slider
+            defaultValue={settings.fontSize||16}
+            min={5}
+            max={30}
+            onChange={setFontSize}
+            valueLabelDisplay="auto"
+            />
+            <Typography>行间距</Typography>
+            <Slider 
+            defaultValue={settings.lineHeight||24}
+            min={5}
+            max={40}
+            onChange={setLineHeight}
+            valueLabelDisplay="auto"
+            />
+          </Box>
+        </Collapse>
         <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
           更新时间：{
             (article && article.updated_at && new Date(article.updated_at * 1000).toLocaleString().replaceAll('/', '-'))
@@ -124,7 +164,15 @@ export default function ChapterDetailPage() {
           }
         </Typography>
         <Divider sx={{ mt: 2, mb: 2 }} />
-        <Typography variant="body1" component="div" sx={{ whiteSpace: 'pre-wrap', padding: 2 }}>
+        <Typography 
+        variant="body1" 
+        component="div" 
+        sx={{ 
+          whiteSpace: 'pre-wrap', 
+          padding: 2,
+          fontSize: settings.fontSize + 'px',
+          lineHeight: settings.lineHeight + 'px'
+        }}>
           {renderInner}
         </Typography>
       </Box>
