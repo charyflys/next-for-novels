@@ -14,13 +14,6 @@ import {
   Select,
   MenuItem,
   Grid,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  List,
-  ListItem,
-  ListItemText,
-  IconButton,
   SelectChangeEvent
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -89,7 +82,7 @@ export default function ArticleEdit () {
                   <MenuItem value='' onClick={() => {setNovel(undefined);setChapter(undefined);setArtcle(undefined)}}>--</MenuItem>
                   {
                     novelList.map(v => (
-                      <MenuItem value={v.novel_id} key={v.novel_id} onClick={() => setNovel(v)}>
+                      <MenuItem value={v.novel_id} key={v.novel_id} onClick={() => {setNovel(v);setChapter(undefined);setArtcle(undefined)}}>
                         {v.title}
                       </MenuItem>
                     ))
@@ -102,7 +95,7 @@ export default function ArticleEdit () {
                 <MenuItem value='' onClick={() => {setChapter(undefined);setArtcle(undefined)}}>--</MenuItem>
 
                   {novel?.catalogue.map(v => (
-                    <MenuItem value={v.index} key={v.index} onClick={() => setChapter(v)}>
+                    <MenuItem value={v.index} key={v.index} onClick={() => {setChapter(v);setArtcle(undefined)}}>
                       {v.name}
                     </MenuItem>
                   ))}
