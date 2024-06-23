@@ -11,6 +11,7 @@ import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
 import { Box } from '@mui/material';
 import { getProfile } from '@/request/profile';
 import { useLocalStorage } from '@/lib/frontquick';
@@ -36,6 +37,11 @@ const MainList = [
     href: '/novelmanage',
     icon: MenuBookOutlinedIcon,
     label: '我的小说',
+  },
+  {
+    href: '/articleedit',
+    icon: DriveFileRenameOutlineOutlinedIcon,
+    label: '章节编辑',
   },
 ]
 // 主列表，包括首页，公告，收藏，小说
