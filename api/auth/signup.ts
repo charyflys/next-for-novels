@@ -23,7 +23,7 @@ export async function POST(req: Request): Promise<Response> {
         addProfile({
             id: data.user.id,
             role: access.role,
-            nickname: undefined,
+            nickname: `骰娘${Math.floor(Math.random()*10000)}`,
             status: true,
             muted: null,
             avatar: null,
