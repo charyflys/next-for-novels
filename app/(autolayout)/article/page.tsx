@@ -102,7 +102,7 @@ export default function ChapterDetailPage() {
     event.preventDefault()
   }
 
-  function setFontSize(event: Event, value: number | number[]) {
+  function setFontSize(_: Event, value: number | number[]) {
     const num = value as number
     setSettings({
       fontSize: num,
@@ -113,7 +113,7 @@ export default function ChapterDetailPage() {
       lineHeight: settings.lineHeight
     }))
   }
-  function setLineHeight(event: Event, value: number | number[]) {
+  function setLineHeight(_: Event, value: number | number[]) {
     const num = value as number
     setSettings({
       fontSize: settings.fontSize,

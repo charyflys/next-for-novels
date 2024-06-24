@@ -113,7 +113,7 @@ export default function Dashboard({children,pageProps}: Readonly<{
               骰子小说网
             </Typography>
             <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
+              <Badge badgeContent={0} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
