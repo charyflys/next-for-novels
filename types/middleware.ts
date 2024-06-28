@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { hostTokenName } from './lib/env-values'
-import { explainJWT, generateJWT } from './lib/quickapi';
-import supabase from './lib/supabaseClient';
+import { hostTokenName } from '../lib/env-values'
+import { explainJWT, generateJWT } from '../lib/quickapi';
+import supabase from '../lib/supabaseClient';
 import { Session } from '@supabase/supabase-js';
 import { ResponseCookies, RequestCookies } from 'next/dist/server/web/spec-extension/cookies';
 import md5 from 'md5';
-import redis from './lib/redis';
-import { getProfile } from './lib/supabase/profile';
+import redis from '../lib/redis';
+import { getProfile } from '../lib/supabase/profile';
 
 
 function applySetCookie(req: NextRequest, res: NextResponse) {
