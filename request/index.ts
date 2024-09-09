@@ -25,13 +25,17 @@ http.interceptors.request.use((config) => {
 
 http.interceptors.response.use(
   async (response) => {
-
     // HTTP响应状态码正常
     if (response.status === 200) {
-
+      
         const { code } = response.data;
         if (code&&typeof code === 'string'&&/^[23]\d\d$/.test(code)){
           return Promise.resolve(response)
+        }
+        // 使用js原生方法处理登陆态丢失的问题，强制跳转
+        if (code&&typeof code === 'string'&&code==='401') {
+          window.location.replace('/signin')
+          return Promise.reject(response.data)
         }
         return Promise.reject(response.data)
     } else {
