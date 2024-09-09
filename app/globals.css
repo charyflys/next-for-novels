@@ -1,12 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@font-face {
+  font-family: 'Roboto Mono';
+  src: url('/L0xuDF4xlVMF-BfR8bXMIhJHg45mwgGEFl0_3vq_ROW4.woff2') format('woff2');  font-weight: normal;
+  font-style: normal;
+}
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
+.container-404{
+  height: 100vh;
+  width: 100vw;
+  background-color: black;
+}
+.center-xy {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  position: absolute;
+  color: white;
+  font-family: "Roboto Mono", monospace;
+  font-size: 21px;
+}
+.handle {
+  background: #fff;
+  width: 14px;
+  height: 30px;
+  top: 30px;
+  right: -12px;
+  margin-top: 1px;
+  position: absolute;
+  animation: animation404 1s infinite;
+}
+
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -29,5 +58,19 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+@keyframes animation404 {
+  0% {
+    opacity: 0;
+  }
+  49% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
   }
 }
