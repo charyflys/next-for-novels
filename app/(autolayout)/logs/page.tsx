@@ -153,7 +153,7 @@ function setQQSetting(map: Map<string, qqInfo>) {
     localStorage.setItem(qqSettingKey, data)
 }
 
-export function qqSetContent(qq: string) {
+function qqSetContent(qq: string) {
     return (
         <tr>
             <td>
