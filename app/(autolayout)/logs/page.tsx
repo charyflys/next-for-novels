@@ -1,6 +1,6 @@
 'use client'
 import { Avatar, Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, MenuItem, Paper, Select, SelectChangeEvent, TextField } from "@mui/material"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { getStoryList, getStoryTags, getTagInnerList, deleteStoryByName } from "@/request/logs"
 export default function Page() {
     const [settingsOpen, setSettingsOpen] = useState(true)
@@ -10,8 +10,13 @@ export default function Page() {
     const [tagSelect, setTag] = useState<string>('')
     const [commitList, setCommits] = useState<LogContent[]>([])
     const [nowQQNames, setQQs] = useState<string[]>([])
-    const [qqMap, setQQMap] = useState(getQQSetting())
+    const [qqMap, setQQMap] = useState<Map<string, qqInfo>>()
     const [qqChecked, setQCheck] = useState<string[]>([])
+    useEffect(() => {
+        if (!qqMap) {
+            setQQMap(getQQSetting())
+        }
+    })
     if (storyNames.length === 0) {
         getStoryList().then(res => {
             setStoryNames(res.data as string[])
@@ -98,8 +103,9 @@ export default function Page() {
                         </tr>
                         {
                             nowQQNames.map(v => {
-                                return qqMap.has(v)?
-                                '':
+                                const qqSetting = qqMap&&qqMap.has(v)&&qqMap.get(v)
+                                return (qqSetting)?
+                                qqSetContentDetail(v,qqSetting.name,qqSetting.color,qqSetting.bgColor):
                                 qqSetContent(v)
                             })
                         }
@@ -171,6 +177,29 @@ function qqSetContent(qq: string) {
             </td>
             <td>
                 <input name="qqs" type="checkbox" value={qq} />
+            </td>
+        </tr>
+    )
+}
+
+function qqSetContentDetail(qq: string,name: string,color:string,bgColor:string,) {
+    return (
+        <tr>
+            <td>
+                <Avatar src={`http://q1.qlogo.cn/g?b=qq&nk=${qq}&s=40`} />
+                <span>{qq}</span>
+            </td>
+            <td>
+                <input name={qq} />
+            </td>
+            <td>
+                <input name={qq} type="color" defaultValue={'#000000'} />
+            </td>
+            <td>
+                <input name={qq} type="color" defaultValue={'#ffffff'} />
+            </td>
+            <td>
+                <input name="qqs" type="checkbox" value={qq} defaultChecked={true}/>
             </td>
         </tr>
     )
