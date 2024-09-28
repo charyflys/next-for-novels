@@ -67,7 +67,7 @@ export async function explainJWT<T>(token: string) {
         }
         return decoded.payload;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         throw new Error(`${error}`);
     }
 }
@@ -116,8 +116,8 @@ export async function authCheck(req: Request) {
     }
 }
 
-export type resBody = {
+export type resBody<T = any> = {
     code: string,
     msg: string,
-    data?: any
+    data: T
 }

@@ -29,7 +29,7 @@ http.interceptors.response.use(
     if (response.status === 200) {
       
         const { code } = response.data;
-        if (code&&typeof code === 'string'&&/^[23]\d\d$/.test(code)){
+        if (code&&(typeof code === 'string'&&/^[23]\d\d$/.test(code)||code===200)){
           return Promise.resolve(response)
         }
         // 使用js原生方法处理登陆态丢失的问题，强制跳转
@@ -76,7 +76,7 @@ export default function request<T> (
       file = new FormData();
       for(const key in submitData){
         if(!(submitData[key] instanceof Array)){
-          console.log(submitData[key]);
+          // console.log(submitData[key]);
           file.append(key,submitData[key]);
         } else {
           submitData[key].forEach((item:any) => {

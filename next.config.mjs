@@ -19,6 +19,10 @@ const nextConfig = {
             {
                 source: '/novel/:novelId',
                 destination: '/novelView'
+            },
+            {
+                source: '/api/log/:path*',
+                destination: 'http://10.180.0.200:8888/api/:path*'
             }
         ]
     }

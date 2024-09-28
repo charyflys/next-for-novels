@@ -93,6 +93,8 @@ export default function ChapterDetailPage() {
             setRender(res.data.split('\n').map(v => v+'\n'))
           })
         }
+      } else {
+        location.replace('/page-not-found')
       }
       setSettings(JSON.parse(localStorage.getItem('watchViewSetting')||'{}'))
     }

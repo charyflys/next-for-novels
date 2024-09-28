@@ -15,7 +15,8 @@ export default function BookDetailPage() {
     const router = useRouter()
 
     const errPush = () => {
-        location.replace('/search')
+        // location.replace('/search')
+        location.replace('/page-not-found')
     }
     const setNovelCache = useNovelStore(state => state.updateNovel)
     function toArticleClickCache(e: React.MouseEvent) {

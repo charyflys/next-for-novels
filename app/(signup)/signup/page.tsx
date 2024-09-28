@@ -33,7 +33,7 @@ export default function SignUp() {
     })
     .catch((res) => {
       if ('msg' in res){
-        console.log(res.msg,res.msg||res.message)
+        // console.log(res.msg,res.msg||res.message)
         pushAlert(res.msg||res.message,'error')
       }
         

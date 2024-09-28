@@ -9,7 +9,7 @@ import '@fontsource/roboto/700.css';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "骰子小说网",
+  title: "黑猫的幻梦境",
   description: "私人领域，请勿擅闯",
 };
 

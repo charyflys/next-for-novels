@@ -110,7 +110,7 @@ export default function Dashboard({children,pageProps}: Readonly<{
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              骰子小说网
+              黑猫的幻梦境
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={0} color="secondary">

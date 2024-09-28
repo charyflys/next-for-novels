@@ -45,7 +45,7 @@ export default function NovelManagerView() {
     })
   }
   function EditNovel(event: React.MouseEvent,novel: Novel) {
-    console.log(novel)
+    // console.log(novel)
     setEditNovel(novel)
     setEditOpen(true)
   }

@@ -61,7 +61,7 @@ export default function ArticleEdit () {
       chapterIndex: parseInt(form.get('chapterIndex') as string),  
       content: form.get('content')
     } as ArticleContent
-    console.log(articleObj)
+    // console.log(articleObj)
     addArticle(articleObj).then(res => {
       setAlert('新增成功')
       getNovelByUser('').then(res => {
