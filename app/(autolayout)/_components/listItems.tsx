@@ -48,7 +48,7 @@ const MainList = [
 export function MainListItems() {
   const [path, setPath] = React.useState('')
   React.useEffect(() => {
-    if (path==='') {
+    if (path === '') {
       setPath(location.pathname)
     }
   })
@@ -56,7 +56,7 @@ export function MainListItems() {
     <React.Fragment>
       {MainList.map(v => {
         return (
-          <ListItemButton selected={path===v.href} href={v.href} key={v.href}>
+          <ListItemButton selected={path === v.href} href={v.href} key={v.href}>
             <ListItemIcon>
               <Box component={v.icon} />
             </ListItemIcon>
@@ -82,27 +82,28 @@ export default function SecondaryListItems() {
   const [secondaryList, setsecondaryList] = React.useState(SecondaryList)
   // const [showAdmin, setShowAdmin] = useLocalStorage<boolean>('showAdmin', false)
   // const [render, setRender] = useLocalStorage<{ render: boolean, timestamp: number }>('render', { render: false, timestamp: 0 })
-  const [profile,setProfile] = React.useState<User_Profile>()
+  const [profile, setProfile] = React.useState<User_Profile>()
+  const [getPost, setPost] = React.useState(0)
   const [path, setPath] = React.useState('')
   React.useEffect(() => {
-    if (path==='') {
+    if (path === '') {
       setPath(location.pathname)
     }
   })
-  if (!!profile) {
-    if (profile.role==='admin'||profile.role==='super')
-    setsecondaryList([...secondaryList, {
-      href: '/admin',
-      icon: ManageAccountsOutlinedIcon,
-      label: '管理',
-    }])
-  } else {
-    (async function() {
-      await CheckSession()
-      getProfile().then(res => {
-        setProfile(res.data)
-      })
-    })()
+  if ((!!profile)) {
+    if (profile.role === 'admin' || profile.role === 'super')
+      setsecondaryList([...secondaryList, {
+        href: '/admin',
+        icon: ManageAccountsOutlinedIcon,
+        label: '管理',
+      }])
+  } else if (!getPost) {
+    setPost(getPost + 1);
+    console.log(getPost)
+    CheckSession().then(res => {
+      setProfile(res.data)
+    })
+
   }
   // if (!render || render.timestamp < Date.now() - 1800000) {
   //   getProfile().then(res => {
@@ -138,7 +139,7 @@ export default function SecondaryListItems() {
   // if (render&&render.timestamp < Date.now() - 900000) {
   //   CheckSession()
   // }
-    
+
   // if (secondaryList.length === 1 && showAdmin) {
   //   setsecondaryList([...secondaryList, {
   //     href: '/admin',
@@ -152,7 +153,7 @@ export default function SecondaryListItems() {
     <React.Fragment>
       {secondaryList.map(v => {
         return (
-          <ListItemButton selected={path===v.href} href={v.href} key={v.href}>
+          <ListItemButton selected={path === v.href} href={v.href} key={v.href}>
             <ListItemIcon>
               <Box component={v.icon} />
             </ListItemIcon>

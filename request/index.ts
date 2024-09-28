@@ -34,6 +34,7 @@ http.interceptors.response.use(
         }
         // 使用js原生方法处理登陆态丢失的问题，强制跳转
         if (code&&typeof code === 'string'&&code==='401') {
+          console.log(response.request)
           window.location.replace('/signin')
           return Promise.reject(response.data)
         }
