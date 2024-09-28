@@ -120,7 +120,7 @@ export default function Page() {
     )
 }
 
-export function CommitBox({ selected = false, qq, context, name, }: { selected: boolean, qq: string, context: string, name: string | undefined, }) {
+function CommitBox({ selected = false, qq, context, name, }: { selected: boolean, qq: string, context: string, name: string | undefined, }) {
     return (
         <div className="message-container">
             <div className="message-box">
