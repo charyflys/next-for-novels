@@ -140,7 +140,7 @@ type qqInfo = {
 }
 const qqSettingKey = 'qqSetting'
 function getQQSetting() {
-    const data = localStorage.getItem(qqSettingKey)
+    const data = window.localStorage.getItem(qqSettingKey)
     if (data) {
         const arr = JSON.parse(data) as qqInfo[]
         return new Map<string, qqInfo>(arr.map(v => [v.qq, v]))
@@ -150,7 +150,7 @@ function getQQSetting() {
 }
 function setQQSetting(map: Map<string, qqInfo>) {
     const data = JSON.stringify(map.values())
-    localStorage.setItem(qqSettingKey, data)
+    window.localStorage.setItem(qqSettingKey, data)
 }
 
 function qqSetContent(qq: string) {
