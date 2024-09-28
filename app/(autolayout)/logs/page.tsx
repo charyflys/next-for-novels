@@ -48,7 +48,7 @@ export default function Page() {
                     <Select
                         value={storySelect}
                         label="故事"
-                        sx={{ width: 300 }}
+                        sx={{ width: 300, maxWidth: '100%' }}
                         onChange={SelectStory}
                     >
                         <MenuItem value=''>(空)</MenuItem>
@@ -57,13 +57,13 @@ export default function Page() {
                     <Select
                         value={tagSelect}
                         label="篇章"
-                        sx={{ width: 300 }}
+                        sx={{ width: 300, maxWidth: '100%'  }}
                         onChange={SelectTag}
                     >
                         <MenuItem value=''>(空)</MenuItem>
                         {tagList.map(v => (<MenuItem key={v} value={v}>{new Date(parseInt(v) * 1000).toLocaleDateString()}</MenuItem>))}
                     </Select>
-                    <Button onClick={qqSetOpen}>修改昵称显示</Button>
+                    <Button variant="contained" onClick={qqSetOpen} disabled={!commitList.length}>修改昵称显示</Button>
                 </Paper>
             </Collapse>
             <Dialog

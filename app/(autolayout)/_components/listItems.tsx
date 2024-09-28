@@ -80,57 +80,73 @@ export const SecondaryList = [
 // 管理员才显示管理选项
 export default function SecondaryListItems() {
   const [secondaryList, setsecondaryList] = React.useState(SecondaryList)
-  const [showAdmin, setShowAdmin] = useLocalStorage<boolean>('showAdmin', false)
-  const [render, setRender] = useLocalStorage<{ render: boolean, timestamp: number }>('render', { render: false, timestamp: 0 })
+  // const [showAdmin, setShowAdmin] = useLocalStorage<boolean>('showAdmin', false)
+  // const [render, setRender] = useLocalStorage<{ render: boolean, timestamp: number }>('render', { render: false, timestamp: 0 })
+  const [profile,setProfile] = React.useState<User_Profile>()
   const [path, setPath] = React.useState('')
   React.useEffect(() => {
     if (path==='') {
       setPath(location.pathname)
     }
   })
-  if (!render || render.timestamp < Date.now() - 1800000) {
-    getProfile().then(res => {
-      // console.log(res)
-      if (res.data.role === 'admin' || res.data.role === 'super') {
-        setShowAdmin(true)
-        if(secondaryList.length!==1)setsecondaryList([
-          {
-            href: '/setting',
-            icon: SettingsOutlinedIcon,
-            label: '设置',
-          },
-        ])
-      }
-      else {
-        setShowAdmin(false)
-        if(secondaryList.length===1)setsecondaryList([
-          {
-            href: '/setting',
-            icon: SettingsOutlinedIcon,
-            label: '设置',
-          },
-          {
-            href: '/admin',
-            icon: ManageAccountsOutlinedIcon,
-            label: '管理',
-          }
-        ])
-      }
-      setRender({ render: true, timestamp: Date.now() })
-    })
-  }
-  if (render&&render.timestamp < Date.now() - 900000) {
-    CheckSession()
-  }
-    
-  if (secondaryList.length === 1 && showAdmin) {
+  if (!!profile) {
+    if (profile.role==='admin'||profile.role==='super')
     setsecondaryList([...secondaryList, {
       href: '/admin',
       icon: ManageAccountsOutlinedIcon,
       label: '管理',
     }])
-    setRender({ render: true, timestamp: Date.now() })
+  } else {
+    (async function() {
+      await CheckSession()
+      getProfile().then(res => {
+        setProfile(res.data)
+      })
+    })()
   }
+  // if (!render || render.timestamp < Date.now() - 1800000) {
+  //   getProfile().then(res => {
+  //     // console.log(res)
+  //     if (res.data.role === 'admin' || res.data.role === 'super') {
+  //       setShowAdmin(true)
+  //       if(secondaryList.length!==1)setsecondaryList([
+  //         {
+  //           href: '/setting',
+  //           icon: SettingsOutlinedIcon,
+  //           label: '设置',
+  //         },
+  //       ])
+  //     }
+  //     else {
+  //       setShowAdmin(false)
+  //       if(secondaryList.length===1)setsecondaryList([
+  //         {
+  //           href: '/setting',
+  //           icon: SettingsOutlinedIcon,
+  //           label: '设置',
+  //         },
+  //         {
+  //           href: '/admin',
+  //           icon: ManageAccountsOutlinedIcon,
+  //           label: '管理',
+  //         }
+  //       ])
+  //     }
+  //     setRender({ render: true, timestamp: Date.now() })
+  //   })
+  // }
+  // if (render&&render.timestamp < Date.now() - 900000) {
+  //   CheckSession()
+  // }
+    
+  // if (secondaryList.length === 1 && showAdmin) {
+  //   setsecondaryList([...secondaryList, {
+  //     href: '/admin',
+  //     icon: ManageAccountsOutlinedIcon,
+  //     label: '管理',
+  //   }])
+  //   setRender({ render: true, timestamp: Date.now() })
+  // }
 
   return (
     <React.Fragment>
